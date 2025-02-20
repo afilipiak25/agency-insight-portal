@@ -13,6 +13,8 @@ const mockClients: Client[] = [
   { id: 1, name: "Tech Solutions GmbH" },
   { id: 2, name: "Digital Marketing AG" },
   { id: 3, name: "E-Commerce Plus" },
+  { id: 4, name: "Innovative Labs" },
+  { id: 5, name: "Global Trading KG" },
 ];
 
 const navItems = [
@@ -30,15 +32,29 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
   const [selectedClient, setSelectedClient] = useState<number>(1);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleClientSelect = (clientId: number) => {
     setSelectedClient(clientId);
     onClientSelect(clientId);
+    setSearchQuery(''); // Reset search after selection
+    setIsSearching(false);
+  };
+
+  const handleSearchFocus = () => {
+    setIsSearching(true);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setIsSearching(true);
   };
 
   const filteredClients = mockClients.filter(client =>
     client.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const clientsToShow = isSearching ? filteredClients : mockClients.filter(client => client.id === selectedClient);
 
   return (
     <div className={cn(
@@ -71,7 +87,8 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 type="text"
                 placeholder="Kunde suchen..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
+                onFocus={handleSearchFocus}
                 className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent"
               />
               <Search className="absolute left-2 top-2.5 w-4 h-4 text-gray-400" />
@@ -87,7 +104,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
 
         <div className="flex-1 overflow-y-auto">
           <div className="p-3">
-            {filteredClients.map((client) => (
+            {clientsToShow.map((client) => (
               <button
                 key={client.id}
                 onClick={() => handleClientSelect(client.id)}
