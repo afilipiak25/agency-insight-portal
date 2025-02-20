@@ -5,6 +5,10 @@ export interface ClientCampaignSummary {
   region: string;
   aiSummary: string;
   lastUpdated: string;
+  leadsCompleted: string;
+  sender: string;
+  tag: string;
+  status: 'active' | 'paused' | 'completed';
 }
 
 export interface ConnectionError {
