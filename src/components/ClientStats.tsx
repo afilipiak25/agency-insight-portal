@@ -1,7 +1,6 @@
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { ChartLine, DollarSign, Users, UserSquare, ChartBar, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard } from 'lucide-react';
-import { KPICard } from './KPICard';
+import { BarChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
+import { MessageSquare, Timer, Target, Zap } from 'lucide-react';
 
 interface ClientStatsProps {
   clientId: number;
@@ -9,153 +8,190 @@ interface ClientStatsProps {
 
 const mockData = {
   1: {
-    revenue: 125000,
-    customers: 1250,
-    growth: 15,
-    conversion: 3.2,
-    monthlyData: [
-      { month: 'Jan', value: 65 },
-      { month: 'Feb', value: 75 },
-      { month: 'Mar', value: 85 },
-      { month: 'Apr', value: 95 },
-      { month: 'May', value: 105 },
-      { month: 'Jun', value: 125 },
-    ]
-  },
-  2: {
-    revenue: 85000,
-    customers: 950,
-    growth: 8,
-    conversion: 2.8,
-    monthlyData: [
-      { month: 'Jan', value: 45 },
-      { month: 'Feb', value: 55 },
-      { month: 'Mar', value: 65 },
-      { month: 'Apr', value: 75 },
-      { month: 'May', value: 85 },
-      { month: 'Jun', value: 95 },
-    ]
-  },
-  3: {
-    revenue: 150000,
-    customers: 1500,
-    growth: 20,
-    conversion: 3.5,
-    monthlyData: [
-      { month: 'Jan', value: 85 },
-      { month: 'Feb', value: 95 },
-      { month: 'Mar', value: 105 },
-      { month: 'Apr', value: 115 },
-      { month: 'May', value: 125 },
-      { month: 'Jun', value: 145 },
-    ]
+    monthlyTarget: { current: 98800, total: 300000 },
+    activeLeads: { current: 46622, total: 50000 },
+    conversionRate: { current: 24.8, total: 30 },
+    aiResponseRate: { current: 92.5, total: 95 },
+    leadQualityScore: { value: 8.4, change: 12 },
+    responseTime: { value: 2.3, change: -30 },
+    engagementRate: { value: 78.5, change: 15 },
+    performanceData: [
+      { date: 'Jan 30', leads: 300, responses: 350, conversions: 320 },
+      { date: 'Feb 02', leads: 500, responses: 520, conversions: 480 },
+      { date: 'Feb 05', leads: 600, responses: 450, conversions: 520 },
+      { date: 'Feb 08', leads: 400, responses: 650, conversions: 580 },
+      { date: 'Feb 11', leads: 580, responses: 600, conversions: 700 }
+    ],
+    aiMetrics: {
+      messageQuality: 92,
+      responseAccuracy: 88,
+      sentimentAnalysis: 95,
+      leadQualification: 86
+    }
   }
 };
+
+const ProgressBar = ({ value, total, color }: { value: number, total: number, color: string }) => (
+  <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+    <div 
+      className={`h-full ${color}`}
+      style={{ width: `${(value / total) * 100}%` }}
+    />
+  </div>
+);
+
+const MetricCard = ({ 
+  title, 
+  value, 
+  total, 
+  color = "bg-[#6366F1]"
+}: { 
+  title: string;
+  value: number;
+  total: number;
+  color?: string;
+}) => (
+  <div className="bg-white p-6 rounded-xl">
+    <h3 className="text-sm text-gray-500 mb-2">{title}</h3>
+    <div className="flex items-end gap-2 mb-3">
+      <span className="text-2xl font-semibold">{value.toLocaleString()}</span>
+      <span className="text-gray-400 text-sm mb-1">/ {total.toLocaleString()}</span>
+    </div>
+    <ProgressBar value={value} total={total} color={color} />
+  </div>
+);
+
+const StatsCard = ({ 
+  title, 
+  value, 
+  change, 
+  color 
+}: { 
+  title: string;
+  value: number;
+  change: number;
+  color: string;
+}) => (
+  <div className="bg-white p-6 rounded-xl">
+    <h3 className="text-sm text-gray-500 mb-2">{title}</h3>
+    <div className="flex items-baseline gap-2">
+      <span className={`text-2xl font-semibold ${color}`}>
+        {value}{title.includes('Score') ? '/10' : '%'}
+      </span>
+    </div>
+    <div className={`text-sm ${change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+      {change >= 0 ? '+' : ''}{change}% from last month
+    </div>
+  </div>
+);
+
+const AIMetric = ({ label, value }: { label: string; value: number }) => (
+  <div className="flex items-center justify-between mb-4">
+    <span className="text-sm text-gray-600">{label}</span>
+    <div className="flex items-center gap-2">
+      <span className="text-sm font-medium">{value}%</span>
+      <div className="w-32 h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-[#6366F1]"
+          style={{ width: `${value}%` }}
+        />
+      </div>
+    </div>
+  </div>
+);
 
 export const ClientStats = ({ clientId }: ClientStatsProps) => {
   const data = mockData[clientId as keyof typeof mockData];
 
   return (
-    <div className="animate-fade-in">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500">Track your client's performance</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-lg border border-gray-200 hover:bg-gray-50">
-            <Calendar className="w-4 h-4" />
-            Last 30 days
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#6366F1] rounded-lg hover:bg-[#5457E5]">
-            <BarChartHorizontal className="w-4 h-4" />
-            Export Report
-          </button>
-        </div>
-      </div>
-
+    <div className="p-6 animate-fade-in">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <KPICard
-          title="Umsatz"
-          value={`€${(data.revenue / 1000).toFixed(1)}k`}
-          change={data.growth}
-          icon={<DollarSign className="w-6 h-6 text-[#6366F1]" />}
+        <MetricCard
+          title="Monthly Sales Target"
+          value={data.monthlyTarget.current}
+          total={data.monthlyTarget.total}
         />
-        <KPICard
-          title="Kunden"
-          value={data.customers}
-          change={data.growth}
-          icon={<Users className="w-6 h-6 text-[#6366F1]" />}
+        <MetricCard
+          title="Active Leads"
+          value={data.activeLeads.current}
+          total={data.activeLeads.total}
+          color="bg-[#8B5CF6]"
         />
-        <KPICard
-          title="Leads"
-          value="234"
-          change={8}
-          icon={<UserSquare className="w-6 h-6 text-[#6366F1]" />}
+        <MetricCard
+          title="Conversion Rate"
+          value={data.conversionRate.current}
+          total={data.conversionRate.total}
+          color="bg-[#F97316]"
         />
-        <KPICard
-          title="Kampagnen"
-          value="12"
-          change={15}
-          icon={<ChartBar className="w-6 h-6 text-[#6366F1]" />}
+        <MetricCard
+          title="AI Response Rate"
+          value={data.aiResponseRate.current}
+          total={data.aiResponseRate.total}
+          color="bg-[#0EA5E9]"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">Performance</h3>
-            <div className="flex items-center gap-2">
-              <button className="px-3 py-1 text-sm font-medium text-[#6366F1] bg-[#EEF2FF] rounded-lg">
-                Monthly
-              </button>
-              <button className="px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">
-                Weekly
-              </button>
-            </div>
-          </div>
-          <div className="h-80">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <StatsCard
+          title="Lead Quality Score"
+          value={data.leadQualityScore.value}
+          change={data.leadQualityScore.change}
+          color="text-[#8B5CF6]"
+        />
+        <StatsCard
+          title="Average Response Time"
+          value={data.responseTime.value}
+          change={data.responseTime.change}
+          color="text-[#0EA5E9]"
+        />
+        <StatsCard
+          title="AI Engagement Rate"
+          value={data.engagementRate.value}
+          change={data.engagementRate.change}
+          color="text-[#F97316]"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-xl">
+          <h3 className="text-lg font-semibold mb-6">Lead Generation Performance</h3>
+          <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data.monthlyData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
+              <BarChart data={data.performanceData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="date" />
                 <YAxis />
-                <Bar dataKey="value" fill="#6366F1" radius={[4, 4, 0, 0]} />
+                <Tooltip />
+                <Line 
+                  type="monotone"
+                  dataKey="leads"
+                  stroke="#8B5CF6"
+                  strokeWidth={2}
+                />
+                <Line 
+                  type="monotone"
+                  dataKey="responses"
+                  stroke="#F97316"
+                  strokeWidth={2}
+                />
+                <Line 
+                  type="monotone"
+                  dataKey="conversions"
+                  stroke="#0EA5E9"
+                  strokeWidth={2}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Team Profile</h3>
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#EEF2FF] flex items-center justify-center">
-                <UserSquare className="w-5 h-5 text-[#6366F1]" />
-              </div>
-              <div className="flex-1">
-                <h4 className="text-sm font-medium text-gray-900">Marketing Lead</h4>
-                <p className="text-sm text-gray-500">Sarah Wilson</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#EEF2FF] flex items-center justify-center">
-                <CircuitBoard className="w-5 h-5 text-[#6366F1]" />
-              </div>
-              <div className="flex-1">
-                <h4 className="text-sm font-medium text-gray-900">Tech Lead</h4>
-                <p className="text-sm text-gray-500">Michael Chen</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#EEF2FF] flex items-center justify-center">
-                <Database className="w-5 h-5 text-[#6366F1]" />
-              </div>
-              <div className="flex-1">
-                <h4 className="text-sm font-medium text-gray-900">Project Manager</h4>
-                <p className="text-sm text-gray-500">Lisa Thompson</p>
-              </div>
-            </div>
+        <div className="bg-white p-6 rounded-xl">
+          <h3 className="text-lg font-semibold mb-6">AI Performance Metrics</h3>
+          <div className="space-y-6">
+            <AIMetric label="Message Quality" value={data.aiMetrics.messageQuality} />
+            <AIMetric label="Response Accuracy" value={data.aiMetrics.responseAccuracy} />
+            <AIMetric label="Sentiment Analysis" value={data.aiMetrics.sentimentAnalysis} />
+            <AIMetric label="Lead Qualification" value={data.aiMetrics.leadQualification} />
           </div>
         </div>
       </div>
