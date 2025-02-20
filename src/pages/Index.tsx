@@ -7,7 +7,7 @@ const Index = () => {
   const [selectedClientId, setSelectedClientId] = useState(1);
 
   return (
-    <div className="flex min-h-screen bg-agency-100">
+    <div className="flex min-h-screen bg-gradient-to-br from-amplifa-blue via-amplifa-purple to-amplifa-pink/30">
       <Sidebar onClientSelect={setSelectedClientId} />
       <div className="flex-1 p-8 animate-slide-in">
         <ClientStats clientId={selectedClientId} />

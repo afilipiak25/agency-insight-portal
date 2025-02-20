@@ -37,7 +37,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
   const handleClientSelect = (clientId: number) => {
     setSelectedClient(clientId);
     onClientSelect(clientId);
-    setSearchQuery(''); // Reset search after selection
+    setSearchQuery('');
     setIsSearching(false);
   };
 
@@ -58,23 +58,23 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
 
   return (
     <div className={cn(
-      "h-screen bg-[#F8F9FC] border-r border-gray-200 transition-all duration-300 ease-in-out",
+      "h-screen bg-gradient-to-br from-amplifa-blue via-amplifa-purple to-amplifa-pink/30 border-r border-white/10 transition-all duration-300 ease-in-out",
       isCollapsed ? "w-20" : "w-64"
     )}>
       <div className="flex flex-col h-full">
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-b border-white/10">
           <div className="flex items-center justify-between mb-4">
             <h2 className={cn(
-              "font-semibold text-[#6B7280] transition-opacity duration-300",
+              "font-semibold text-white transition-opacity duration-300",
               isCollapsed ? "opacity-0 w-0" : "opacity-100"
             )}>
               Clients
             </h2>
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors"
             >
-              <ChartBar className="w-5 h-5 text-[#6B7280]" />
+              <ChartBar className="w-5 h-5 text-white" />
             </button>
           </div>
           
@@ -89,12 +89,12 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 value={searchQuery}
                 onChange={handleSearchChange}
                 onFocus={handleSearchFocus}
-                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent"
+                className="w-full pl-9 pr-4 py-2 text-sm bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent text-white placeholder-white/50"
               />
-              <Search className="absolute left-2 top-2.5 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-2 top-2.5 w-4 h-4 text-white/50" />
             </div>
             <button 
-              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-[#6366F1] bg-[#EEF2FF] rounded-lg hover:bg-[#6366F1] hover:text-white transition-colors"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
             >
               <PlusCircle className="w-4 h-4" />
               Neuer Kunde
@@ -111,8 +111,8 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-all duration-200",
                   selectedClient === client.id
-                    ? "bg-[#6366F1] text-white"
-                    : "hover:bg-gray-100 text-[#6B7280]"
+                    ? "bg-white/20 text-white"
+                    : "hover:bg-white/10 text-white/70"
                 )}
               >
                 <Users className="w-5 h-5 flex-shrink-0" />
@@ -127,15 +127,15 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
           </div>
 
           <div className="mt-4 px-3">
-            <div className="h-px bg-gray-200 my-4" />
+            <div className="h-px bg-white/10 my-4" />
             {navItems.map((item, index) => (
               <button
                 key={index}
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors",
                   item.isActive 
-                    ? "bg-[#EEF2FF] text-[#6366F1]"
-                    : "text-[#6B7280] hover:bg-gray-100"
+                    ? "bg-white/20 text-white"
+                    : "text-white/70 hover:bg-white/10"
                 )}
               >
                 <item.icon className="w-5 h-5 flex-shrink-0" />

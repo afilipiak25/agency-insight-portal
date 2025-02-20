@@ -13,56 +13,32 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: "2rem",
       screens: {
-        '2xl': '1400px'
-      }
+        "2xl": "1400px",
+      },
     },
     extend: {
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
+          DEFAULT: "#6366F1",
+          light: "#818CF8",
+          dark: "#4F46E5",
         },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
+        amplifa: {
+          blue: "#4361EE",
+          purple: "#7209B7",
+          pink: "#F72585",
+          gradient: "linear-gradient(135deg, #4361EE 0%, #7209B7 50%, #F72585 100%)",
         },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))'
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))'
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))'
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))'
-        },
-        agency: {
-          100: '#f5f5f7',
-          200: '#e8e8ed',
-          300: '#d2d2d8',
-          400: '#9b87f5',
-          500: '#7a68c4',
-          600: '#5a4b91',
-          700: '#393160',
-          800: '#1d182f',
-        }
+      },
+      backgroundImage: {
+        'gradient-amplifa': 'linear-gradient(135deg, #4361EE 0%, #7209B7 50%, #F72585 100%)',
       },
       keyframes: {
         "accordion-down": {
