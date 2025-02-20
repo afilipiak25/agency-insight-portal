@@ -1,4 +1,3 @@
-
 import { ClientOverview } from '@/types/client';
 
 export const mockClientsData: ClientOverview[] = [
@@ -26,12 +25,10 @@ export const mockClientsData: ClientOverview[] = [
     monthlyTarget: 250,
     progress: 45.2,
     requestType: 'connection',
-    campaignSummary: {
-      title: "Senior Marketing Manager E-Commerce",
-      industry: "E-Commerce",
-      region: "Remote / DACH",
-      aiSummary: "Gesucht wird ein Senior Marketing Manager mit Fokus auf E-Commerce und Performance Marketing. Hauptaufgaben umfassen die Optimierung der Customer Journey, Steuerung von Paid Media Kampagnen und Entwicklung der Content-Strategie. Anforderungen: 5+ Jahre Erfahrung im E-Commerce Marketing, analytische Fähigkeiten, Hands-on-Mentalität.",
-      lastUpdated: "2024-03-14T09:15:00"
+    connectionError: {
+      type: 'linkedin',
+      message: "LinkedIn API Token abgelaufen. Neue Authentifizierung erforderlich.",
+      since: "2024-03-14T09:15:00"
     }
   },
   { 
@@ -74,12 +71,10 @@ export const mockClientsData: ClientOverview[] = [
     monthlyTarget: 400,
     progress: 42.1,
     requestType: 'connection',
-    campaignSummary: {
-      title: "International Sales Director",
-      industry: "Trading",
-      region: "Hamburg",
-      aiSummary: "Für ein international agierendes Handelsunternehmen wird ein erfahrener Sales Director gesucht. Der Fokus liegt auf der Erschließung neuer Märkte, der Betreuung von Key Accounts und der Führung eines internationalen Vertriebsteams. Anforderungen: Mehrjährige Erfahrung im internationalen Vertrieb, verhandlungssicheres Englisch, interkulturelle Kompetenz und Reisebereitschaft.",
-      lastUpdated: "2024-03-11T18:20:00"
+    connectionError: {
+      type: 'calendar',
+      message: "Kalender-Synchronisation fehlgeschlagen. Bitte Zugriff überprüfen.",
+      since: "2024-03-11T18:20:00"
     }
   }
 ];

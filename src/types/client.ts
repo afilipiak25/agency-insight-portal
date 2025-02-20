@@ -7,6 +7,12 @@ export interface ClientCampaignSummary {
   lastUpdated: string;
 }
 
+export interface ConnectionError {
+  type: 'email' | 'linkedin' | 'calendar';
+  message: string;
+  since: string;
+}
+
 export interface ClientOverview {
   id: number;
   name: string;
@@ -16,4 +22,5 @@ export interface ClientOverview {
   progress: number;
   requestType?: 'campaign' | 'connection' | 'other';
   campaignSummary?: ClientCampaignSummary;
+  connectionError?: ConnectionError;
 }

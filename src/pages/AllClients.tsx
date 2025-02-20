@@ -4,6 +4,7 @@ import { Layout } from '@/components/Layout';
 import { ClientCard } from '@/components/clients/ClientCard';
 import { ClientFilters } from '@/components/clients/ClientFilters';
 import { CampaignDialog } from '@/components/clients/CampaignDialog';
+import { ConnectionErrorDialog } from '@/components/clients/ConnectionErrorDialog';
 import { mockClientsData } from '@/data/mockClients';
 import type { ClientOverview } from '@/types/client';
 
@@ -56,10 +57,17 @@ const AllClients = () => {
         </div>
       </div>
 
-      <CampaignDialog 
-        client={selectedClient} 
-        onClose={() => setSelectedClient(null)} 
-      />
+      {selectedClient?.requestType === 'campaign' ? (
+        <CampaignDialog 
+          client={selectedClient} 
+          onClose={() => setSelectedClient(null)} 
+        />
+      ) : selectedClient?.requestType === 'connection' ? (
+        <ConnectionErrorDialog 
+          client={selectedClient} 
+          onClose={() => setSelectedClient(null)} 
+        />
+      ) : null}
     </Layout>
   );
 };
