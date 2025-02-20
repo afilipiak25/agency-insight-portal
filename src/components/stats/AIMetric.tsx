@@ -11,7 +11,7 @@ export const AIMetric = ({ label, value }: AIMetricProps) => (
       <span className="text-sm font-medium">{value}%</span>
       <div className="w-32 h-2 bg-gray-100 rounded-full overflow-hidden">
         <div 
-          className="h-full bg-[#6366F1]"
+          className="h-full bg-gradient-to-r from-amplifa-blue via-amplifa-purple to-amplifa-pink"
           style={{ width: `${value}%` }}
         />
       </div>

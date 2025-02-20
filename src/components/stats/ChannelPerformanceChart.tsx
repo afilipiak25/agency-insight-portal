@@ -20,21 +20,21 @@ export const ChannelPerformanceChart = ({ data }: ChannelPerformanceChartProps) 
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis dataKey="channel" />
-          <YAxis yAxisId="left" orientation="left" stroke="#8B5CF6" />
-          <YAxis yAxisId="right" orientation="right" stroke="#F97316" />
+          <YAxis yAxisId="left" orientation="left" stroke="#4361EE" />
+          <YAxis yAxisId="right" orientation="right" stroke="#7209B7" />
           <Tooltip />
           <Legend />
           <Bar 
             yAxisId="left"
             dataKey="leads" 
             name="Leads"
-            fill="#8B5CF6" 
+            fill="#4361EE"
           />
           <Bar 
             yAxisId="right"
             dataKey="cost" 
             name="Kosten (€)"
-            fill="#F97316" 
+            fill="#7209B7"
           />
         </BarChart>
       </ResponsiveContainer>

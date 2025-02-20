@@ -28,21 +28,21 @@ export const LeadPerformanceChart = ({ data }: LeadPerformanceChartProps) => (
             type="monotone"
             dataKey="leads"
             name="Leads"
-            stroke="#8B5CF6"
+            stroke="#4361EE"
             strokeWidth={2}
           />
           <Line 
             type="monotone"
             dataKey="conversions"
             name="Conversions"
-            stroke="#F97316"
+            stroke="#7209B7"
             strokeWidth={2}
           />
           <Line 
             type="monotone"
             dataKey="revenue"
             name="Umsatz (€)"
-            stroke="#0EA5E9"
+            stroke="#F72585"
             strokeWidth={2}
           />
         </LineChart>
