@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Users, ArrowUpRight, Search, TrendingUp, TrendingDown, Target, AlertCircle, PlayCircle, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -21,7 +20,7 @@ const mockClientsData: ClientOverview[] = [
     name: "Tech Solutions GmbH",
     activeLeads: 46622,
     conversionRate: 24.8,
-    monthlyTarget: 300000,
+    monthlyTarget: 300,
     progress: 32.9,
     requestType: 'campaign'
   },
@@ -30,7 +29,7 @@ const mockClientsData: ClientOverview[] = [
     name: "Digital Marketing AG",
     activeLeads: 38450,
     conversionRate: 28.5,
-    monthlyTarget: 250000,
+    monthlyTarget: 250,
     progress: 45.2,
     requestType: 'connection'
   },
@@ -39,7 +38,7 @@ const mockClientsData: ClientOverview[] = [
     name: "E-Commerce Plus",
     activeLeads: 29876,
     conversionRate: 22.3,
-    monthlyTarget: 180000,
+    monthlyTarget: 180,
     progress: 38.7,
     requestType: 'campaign'
   },
@@ -48,7 +47,7 @@ const mockClientsData: ClientOverview[] = [
     name: "Innovative Labs",
     activeLeads: 15234,
     conversionRate: 19.8,
-    monthlyTarget: 120000,
+    monthlyTarget: 120,
     progress: 28.4,
     requestType: 'other'
   },
@@ -57,7 +56,7 @@ const mockClientsData: ClientOverview[] = [
     name: "Global Trading KG",
     activeLeads: 52189,
     conversionRate: 31.2,
-    monthlyTarget: 400000,
+    monthlyTarget: 400,
     progress: 42.1,
     requestType: 'connection'
   }
@@ -219,14 +218,14 @@ const AllClients = () => {
                       <div className="bg-gradient-to-br from-amplifa-pink/5 to-transparent p-4 rounded-lg">
                         <div className="flex items-center gap-2 mb-1">
                           <Target className="w-4 h-4 text-amplifa-pink" />
-                          <p className="text-sm text-gray-500">Monatsziel</p>
+                          <p className="text-sm text-gray-500">Monatliche Termine</p>
                         </div>
                         <div className="flex items-baseline gap-2">
                           <p className="text-xl font-semibold text-amplifa-pink">
                             {client.progress}%
                           </p>
                           <p className="text-sm text-gray-500">
-                            von {client.monthlyTarget.toLocaleString()}€
+                            von {client.monthlyTarget} Terminen
                           </p>
                         </div>
                       </div>
