@@ -3,6 +3,8 @@ import { Users, ArrowUpRight, Search, TrendingUp, TrendingDown, Target, AlertCir
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Layout } from '@/components/Layout';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Bot } from 'lucide-react';
 
 interface ClientOverview {
   id: number;
@@ -12,6 +14,13 @@ interface ClientOverview {
   monthlyTarget: number;
   progress: number;
   requestType?: 'campaign' | 'connection' | 'other';
+  campaignSummary?: {
+    title: string;
+    industry: string;
+    region: string;
+    aiSummary: string;
+    lastUpdated: string;
+  };
 }
 
 const mockClientsData: ClientOverview[] = [
@@ -22,7 +31,14 @@ const mockClientsData: ClientOverview[] = [
     conversionRate: 24.8,
     monthlyTarget: 300,
     progress: 32.9,
-    requestType: 'campaign'
+    requestType: 'campaign',
+    campaignSummary: {
+      title: "Head of Sales Automotive Germany",
+      industry: "Automotive",
+      region: "Deutschland",
+      aiSummary: "Der Kunde sucht einen erfahrenen Head of Sales für den Automotive-Bereich in Deutschland. Schwerpunkte sind die Entwicklung der Vertriebsstrategie, Führung eines 15-köpfigen Teams und die Expansion im DACH-Raum. Zielprofil: 8+ Jahre Erfahrung im Automotive-Vertrieb, nachweisliche Erfolge im B2B-Bereich, verhandlungssicheres Deutsch und Englisch.",
+      lastUpdated: "2024-03-15T14:30:00"
+    }
   },
   { 
     id: 2, 
@@ -31,7 +47,14 @@ const mockClientsData: ClientOverview[] = [
     conversionRate: 28.5,
     monthlyTarget: 250,
     progress: 45.2,
-    requestType: 'connection'
+    requestType: 'connection',
+    campaignSummary: {
+      title: "Senior Marketing Manager E-Commerce",
+      industry: "E-Commerce",
+      region: "Remote / DACH",
+      aiSummary: "Gesucht wird ein Senior Marketing Manager mit Fokus auf E-Commerce und Performance Marketing. Hauptaufgaben umfassen die Optimierung der Customer Journey, Steuerung von Paid Media Kampagnen und Entwicklung der Content-Strategie. Anforderungen: 5+ Jahre Erfahrung im E-Commerce Marketing, analytische Fähigkeiten, Hands-on-Mentalität.",
+      lastUpdated: "2024-03-14T09:15:00"
+    }
   },
   { 
     id: 3, 
@@ -40,7 +63,14 @@ const mockClientsData: ClientOverview[] = [
     conversionRate: 22.3,
     monthlyTarget: 180,
     progress: 38.7,
-    requestType: 'campaign'
+    requestType: 'campaign',
+    campaignSummary: {
+      title: "Online Shop Manager Fashion",
+      industry: "Fashion",
+      region: "Berlin",
+      aiSummary: "Für einen schnell wachsenden Online-Shop im Fashion-Bereich wird ein erfahrener Shop Manager gesucht. Verantwortlichkeiten umfassen die Sortimentsgestaltung, Umsatzsteigerung und Optimierung des Online-Shops. Erwartungen: Erfahrung im E-Commerce, Kenntnisse in SEO und SEA, Kreativität und ein gutes Auge für Trends.",
+      lastUpdated: "2024-03-13T16:45:00"
+    }
   },
   { 
     id: 4, 
@@ -49,7 +79,14 @@ const mockClientsData: ClientOverview[] = [
     conversionRate: 19.8,
     monthlyTarget: 120,
     progress: 28.4,
-    requestType: 'other'
+    requestType: 'other',
+    campaignSummary: {
+      title: "Data Scientist AI Solutions",
+      industry: "AI",
+      region: "München",
+      aiSummary: "Ein innovatives AI-Unternehmen sucht einen Data Scientist zur Entwicklung von KI-basierten Lösungen. Aufgaben sind die Analyse großer Datenmengen, Entwicklung von Machine Learning Modellen und die Umsetzung von Prototypen. Gesucht werden Kandidaten mit einem starken Hintergrund in Mathematik und Statistik, Erfahrung in Python und R sowie Kenntnisse in Deep Learning.",
+      lastUpdated: "2024-03-12T11:00:00"
+    }
   },
   { 
     id: 5, 
@@ -58,7 +95,14 @@ const mockClientsData: ClientOverview[] = [
     conversionRate: 31.2,
     monthlyTarget: 400,
     progress: 42.1,
-    requestType: 'connection'
+    requestType: 'connection',
+    campaignSummary: {
+      title: "International Sales Director",
+      industry: "Trading",
+      region: "Hamburg",
+      aiSummary: "Für ein international agierendes Handelsunternehmen wird ein erfahrener Sales Director gesucht. Der Fokus liegt auf der Erschließung neuer Märkte, der Betreuung von Key Accounts und der Führung eines internationalen Vertriebsteams. Anforderungen: Mehrjährige Erfahrung im internationalen Vertrieb, verhandlungssicheres Englisch, interkulturelle Kompetenz und Reisebereitschaft.",
+      lastUpdated: "2024-03-11T18:20:00"
+    }
   }
 ];
 
@@ -66,6 +110,7 @@ const AllClients = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [hoveredClient, setHoveredClient] = useState<number | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'campaign' | 'connection' | 'other'>('all');
+  const [selectedClient, setSelectedClient] = useState<ClientOverview | null>(null);
   
   const filteredClients = mockClientsData.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -74,7 +119,20 @@ const AllClients = () => {
   });
 
   const handleClientClick = (clientId: number) => {
-    toast.success('Zum Kunden-Dashboard weitergeleitet');
+    const client = mockClientsData.find(c => c.id === clientId);
+    if (client) {
+      setSelectedClient(client);
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   const getFilterCount = (filterType: 'campaign' | 'connection' | 'other') => {
@@ -256,6 +314,51 @@ const AllClients = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={!!selectedClient} onOpenChange={() => setSelectedClient(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Bot className="w-5 h-5 text-amplifa-purple" />
+              KI-Kampagnen Analyse
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedClient?.campaignSummary && (
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {selectedClient.campaignSummary.title}
+                </h3>
+                <div className="flex gap-3">
+                  <span className="px-3 py-1 rounded-full text-sm bg-amplifa-blue/10 text-amplifa-blue">
+                    {selectedClient.campaignSummary.industry}
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-sm bg-amplifa-purple/10 text-amplifa-purple">
+                    {selectedClient.campaignSummary.region}
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-white rounded-lg">
+                    <Bot className="w-5 h-5 text-amplifa-purple" />
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-gray-600 leading-relaxed">
+                      {selectedClient.campaignSummary.aiSummary}
+                    </p>
+                    <p className="text-sm text-gray-400">
+                      Zuletzt aktualisiert: {formatDate(selectedClient.campaignSummary.lastUpdated)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };
