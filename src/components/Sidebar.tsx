@@ -64,12 +64,16 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
       <div className="flex flex-col h-full">
         <div className="p-4 border-b border-white/10">
           <div className="flex items-center justify-between mb-4">
-            <h2 className={cn(
-              "font-semibold text-white transition-opacity duration-300",
+            <div className={cn(
+              "transition-opacity duration-300",
               isCollapsed ? "opacity-0 w-0" : "opacity-100"
             )}>
-              Clients
-            </h2>
+              <img 
+                src="/lovable-uploads/bbaf6a02-7eee-4dc4-9df8-a980e5495698.png" 
+                alt="Amplifa" 
+                className="h-8"
+              />
+            </div>
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
               className="p-2 rounded-lg hover:bg-white/10 transition-colors"
