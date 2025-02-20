@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { Users, ChartBar, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle } from 'lucide-react';
+import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Client {
@@ -18,7 +17,7 @@ const mockClients: Client[] = [
 ];
 
 const navItems = [
-  { icon: ChartBar, label: 'Dashboard', isActive: true },
+  { icon: PieChart, label: 'Dashboard', isActive: true },
   { icon: BarChartHorizontal, label: 'Kampagnen' },
   { icon: CircuitBoard, label: 'Integrations' },
   { icon: Database, label: 'Pipeline' },
@@ -78,7 +77,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               onClick={() => setIsCollapsed(!isCollapsed)}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <ChartBar className="w-5 h-5 text-gray-600" />
+              <PieChart className="w-5 h-5 text-gray-600" />
             </button>
           </div>
           
