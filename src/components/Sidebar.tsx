@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Users, ChartBar, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare } from 'lucide-react';
+import { Users, ChartBar, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Client {
@@ -29,11 +29,16 @@ const navItems = [
 export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number) => void }) => {
   const [selectedClient, setSelectedClient] = useState<number>(1);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleClientSelect = (clientId: number) => {
     setSelectedClient(clientId);
     onClientSelect(clientId);
   };
+
+  const filteredClients = mockClients.filter(client =>
+    client.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className={cn(
@@ -42,7 +47,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
     )}>
       <div className="flex flex-col h-full">
         <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <h2 className={cn(
               "font-semibold text-[#6B7280] transition-opacity duration-300",
               isCollapsed ? "opacity-0 w-0" : "opacity-100"
@@ -56,11 +61,33 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               <ChartBar className="w-5 h-5 text-[#6B7280]" />
             </button>
           </div>
+          
+          <div className={cn(
+            "relative mb-4 transition-opacity duration-300",
+            isCollapsed ? "opacity-0" : "opacity-100"
+          )}>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Kunde suchen..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent"
+              />
+              <Search className="absolute left-2 top-2.5 w-4 h-4 text-gray-400" />
+            </div>
+            <button 
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-[#6366F1] bg-[#EEF2FF] rounded-lg hover:bg-[#6366F1] hover:text-white transition-colors"
+            >
+              <PlusCircle className="w-4 h-4" />
+              Neuer Kunde
+            </button>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto">
           <div className="p-3">
-            {mockClients.map((client) => (
+            {filteredClients.map((client) => (
               <button
                 key={client.id}
                 onClick={() => handleClientSelect(client.id)}
@@ -83,6 +110,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
           </div>
 
           <div className="mt-4 px-3">
+            <div className="h-px bg-gray-200 my-4" />
             {navItems.map((item, index) => (
               <button
                 key={index}
