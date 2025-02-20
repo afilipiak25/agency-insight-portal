@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle } from 'lucide-react';
+import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Client {
@@ -76,8 +76,13 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label={isCollapsed ? "Sidebar ausklappen" : "Sidebar einklappen"}
             >
-              <PieChart className="w-5 h-5 text-gray-600" />
+              {isCollapsed ? (
+                <ChevronRight className="w-5 h-5 text-gray-600" />
+              ) : (
+                <ChevronLeft className="w-5 h-5 text-gray-600" />
+              )}
             </button>
           </div>
           
@@ -100,7 +105,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-amplifa-blue to-amplifa-purple rounded-lg hover:opacity-90 transition-opacity"
             >
               <PlusCircle className="w-4 h-4" />
-              Neuer Kunde
+              <span>Neuer Kunde</span>
             </button>
           </div>
         </div>
