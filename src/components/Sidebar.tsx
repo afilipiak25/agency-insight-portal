@@ -58,11 +58,11 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
 
   return (
     <div className={cn(
-      "h-screen bg-gradient-to-br from-amplifa-blue via-amplifa-purple to-amplifa-pink/30 border-r border-white/10 transition-all duration-300 ease-in-out",
+      "h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out",
       isCollapsed ? "w-20" : "w-64"
     )}>
       <div className="flex flex-col h-full">
-        <div className="p-4 border-b border-white/10">
+        <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <div className={cn(
               "transition-opacity duration-300",
@@ -76,9 +76,9 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
             </div>
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <ChartBar className="w-5 h-5 text-white" />
+              <ChartBar className="w-5 h-5 text-gray-600" />
             </button>
           </div>
           
@@ -93,12 +93,12 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 value={searchQuery}
                 onChange={handleSearchChange}
                 onFocus={handleSearchFocus}
-                className="w-full pl-9 pr-4 py-2 text-sm bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent text-white placeholder-white/50"
+                className="w-full pl-9 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amplifa-purple/30 focus:border-transparent"
               />
-              <Search className="absolute left-2 top-2.5 w-4 h-4 text-white/50" />
+              <Search className="absolute left-2 top-2.5 w-4 h-4 text-gray-400" />
             </div>
             <button 
-              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-amplifa-blue to-amplifa-purple rounded-lg hover:opacity-90 transition-opacity"
             >
               <PlusCircle className="w-4 h-4" />
               Neuer Kunde
@@ -115,8 +115,8 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-all duration-200",
                   selectedClient === client.id
-                    ? "bg-white/20 text-white"
-                    : "hover:bg-white/10 text-white/70"
+                    ? "bg-gradient-to-r from-amplifa-blue to-amplifa-purple text-white"
+                    : "hover:bg-gray-50 text-gray-600"
                 )}
               >
                 <Users className="w-5 h-5 flex-shrink-0" />
@@ -131,15 +131,15 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
           </div>
 
           <div className="mt-4 px-3">
-            <div className="h-px bg-white/10 my-4" />
+            <div className="h-px bg-gray-200 my-4" />
             {navItems.map((item, index) => (
               <button
                 key={index}
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors",
                   item.isActive 
-                    ? "bg-white/20 text-white"
-                    : "text-white/70 hover:bg-white/10"
+                    ? "bg-gradient-to-r from-amplifa-blue/10 to-amplifa-purple/10 text-amplifa-purple"
+                    : "text-gray-600 hover:bg-gray-50"
                 )}
               >
                 <item.icon className="w-5 h-5 flex-shrink-0" />
