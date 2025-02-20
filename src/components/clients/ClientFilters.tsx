@@ -25,7 +25,8 @@ export const ClientFilters = ({
           placeholder="Kunden suchen..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9b87f5]/30 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/80"
+          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amplifa
+-purple/30 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/80"
         />
         <Search className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
       </div>
@@ -36,8 +37,8 @@ export const ClientFilters = ({
           className={cn(
             "px-4 py-2 rounded-lg border transition-all duration-300",
             selectedFilter === 'all' 
-              ? "border-[#9b87f5] bg-[#9b87f5] text-white" 
-              : "border-gray-200 hover:border-[#9b87f5]/50"
+              ? "border-amplifa-purple bg-amplifa-purple text-white" 
+              : "border-gray-200 hover:border-amplifa-purple/50"
           )}
         >
           Alle Anfragen
@@ -47,8 +48,8 @@ export const ClientFilters = ({
           className={cn(
             "px-4 py-2 rounded-lg border transition-all duration-300 flex items-center gap-2",
             selectedFilter === 'campaign' 
-              ? "border-[#9b87f5] bg-[#9b87f5] text-white" 
-              : "border-gray-200 hover:border-[#9b87f5]/50"
+              ? "border-amplifa-purple bg-amplifa-purple text-white" 
+              : "border-gray-200 hover:border-amplifa-purple/50"
           )}
         >
           <PlayCircle className="w-4 h-4" />
@@ -62,8 +63,8 @@ export const ClientFilters = ({
           className={cn(
             "px-4 py-2 rounded-lg border transition-all duration-300 flex items-center gap-2",
             selectedFilter === 'connection' 
-              ? "border-[#9b87f5] bg-[#9b87f5] text-white" 
-              : "border-gray-200 hover:border-[#9b87f5]/50"
+              ? "border-amplifa-purple bg-amplifa-purple text-white" 
+              : "border-gray-200 hover:border-amplifa-purple/50"
           )}
         >
           <AlertCircle className="w-4 h-4" />
@@ -77,8 +78,8 @@ export const ClientFilters = ({
           className={cn(
             "px-4 py-2 rounded-lg border transition-all duration-300 flex items-center gap-2",
             selectedFilter === 'other' 
-              ? "border-[#9b87f5] bg-[#9b87f5] text-white" 
-              : "border-gray-200 hover:border-[#9b87f5]/50"
+              ? "border-amplifa-purple bg-amplifa-purple text-white" 
+              : "border-gray-200 hover:border-amplifa-purple/50"
           )}
         >
           <HelpCircle className="w-4 h-4" />

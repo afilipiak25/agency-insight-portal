@@ -14,11 +14,7 @@ export const mockClientsData: ClientOverview[] = [
       industry: "Automotive",
       region: "Deutschland",
       aiSummary: "Der Kunde sucht einen erfahrenen Head of Sales für den Automotive-Bereich in Deutschland. Schwerpunkte sind die Entwicklung der Vertriebsstrategie, Führung eines 15-köpfigen Teams und die Expansion im DACH-Raum. Zielprofil: 8+ Jahre Erfahrung im Automotive-Vertrieb, nachweisliche Erfolge im B2B-Bereich, verhandlungssicheres Deutsch und Englisch.",
-      lastUpdated: "2024-03-15T14:30:00",
-      leadsCompleted: "64/733",
-      sender: "Max Mustermann",
-      tag: "Automotive",
-      status: 'active'
+      lastUpdated: "2024-03-15T14:30:00"
     }
   },
   { 
@@ -48,11 +44,7 @@ export const mockClientsData: ClientOverview[] = [
       industry: "Fashion",
       region: "Berlin",
       aiSummary: "Für einen schnell wachsenden Online-Shop im Fashion-Bereich wird ein erfahrener Shop Manager gesucht. Verantwortlichkeiten umfassen die Sortimentsgestaltung, Umsatzsteigerung und Optimierung des Online-Shops. Erwartungen: Erfahrung im E-Commerce, Kenntnisse in SEO und SEA, Kreativität und ein gutes Auge für Trends.",
-      lastUpdated: "2024-03-13T16:45:00",
-      leadsCompleted: "122/500",
-      sender: "Jane Doe",
-      tag: "E-Commerce",
-      status: 'paused'
+      lastUpdated: "2024-03-13T16:45:00"
     }
   },
   { 
@@ -68,11 +60,7 @@ export const mockClientsData: ClientOverview[] = [
       industry: "AI",
       region: "München",
       aiSummary: "Ein innovatives AI-Unternehmen sucht einen Data Scientist zur Entwicklung von KI-basierten Lösungen. Aufgaben sind die Analyse großer Datenmengen, Entwicklung von Machine Learning Modellen und die Umsetzung von Prototypen. Gesucht werden Kandidaten mit einem starken Hintergrund in Mathematik und Statistik, Erfahrung in Python und R sowie Kenntnisse in Deep Learning.",
-      lastUpdated: "2024-03-12T11:00:00",
-      leadsCompleted: "35/200",
-      sender: "Fritz Walter",
-      tag: "AI",
-      status: 'completed'
+      lastUpdated: "2024-03-12T11:00:00"
     }
   },
   { 
