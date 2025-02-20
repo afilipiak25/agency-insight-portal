@@ -1,6 +1,6 @@
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { ChartLine, DollarSign, Users, UserSquare, ChartBar, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard } from 'lucide-react';
+import { ChartLine, DollarSign, Users, UserSquare, ChartBar, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard } from 'lucide-react';
 import { KPICard } from './KPICard';
 
 interface ClientStatsProps {
