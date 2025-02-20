@@ -1,11 +1,16 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from 'react';
+import { Sidebar } from '@/components/Sidebar';
+import { ClientStats } from '@/components/ClientStats';
 
 const Index = () => {
+  const [selectedClientId, setSelectedClientId] = useState(1);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="flex min-h-screen bg-agency-100">
+      <Sidebar onClientSelect={setSelectedClientId} />
+      <div className="flex-1 p-8 animate-slide-in">
+        <ClientStats clientId={selectedClientId} />
       </div>
     </div>
   );
