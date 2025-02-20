@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -107,13 +106,12 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 value={searchQuery}
                 onChange={handleSearchChange}
                 onFocus={handleSearchFocus}
-                className="w-full pl-9 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amplifa-purple/30 focus:border-transparent"
+                className="w-full pl-9 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9b87f5]/30 focus:border-transparent"
               />
               <Search className="absolute left-2 top-2.5 w-4 h-4 text-gray-400" />
             </div>
             <button 
-              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-amplifa
--blue to-amplifa-purple rounded-lg hover:opacity-90 transition-opacity"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-[#9b87f5] hover:bg-[#9b87f5]/90 rounded-lg transition-colors"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Neuer Kunde</span>
@@ -130,8 +128,8 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-all duration-200",
                   selectedClient === client.id
-                    ? "bg-gradient-to-r from-amplifa-blue to-amplifa-purple text-white"
-                    : "hover:bg-gray-50 text-gray-600"
+                    ? "bg-[#9b87f5] text-white"
+                    : "hover:bg-[#9b87f5]/10 text-gray-600"
                 )}
               >
                 <Users className="w-5 h-5 flex-shrink-0" />
@@ -148,8 +146,8 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               className={cn(
                 "w-full p-2 rounded-lg flex items-center space-x-3 mb-1",
                 isActivePath('/clients') && !location.search.includes('view=campaigns')
-                  ? "bg-gradient-to-r from-amplifa-blue to-amplifa-purple text-white"
-                  : "hover:bg-gray-50 text-gray-600",
+                  ? "bg-[#9b87f5] text-white"
+                  : "hover:bg-[#9b87f5]/10 text-gray-600",
                 "transition-all duration-200"
               )}
             >
@@ -172,8 +170,8 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors",
                   isActivePath(item.path)
-                    ? "bg-gradient-to-r from-amplifa-blue/10 to-amplifa-purple/10 text-amplifa-purple"
-                    : "text-gray-600 hover:bg-gray-50"
+                    ? "bg-[#9b87f5]/10 text-[#9b87f5]"
+                    : "text-gray-600 hover:bg-[#9b87f5]/10"
                 )}
               >
                 <item.icon className="w-5 h-5 flex-shrink-0" />
