@@ -2,13 +2,13 @@
 interface ProgressBarProps {
   value: number;
   total: number;
-  color: string;
+  color?: string;
 }
 
-export const ProgressBar = ({ value, total, color }: ProgressBarProps) => (
+export const ProgressBar = ({ value, total, color = "bg-gradient-dashboard" }: ProgressBarProps) => (
   <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
     <div 
-      className="h-full bg-gradient-to-r from-amplifa-blue via-amplifa-purple to-amplifa-pink"
+      className={color}
       style={{ width: `${(value / total) * 100}%` }}
     />
   </div>

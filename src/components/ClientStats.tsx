@@ -25,19 +25,19 @@ export const ClientStats = ({ clientId }: ClientStatsProps) => {
           title="Aktive Leads"
           value={data.activeLeads.current}
           total={data.activeLeads.total}
-          color="bg-[#8B5CF6]"
+          color="bg-gradient-dashboard"
         />
         <MetricCard
           title="Conversion Rate"
           value={data.conversionRate.current}
           total={data.conversionRate.total}
-          color="bg-[#F97316]"
+          color="bg-gradient-dashboard"
         />
         <MetricCard
           title="AI Response Rate"
           value={data.aiResponseRate.current}
           total={data.aiResponseRate.total}
-          color="bg-[#0EA5E9]"
+          color="bg-gradient-dashboard"
         />
       </div>
 
@@ -46,28 +46,28 @@ export const ClientStats = ({ clientId }: ClientStatsProps) => {
           title="Lead Qualitäts Score"
           value={data.leadQualityScore.value}
           change={data.leadQualityScore.change}
-          color="text-[#8B5CF6]"
+          color="text-dashboard-primary"
           suffix="/10"
         />
         <StatsCard
           title="Durchschnittliche Antwortzeit"
           value={data.responseTime.value}
           change={data.responseTime.change}
-          color="text-[#0EA5E9]"
+          color="text-dashboard-secondary"
           suffix=" Min"
         />
         <StatsCard
           title="Cost per Lead"
           value={data.costPerLead.value}
           change={data.costPerLead.change}
-          color="text-[#F97316]"
+          color="text-dashboard-primary"
           prefix="€"
         />
         <StatsCard
           title="Kampagnen ROI"
           value={data.campaignROI.value}
           change={data.campaignROI.change}
-          color="text-green-600"
+          color="text-dashboard-secondary"
           suffix="%"
         />
       </div>

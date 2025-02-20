@@ -3,7 +3,7 @@ interface StatsCardProps {
   title: string;
   value: number;
   change: number;
-  color: string;
+  color?: string;
   prefix?: string;
   suffix?: string;
 }
@@ -12,7 +12,7 @@ export const StatsCard = ({
   title, 
   value, 
   change, 
-  color,
+  color = "text-dashboard-primary",
   prefix,
   suffix 
 }: StatsCardProps) => (
@@ -23,7 +23,7 @@ export const StatsCard = ({
         {prefix}{value.toLocaleString()}{suffix}
       </span>
     </div>
-    <div className={`text-sm ${change >= 0 ? 'text-amplifa-blue' : 'text-red-500'} flex items-center gap-1`}>
+    <div className={`text-sm ${change >= 0 ? 'text-dashboard-primary' : 'text-red-500'} flex items-center gap-1`}>
       {change >= 0 ? '↑' : '↓'} {Math.abs(change)}% vom letzten Monat
     </div>
   </div>
