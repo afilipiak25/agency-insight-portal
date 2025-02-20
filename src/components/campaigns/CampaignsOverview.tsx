@@ -49,7 +49,7 @@ export const CampaignsOverview = () => {
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold">Kampagnen</h1>
-          <Button className="bg-amplifa-purple hover:bg-amplifa-purple/90">
+          <Button className="bg-[#9b87f5] hover:bg-[#9b87f5]/90">
             <Plus className="w-4 h-4 mr-2" />
             Neue Kampagne erstellen
           </Button>
@@ -63,7 +63,7 @@ export const CampaignsOverview = () => {
               placeholder="Kampagne suchen..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amplifa-purple/30"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9b87f5]/30"
             />
           </div>
 
@@ -125,7 +125,7 @@ export const CampaignsOverview = () => {
             </TableHeader>
             <TableBody>
               {campaigns.map((campaign, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} className="h-14">
                   <TableCell>
                     <Checkbox />
                   </TableCell>
