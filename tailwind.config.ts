@@ -36,9 +36,17 @@ export default {
           pink: "#F72585",
           gradient: "linear-gradient(135deg, #4361EE 0%, #7209B7 50%, #F72585 100%)",
         },
+        dashboard: {
+          primary: "#9b87f5",
+          secondary: "#7E69AB",
+          hover: "#9b87f5/90",
+          light: "#9b87f5/10",
+          accent: "#7E69AB/80",
+        },
       },
       backgroundImage: {
         'gradient-amplifa': 'linear-gradient(135deg, #4361EE 0%, #7209B7 50%, #F72585 100%)',
+        'gradient-dashboard': 'linear-gradient(135deg, #9b87f5 0%, #7E69AB 50%, #9b87f5 100%)',
       },
       keyframes: {
         "accordion-down": {
