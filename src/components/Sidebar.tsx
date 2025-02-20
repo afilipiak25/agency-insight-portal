@@ -1,6 +1,8 @@
+
 import { useState } from 'react';
 import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 interface Client {
   id: number;
@@ -132,6 +134,18 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 </span>
               </button>
             ))}
+            <Link
+              to="/clients"
+              className="w-full p-2 rounded-lg flex items-center space-x-3 mb-1 hover:bg-gray-50 text-gray-600 transition-all duration-200"
+            >
+              <Users className="w-5 h-5 flex-shrink-0" />
+              <span className={cn(
+                "font-medium text-sm transition-opacity duration-300",
+                isCollapsed ? "opacity-0 w-0" : "opacity-100"
+              )}>
+                Alle Kunden
+              </span>
+            </Link>
           </div>
 
           <div className="mt-4 px-3">
