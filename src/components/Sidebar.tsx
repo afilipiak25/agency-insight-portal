@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface Client {
   id: number;
@@ -19,14 +19,14 @@ const mockClients: Client[] = [
 ];
 
 const navItems = [
-  { icon: PieChart, label: 'Dashboard', isActive: true },
-  { icon: BarChartHorizontal, label: 'Kampagnen' },
-  { icon: CircuitBoard, label: 'Integrations' },
-  { icon: Database, label: 'Pipeline' },
-  { icon: Calendar, label: 'Kalender' },
-  { icon: Inbox, label: 'Inbox' },
-  { icon: Users, label: 'Lead Database' },
-  { icon: UserSquare, label: 'Personas' },
+  { icon: PieChart, label: 'Dashboard', path: '/', isActive: false },
+  { icon: BarChartHorizontal, label: 'Kampagnen', path: '/clients?view=campaigns', isActive: false },
+  { icon: CircuitBoard, label: 'Integrations', path: '#', isActive: false },
+  { icon: Database, label: 'Pipeline', path: '#', isActive: false },
+  { icon: Calendar, label: 'Kalender', path: '#', isActive: false },
+  { icon: Inbox, label: 'Inbox', path: '#', isActive: false },
+  { icon: Users, label: 'Lead Database', path: '#', isActive: false },
+  { icon: UserSquare, label: 'Personas', path: '#', isActive: false },
 ];
 
 export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number) => void }) => {
@@ -34,6 +34,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const location = useLocation();
 
   const handleClientSelect = (clientId: number) => {
     setSelectedClient(clientId);
@@ -56,6 +57,13 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
   );
 
   const clientsToShow = isSearching ? filteredClients : mockClients.filter(client => client.id === selectedClient);
+
+  const isActivePath = (path: string) => {
+    if (path === '/clients?view=campaigns') {
+      return location.pathname === '/clients' && location.search.includes('view=campaigns');
+    }
+    return location.pathname === path;
+  };
 
   return (
     <div className={cn(
@@ -104,7 +112,8 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               <Search className="absolute left-2 top-2.5 w-4 h-4 text-gray-400" />
             </div>
             <button 
-              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-amplifa-blue to-amplifa-purple rounded-lg hover:opacity-90 transition-opacity"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-amplifa
+-blue to-amplifa-purple rounded-lg hover:opacity-90 transition-opacity"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Neuer Kunde</span>
@@ -135,8 +144,14 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               </button>
             ))}
             <Link
-              to="/clients"
-              className="w-full p-2 rounded-lg flex items-center space-x-3 mb-1 hover:bg-gray-50 text-gray-600 transition-all duration-200"
+              to="/clients?view=clients"
+              className={cn(
+                "w-full p-2 rounded-lg flex items-center space-x-3 mb-1",
+                isActivePath('/clients') && !location.search.includes('view=campaigns')
+                  ? "bg-gradient-to-r from-amplifa-blue to-amplifa-purple text-white"
+                  : "hover:bg-gray-50 text-gray-600",
+                "transition-all duration-200"
+              )}
             >
               <Users className="w-5 h-5 flex-shrink-0" />
               <span className={cn(
@@ -151,11 +166,12 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
           <div className="mt-4 px-3">
             <div className="h-px bg-gray-200 my-4" />
             {navItems.map((item, index) => (
-              <button
+              <Link
                 key={index}
+                to={item.path}
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors",
-                  item.isActive 
+                  isActivePath(item.path)
                     ? "bg-gradient-to-r from-amplifa-blue/10 to-amplifa-purple/10 text-amplifa-purple"
                     : "text-gray-600 hover:bg-gray-50"
                 )}
@@ -167,7 +183,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 )}>
                   {item.label}
                 </span>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
