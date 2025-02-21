@@ -13,6 +13,7 @@ import { AdvancedTargeting } from "./AdvancedTargeting";
 import { AdditionalFields } from "./AdditionalFields";
 import { WorkflowSection } from "./WorkflowSection";
 import { ResourcesSection } from "./ResourcesSection";
+import { WorkflowPreview } from "./WorkflowPreview";
 import { useState } from "react";
 
 export const CreateCampaignForm = () => {
@@ -91,6 +92,8 @@ export const CreateCampaignForm = () => {
         return <WorkflowSection />;
       case "resources":
         return <ResourcesSection />;
+      case "preview":
+        return <WorkflowPreview />;
       default:
         return <div>Content for {activeSection}</div>;
     }
