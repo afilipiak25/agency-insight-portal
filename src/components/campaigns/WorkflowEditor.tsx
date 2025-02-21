@@ -31,7 +31,7 @@ interface WorkflowEditorProps {
   onBack: () => void;
 }
 
-interface NodeCustomData extends Record<string, unknown> {
+interface NodeData {
   label: string;
   subtitle?: string;
   timing?: boolean;
@@ -41,7 +41,7 @@ interface NodeCustomData extends Record<string, unknown> {
   onContentChange?: (content: string) => void;
 }
 
-const CustomNode = React.memo<NodeProps<NodeCustomData>>(({ data }) => {
+const CustomNode = ({ data }: NodeProps<NodeData>) => {
   return (
     <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
       {data.timing && (
@@ -78,7 +78,7 @@ const CustomNode = React.memo<NodeProps<NodeCustomData>>(({ data }) => {
       )}
     </div>
   );
-});
+};
 
 CustomNode.displayName = 'CustomNode';
 
@@ -177,7 +177,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     "module-1": ""
   });
 
-  const initialNodes: Node<NodeCustomData>[] = [
+  const initialNodes: Node<NodeData>[] = [
     {
       id: 'start',
       position: { x: 350, y: 50 },
@@ -214,10 +214,10 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
   ];
 
   const nodeTypes = React.useMemo(() => ({
-    custom: CustomNode,
+    custom: CustomNode as any,
   }), []);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node<NodeData>>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -269,7 +269,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       }
     })));
 
-    const newNode: Node<NodeCustomData> = {
+    const newNode: Node<NodeData> = {
       id: newNodeId,
       position: { x: 350, y: lastNodeY + 200 },
       data: {
