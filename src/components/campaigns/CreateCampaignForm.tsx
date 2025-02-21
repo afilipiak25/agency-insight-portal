@@ -12,6 +12,7 @@ import { PreviewSection } from "./PreviewSection";
 import { AdvancedTargeting } from "./AdvancedTargeting";
 import { AdditionalFields } from "./AdditionalFields";
 import { WorkflowSection } from "./WorkflowSection";
+import { ResourcesSection } from "./ResourcesSection";
 import { useState } from "react";
 
 export const CreateCampaignForm = () => {
@@ -88,16 +89,18 @@ export const CreateCampaignForm = () => {
         );
       case "workflow":
         return <WorkflowSection />;
+      case "resources":
+        return <ResourcesSection />;
       default:
         return <div>Content for {activeSection}</div>;
     }
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        <div className="mb-8 flex justify-between items-start gap-8">
-          <div className="space-y-6 flex-1">
+        <div className="mb-8 flex flex-col md:flex-row justify-between items-start gap-8">
+          <div className="space-y-6 flex-1 w-full">
             {renderContent()}
 
             <div className="flex gap-4 mt-8">
@@ -114,7 +117,7 @@ export const CreateCampaignForm = () => {
             </div>
           </div>
 
-          <div className="space-y-6 w-96 sticky top-8">
+          <div className="space-y-6 w-full md:w-96 sticky top-8">
             <AudienceHeader />
             {renderPreview()}
           </div>
@@ -128,7 +131,7 @@ export const CreateCampaignForm = () => {
               onValueChange={setActiveSection}
               className="w-full"
             >
-              <TabsList className="w-full border-b justify-center mb-8 bg-transparent p-0 h-auto">
+              <TabsList className="w-full justify-center mb-8 bg-transparent p-0 h-auto">
                 <TabsTrigger
                   value="targeting"
                   className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
