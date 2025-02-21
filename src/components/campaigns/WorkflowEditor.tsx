@@ -10,7 +10,7 @@ import {
   Connection,
   Panel,
 } from '@xyflow/react';
-import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Pencil } from "lucide-react";
+import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send } from "lucide-react";
 import { Button } from "../ui/button";
 import '@xyflow/react/dist/style.css';
 
@@ -21,7 +21,7 @@ interface WorkflowEditorProps {
 
 const CustomNode = ({ data }: { data: any }) => {
   return (
-    <div className="p-4 min-w-[300px]">
+    <div className="p-4 min-w-[300px] bg-white rounded-lg border-2 border-gray-200">
       {data.timing && (
         <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
           <Clock className="w-4 h-4" />
@@ -39,12 +39,54 @@ const CustomNode = ({ data }: { data: any }) => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {data.showEdit && <Pencil className="w-4 h-4 text-gray-400" />}
           <MoreHorizontal className="w-4 h-4 text-gray-400" />
         </div>
       </div>
     </div>
   );
+};
+
+const getModuleIcon = (type: string) => {
+  switch (type) {
+    case "Email":
+      return <Mail className="w-5 h-5 text-green-600" />;
+    case "Chat message":
+      return <MessageSquare className="w-5 h-5 text-blue-600" />;
+    case "Voice message":
+      return <Mic className="w-5 h-5 text-blue-600" />;
+    case "Invitation":
+      return <UserPlus className="w-5 h-5 text-blue-600" />;
+    case "Call":
+      return <PhoneCall className="w-5 h-5 text-red-600" />;
+    case "Manual task":
+      return <List className="w-5 h-5 text-red-600" />;
+    case "Call API":
+      return <Code className="w-5 h-5 text-blue-600" />;
+    case "Send to campaign":
+      return <Send className="w-5 h-5 text-gray-600" />;
+    default:
+      return <Mail className="w-5 h-5 text-gray-600" />;
+  }
+};
+
+const getModuleSubtitle = (type: string) => {
+  switch (type) {
+    case "Email":
+      return "Send automatic email";
+    case "Chat message":
+    case "Voice message":
+    case "Invitation":
+      return "Send on LinkedIn";
+    case "Call":
+    case "Manual task":
+      return "Create a task";
+    case "Call API":
+      return "Call an API";
+    case "Send to campaign":
+      return "Transfer to campaign";
+    default:
+      return "";
+  }
 };
 
 export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProps) => {
@@ -53,26 +95,22 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
       id: 'start',
       position: { x: 350, y: 50 },
       data: { 
-        label: 'Sequence start',
+        label: 'Campaign Start',
+        icon: <Mail className="w-5 h-5 text-gray-600" />,
         showEdit: false 
       },
       type: 'custom',
-      className: 'bg-white border-2 border-gray-200 rounded-lg shadow-sm',
     },
     {
-      id: 'initial-module',
+      id: 'module-1',
       position: { x: 350, y: 200 },
       data: { 
         label: initialModuleType,
-        subtitle: initialModuleType === 'Email' ? 'Action needed' : 'Send on LinkedIn',
+        subtitle: getModuleSubtitle(initialModuleType),
         timing: 'Send immediately',
-        icon: initialModuleType === 'Email' 
-          ? <Mail className="w-5 h-5 text-green-600" />
-          : <MessageSquare className="w-5 h-5 text-blue-600" />,
-        showEdit: true
+        icon: getModuleIcon(initialModuleType)
       },
       type: 'custom',
-      className: 'bg-white border-2 border-red-200 rounded-lg shadow-sm',
     }
   ];
 
@@ -80,7 +118,7 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
     {
       id: 'start-to-module',
       source: 'start',
-      target: 'initial-module',
+      target: 'module-1',
       type: 'smoothstep',
       animated: true,
     }
@@ -119,7 +157,7 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
           </Button>
         </div>
       </div>
-      <div className="h-[calc(100%-73px)]">
+      <div className="h-[calc(100vh-12rem)]">
         <ReactFlow
           nodes={nodes}
           edges={edges}
