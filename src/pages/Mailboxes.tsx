@@ -16,6 +16,7 @@ interface ActiveMailbox {
   email: string;
   provider: string;
   status: 'active' | 'inactive';
+  deliverabilityRate: number;
 }
 
 const mailProviders: MailProvider[] = [
@@ -32,10 +33,10 @@ const mailProviders: MailProvider[] = [
 ];
 
 const activeMailboxes: ActiveMailbox[] = [
-  { id: '1', email: 'max.mueller@company.com', provider: 'SMTP/IMAP', status: 'active' },
-  { id: '2', email: 'sarah.schmidt@company.com', provider: 'SMTP/IMAP', status: 'active' },
-  { id: '3', email: 'andreas.weber@company.com', provider: 'SMTP/IMAP', status: 'active' },
-  { id: '4', email: 'lisa.wagner@company.com', provider: 'SMTP/IMAP', status: 'active' },
+  { id: '1', email: 'max.mueller@company.com', provider: 'SMTP/IMAP', status: 'active', deliverabilityRate: 98.5 },
+  { id: '2', email: 'sarah.schmidt@company.com', provider: 'SMTP/IMAP', status: 'active', deliverabilityRate: 97.2 },
+  { id: '3', email: 'andreas.weber@company.com', provider: 'SMTP/IMAP', status: 'active', deliverabilityRate: 99.1 },
+  { id: '4', email: 'lisa.wagner@company.com', provider: 'SMTP/IMAP', status: 'active', deliverabilityRate: 96.8 },
 ];
 
 const Mailboxes = () => {
@@ -121,6 +122,9 @@ const Mailboxes = () => {
                         <div>
                           <p className="font-medium text-sm">{mailbox.provider}</p>
                           <p className="text-sm text-gray-600">{mailbox.email}</p>
+                          <p className="text-xs text-violet-600 mt-1">
+                            Deliverability Rate: {mailbox.deliverabilityRate}%
+                          </p>
                         </div>
                       </div>
                       <Button
