@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { AudienceHeader } from "./AudienceHeader";
 import { LocationFields } from "./LocationFields";
@@ -147,19 +146,6 @@ export const CreateCampaignForm = () => {
         <div className="mb-8 flex flex-col md:flex-row justify-between items-start gap-8">
           <div className="space-y-6 flex-1 w-full">
             {renderContent()}
-
-            <div className="flex gap-4 mt-8">
-              <Button variant="outline" className="gap-2 hover:bg-violet-50">
-                <Upload className="w-4 h-4" />
-                Upload CSV
-              </Button>
-              <Button 
-                variant="secondary" 
-                className="bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors"
-              >
-                Generate Sample Email
-              </Button>
-            </div>
           </div>
 
           <div className="space-y-6 w-full md:w-96 sticky top-8">
