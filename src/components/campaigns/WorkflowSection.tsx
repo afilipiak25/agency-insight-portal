@@ -1,5 +1,4 @@
-
-import { Mail, MessageSquare, Mic, UserPlus, Eye, List, Code, Send, Brain, LayoutTemplate, PhoneCall } from "lucide-react";
+import { Mail, MessageSquare, Mic, UserPlus, Eye, List, Code, Send, Brain, LayoutTemplate, PhoneCall, Link, Calendar } from "lucide-react";
 import { Button } from "../ui/button";
 import { TabsList, TabsTrigger, Tabs } from "../ui/tabs";
 import { useState } from "react";
@@ -8,6 +7,7 @@ import { WorkflowEditor } from "./WorkflowEditor";
 export const WorkflowSection = () => {
   const [showEditor, setShowEditor] = useState(false);
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("steps");
 
   const handleStepClick = (moduleType: string) => {
     setSelectedModule(moduleType);
@@ -17,6 +17,241 @@ export const WorkflowSection = () => {
   if (showEditor && selectedModule) {
     return <WorkflowEditor initialModuleType={selectedModule} onBack={() => setShowEditor(false)} />;
   }
+
+  const renderModules = () => {
+    if (activeTab === "steps") {
+      return (
+        <>
+          <div>
+            <h3 className="text-sm font-medium text-gray-600 mb-4">Automatic Steps</h3>
+            <div className="grid grid-cols-4 gap-4">
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50 border-green-100 hover:bg-green-100"
+                onClick={() => handleStepClick("Email")}
+              >
+                <Mail className="w-5 h-5 text-green-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Email</div>
+                  <div className="text-xs text-gray-500">Send automatic email</div>
+                </div>
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Chat message")}
+              >
+                <MessageSquare className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Chat message</div>
+                  <div className="text-xs text-gray-500">Send on LinkedIn</div>
+                </div>
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Voice message")}
+              >
+                <Mic className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Voice message</div>
+                  <div className="text-xs text-gray-500">Send on LinkedIn</div>
+                </div>
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Invitation")}
+              >
+                <UserPlus className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Invitation</div>
+                  <div className="text-xs text-gray-500">Send on LinkedIn</div>
+                </div>
+              </Button>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-medium text-gray-600 mb-4">Manual execution</h3>
+            <div className="grid grid-cols-4 gap-4">
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
+                onClick={() => handleStepClick("Call")}
+              >
+                <PhoneCall className="w-5 h-5 text-red-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Call</div>
+                  <div className="text-xs text-gray-500">Create a task</div>
+                </div>
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
+                onClick={() => handleStepClick("Manual task")}
+              >
+                <List className="w-5 h-5 text-red-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Manual task</div>
+                  <div className="text-xs text-gray-500">Create a task</div>
+                </div>
+              </Button>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-medium text-gray-600 mb-4">Other steps</h3>
+            <div className="grid grid-cols-4 gap-4">
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Call API")}
+              >
+                <Code className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Call an API</div>
+                  <div className="text-xs text-gray-500">Call an API</div>
+                </div>
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Send to campaign")}
+              >
+                <Send className="w-5 h-5 text-gray-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Send to another campaign</div>
+                  <div className="text-xs text-gray-500">Transfer to campaign</div>
+                </div>
+              </Button>
+            </div>
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div>
+            <h3 className="text-sm font-medium text-gray-600 mb-4">Lead information</h3>
+            <div className="grid grid-cols-4 gap-4">
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Has email")}
+              >
+                <Mail className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Has email address</div>
+                </div>
+              </Button>
+
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Has LinkedIn URL")}
+              >
+                <Link className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Has LinkedIn URL</div>
+                  <div className="text-xs text-gray-500">LinkedIn</div>
+                </div>
+              </Button>
+
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Has phone")}
+              >
+                <PhoneCall className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Has phone number</div>
+                </div>
+              </Button>
+
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Custom condition")}
+              >
+                <Code className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Custom condition</div>
+                </div>
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-sm font-medium text-gray-600 mb-4">Lead actions</h3>
+            <div className="grid grid-cols-4 gap-4">
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Opened email")}
+              >
+                <Mail className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Opened email</div>
+                </div>
+              </Button>
+
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Clicked link")}
+              >
+                <Link className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Clicked on link in email</div>
+                </div>
+              </Button>
+
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Unsubscribe")}
+              >
+                <UserPlus className="w-5 h-5 text-red-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Unsubscribe from email</div>
+                </div>
+              </Button>
+
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Booked meeting")}
+              >
+                <Calendar className="w-5 h-5 text-green-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Booked a meeting</div>
+                  <div className="text-xs text-gray-500">lemcal</div>
+                </div>
+              </Button>
+
+              <Button 
+                variant="outline" 
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                onClick={() => handleStepClick("Accepted invite")}
+              >
+                <Link className="w-5 h-5 text-blue-600" />
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">Accepted invite</div>
+                  <div className="text-xs text-gray-500">LinkedIn</div>
+                </div>
+              </Button>
+            </div>
+          </div>
+        </>
+      );
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -28,7 +263,7 @@ export const WorkflowSection = () => {
             </h2>
             <p className="text-sm text-gray-600 mt-1">Start by choosing your sequence's first step</p>
           </div>
-          <Tabs defaultValue="steps" className="w-auto">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-auto">
             <TabsList className="bg-blue-50">
               <TabsTrigger 
                 value="steps" 
@@ -46,116 +281,7 @@ export const WorkflowSection = () => {
           </Tabs>
         </div>
 
-        <div>
-          <h3 className="text-sm font-medium text-gray-600 mb-4">Automatic Steps</h3>
-          <div className="grid grid-cols-4 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50 border-green-100 hover:bg-green-100"
-              onClick={() => handleStepClick("Email")}
-            >
-              <Mail className="w-5 h-5 text-green-600" />
-              <div className="text-center">
-                <div className="font-medium text-gray-900">Email</div>
-                <div className="text-xs text-gray-500">Send automatic email</div>
-              </div>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={() => handleStepClick("Chat message")}
-            >
-              <MessageSquare className="w-5 h-5 text-blue-600" />
-              <div className="text-center">
-                <div className="font-medium text-gray-900">Chat message</div>
-                <div className="text-xs text-gray-500">Send on LinkedIn</div>
-              </div>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={() => handleStepClick("Voice message")}
-            >
-              <Mic className="w-5 h-5 text-blue-600" />
-              <div className="text-center">
-                <div className="font-medium text-gray-900">Voice message</div>
-                <div className="text-xs text-gray-500">Send on LinkedIn</div>
-              </div>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={() => handleStepClick("Invitation")}
-            >
-              <UserPlus className="w-5 h-5 text-blue-600" />
-              <div className="text-center">
-                <div className="font-medium text-gray-900">Invitation</div>
-                <div className="text-xs text-gray-500">Send on LinkedIn</div>
-              </div>
-            </Button>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-sm font-medium text-gray-600 mb-4">Manual execution</h3>
-          <div className="grid grid-cols-4 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
-              onClick={() => handleStepClick("Call")}
-            >
-              <PhoneCall className="w-5 h-5 text-red-600" />
-              <div className="text-center">
-                <div className="font-medium text-gray-900">Call</div>
-                <div className="text-xs text-gray-500">Create a task</div>
-              </div>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
-              onClick={() => handleStepClick("Manual task")}
-            >
-              <List className="w-5 h-5 text-red-600" />
-              <div className="text-center">
-                <div className="font-medium text-gray-900">Manual task</div>
-                <div className="text-xs text-gray-500">Create a task</div>
-              </div>
-            </Button>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-sm font-medium text-gray-600 mb-4">Other steps</h3>
-          <div className="grid grid-cols-4 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={() => handleStepClick("Call API")}
-            >
-              <Code className="w-5 h-5 text-blue-600" />
-              <div className="text-center">
-                <div className="font-medium text-gray-900">Call an API</div>
-                <div className="text-xs text-gray-500">Call an API</div>
-              </div>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={() => handleStepClick("Send to campaign")}
-            >
-              <Send className="w-5 h-5 text-gray-600" />
-              <div className="text-center">
-                <div className="font-medium text-gray-900">Send to another campaign</div>
-                <div className="text-xs text-gray-500">Transfer to campaign</div>
-              </div>
-            </Button>
-          </div>
-        </div>
+        {renderModules()}
 
         <div className="border-t pt-6 mt-8">
           <h3 className="text-base font-medium text-gray-700 mb-4">Or choose another methods</h3>
