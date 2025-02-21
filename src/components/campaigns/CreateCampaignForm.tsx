@@ -16,9 +16,36 @@ import { ResourcesSection } from "./ResourcesSection";
 import { WorkflowPreview } from "./WorkflowPreview";
 import { SettingsSection } from "./SettingsSection";
 import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 export const CreateCampaignForm = () => {
   const [activeSection, setActiveSection] = useState<string>("targeting");
+  const [showPublishDialog, setShowPublishDialog] = useState(false);
+  const [campaignName, setCampaignName] = useState("");
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handlePublish = () => {
+    if (!campaignName.trim()) {
+      toast({
+        title: "Kampagnenname erforderlich",
+        description: "Bitte geben Sie einen Namen für die Kampagne ein.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Hier würde die Logik zum Speichern der Kampagne implementiert werden
+
+    toast({
+      title: "Kampagne erstellt",
+      description: `Die Kampagne "${campaignName}" wurde erfolgreich erstellt.`,
+    });
+    navigate("/campaigns");
+  };
 
   const renderProgressBar = () => {
     const steps = ["targeting", "workflow", "resources", "preview", "settings"];
@@ -96,7 +123,19 @@ export const CreateCampaignForm = () => {
       case "preview":
         return <WorkflowPreview />;
       case "settings":
-        return <SettingsSection />;
+        return (
+          <div className="relative">
+            <SettingsSection />
+            <div className="mt-8 flex justify-end">
+              <Button 
+                onClick={() => setShowPublishDialog(true)}
+                className="bg-violet-600 hover:bg-violet-700 text-white px-8"
+              >
+                Kampagne veröffentlichen
+              </Button>
+            </div>
+          </div>
+        );
       default:
         return <div>Content for {activeSection}</div>;
     }
@@ -173,6 +212,39 @@ export const CreateCampaignForm = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={showPublishDialog} onOpenChange={setShowPublishDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Kampagne veröffentlichen</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <label className="text-sm font-medium mb-2 block">
+              Kampagnenname
+            </label>
+            <Input
+              value={campaignName}
+              onChange={(e) => setCampaignName(e.target.value)}
+              placeholder="z.B. Q2 Sales Campaign 2024"
+              className="w-full"
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowPublishDialog(false)}
+            >
+              Abbrechen
+            </Button>
+            <Button
+              onClick={handlePublish}
+              className="bg-violet-600 hover:bg-violet-700 text-white"
+            >
+              Veröffentlichen
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
