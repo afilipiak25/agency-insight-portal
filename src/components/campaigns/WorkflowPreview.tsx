@@ -1,13 +1,8 @@
 
-import { Mail, UserPlus, Eye, MessageSquare, Instagram } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Mail, UserPlus, Eye, MessageSquare, Instagram, Plus, Minus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
 
 interface WorkflowStep {
   id: number;
@@ -19,7 +14,7 @@ interface WorkflowStep {
 }
 
 export const WorkflowPreview = () => {
-  const steps: WorkflowStep[] = [
+  const [steps, setSteps] = useState<WorkflowStep[]>([
     {
       id: 1,
       type: "email",
@@ -68,13 +63,29 @@ export const WorkflowPreview = () => {
       content: "Hallo [Name], ich habe gesehen, dass Sie auch auf Instagram aktiv sind...",
       waitDays: 0,
     },
-  ];
+  ]);
+
+  const updateWaitDays = (stepId: number, increment: boolean) => {
+    setSteps(prevSteps => prevSteps.map(step => {
+      if (step.id === stepId) {
+        const newWaitDays = increment 
+          ? Math.min(step.waitDays + 1, 30) 
+          : Math.max(step.waitDays - 1, 0);
+        return { ...step, waitDays: newWaitDays };
+      }
+      return step;
+    }));
+  };
+
+  const getTotalDuration = () => {
+    return steps.reduce((total, step) => total + step.waitDays, 0);
+  };
 
   return (
     <div className="bg-white rounded-xl border shadow-sm p-6 md:p-8 space-y-8">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Workflow Vorschau</h2>
-        <span className="text-sm text-gray-500">Gesamtdauer: 21 Tage</span>
+        <span className="text-sm text-gray-500">Gesamtdauer: {getTotalDuration()} Tage</span>
       </div>
 
       <div className="space-y-8">
@@ -96,18 +107,29 @@ export const WorkflowPreview = () => {
                   {index < steps.length - 1 && (
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-500">Warten:</span>
-                      <Select defaultValue={String(step.waitDays)}>
-                        <SelectTrigger className="w-24">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Array.from({length: 31}, (_, i) => (
-                            <SelectItem key={i} value={String(i)}>
-                              {i} {i === 1 ? "Tag" : "Tage"}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => updateWaitDays(step.id, false)}
+                          disabled={step.waitDays === 0}
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="w-12 text-center font-medium">
+                          {step.waitDays} {step.waitDays === 1 ? "Tag" : "Tage"}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => updateWaitDays(step.id, true)}
+                          disabled={step.waitDays === 30}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   )}
                 </div>
