@@ -3,13 +3,7 @@ import { useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { Search, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { CreateCampaignForm } from '@/components/campaigns/CreateCampaignForm';
+import { useNavigate } from 'react-router-dom';
 
 interface CampaignRow {
   id: number;
@@ -57,7 +51,7 @@ const mockCampaigns: CampaignRow[] = [
 
 const Campaigns = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Layout>
@@ -79,7 +73,7 @@ const Campaigns = () => {
               />
             </div>
             <Button
-              onClick={() => setIsCreateDialogOpen(true)}
+              onClick={() => navigate('/campaigns/create')}
               className="bg-dashboard-primary hover:bg-dashboard-hover text-white px-4 py-2 rounded-lg flex items-center gap-2"
             >
               Neue Kampagne erstellen
@@ -156,15 +150,6 @@ const Campaigns = () => {
               </tbody>
             </table>
           </div>
-
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogContent className="max-w-4xl">
-              <DialogHeader>
-                <DialogTitle>Neue Kampagne erstellen</DialogTitle>
-              </DialogHeader>
-              <CreateCampaignForm />
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
     </Layout>

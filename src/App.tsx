@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import AllClients from "./pages/AllClients";
 import NotFound from "./pages/NotFound";
 import Campaigns from "./pages/Campaigns";
+import CreateCampaign from "./pages/CreateCampaign";
 import Integrations from "./pages/Integrations";
 import Pipeline from "./pages/Pipeline";
 import Calendar from "./pages/Calendar";
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/clients" element={<AllClients />} />
           <Route path="/campaigns" element={<Campaigns />} />
+          <Route path="/campaigns/create" element={<CreateCampaign />} />
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/pipeline" element={<Pipeline />} />
           <Route path="/calendar" element={<Calendar />} />
