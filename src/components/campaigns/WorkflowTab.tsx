@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
@@ -13,7 +12,9 @@ import {
   Database,
   Share2,
   Bot,
-  Library
+  Library,
+  Plus,
+  MoreVertical
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
@@ -28,6 +29,8 @@ type WorkflowStep = {
 
 export const WorkflowTab = () => {
   const [selectedTab, setSelectedTab] = useState<"steps" | "conditions">("steps");
+  const [activeStep, setActiveStep] = useState<string | null>(null);
+  const [workflowSteps, setWorkflowSteps] = useState<WorkflowStep[]>([]);
 
   const automaticSteps: WorkflowStep[] = [
     {
@@ -101,6 +104,11 @@ export const WorkflowTab = () => {
     },
   ];
 
+  const handleAddStep = (step: WorkflowStep) => {
+    setWorkflowSteps([...workflowSteps, step]);
+    setActiveStep(null);
+  };
+
   return (
     <TabsContent value="workflow" className="space-y-8 py-4">
       <div>
@@ -135,104 +143,142 @@ export const WorkflowTab = () => {
           </div>
         </div>
 
-        <div className="space-y-8">
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-4">Automatic Steps</h3>
-            <div className="grid grid-cols-5 gap-4">
-              {automaticSteps.map((step) => (
-                <Card 
-                  key={step.id}
-                  className="p-4 cursor-pointer hover:border-violet-200 hover:shadow-md transition-all group"
-                >
-                  <div className="space-y-3">
-                    <div className="p-2 bg-gray-50 rounded-lg w-fit group-hover:scale-110 transition-transform">
-                      {step.icon}
-                    </div>
-                    <div>
-                      <div className="font-medium">{step.title}</div>
-                      <div className="text-sm text-gray-500">{step.description}</div>
-                    </div>
+        <div className="flex gap-8">
+          <div className="flex-1 space-y-4">
+            {workflowSteps.length === 0 ? (
+              <div className="text-center py-12 border-2 border-dashed rounded-lg">
+                <p className="text-gray-500">Click the + button to add your first step</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {workflowSteps.map((step, index) => (
+                  <div key={`${step.id}-${index}`} className="relative">
+                    <div className="absolute left-1/2 -translate-x-1/2 -top-4 h-4 w-px bg-gray-200" />
+                    <Card className="relative border border-violet-200 shadow-sm hover:shadow-md transition-all">
+                      <div className="p-4 flex items-start justify-between gap-4">
+                        <div className="flex items-start gap-3">
+                          <div className="p-2 bg-gray-50 rounded-lg">
+                            {step.icon}
+                          </div>
+                          <div>
+                            <div className="font-medium">{step.title}</div>
+                            <div className="text-sm text-gray-500">{step.description}</div>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="icon" className="shrink-0">
+                          <MoreVertical className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </Card>
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      className="absolute left-1/2 -translate-x-1/2 -bottom-6 z-10 rounded-full w-8 h-8 shadow-sm border-violet-200 hover:border-violet-300 hover:bg-violet-50"
+                      onClick={() => setActiveStep(index.toString())}
+                    >
+                      <Plus className="w-4 h-4 text-violet-600" />
+                    </Button>
                   </div>
-                </Card>
-              ))}
-            </div>
-          </div>
+                ))}
+              </div>
+            )}
 
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-4">Manual execution</h3>
-            <div className="grid grid-cols-5 gap-4">
-              {manualSteps.map((step) => (
-                <Card 
-                  key={step.id}
-                  className="p-4 cursor-pointer hover:border-violet-200 hover:shadow-md transition-all group"
-                >
-                  <div className="space-y-3">
-                    <div className="p-2 bg-gray-50 rounded-lg w-fit group-hover:scale-110 transition-transform">
-                      {step.icon}
-                    </div>
-                    <div>
-                      <div className="font-medium">{step.title}</div>
-                      <div className="text-sm text-gray-500">{step.description}</div>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-4">Other steps</h3>
-            <div className="grid grid-cols-5 gap-4">
-              {otherSteps.map((step) => (
-                <Card 
-                  key={step.id}
-                  className="p-4 cursor-pointer hover:border-violet-200 hover:shadow-md transition-all group"
-                >
-                  <div className="space-y-3">
-                    <div className="p-2 bg-gray-50 rounded-lg w-fit group-hover:scale-110 transition-transform">
-                      {step.icon}
-                    </div>
-                    <div>
-                      <div className="font-medium">{step.title}</div>
-                      <div className="text-sm text-gray-500">{step.description}</div>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-12">
-            <h3 className="text-lg font-medium text-gray-700 mb-4">Or choose another method</h3>
-            <div className="grid grid-cols-2 gap-6">
-              <Card 
-                className="p-6 cursor-pointer hover:border-violet-200 hover:shadow-md transition-all group"
-              >
-                <div className="flex gap-4 items-start">
-                  <div className="p-3 bg-violet-50 rounded-xl group-hover:scale-110 transition-transform">
-                    <Bot className="w-6 h-6 text-violet-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">Create with AI</h4>
-                    <p className="text-gray-500">Let AI generate your multichannel campaigns</p>
+            {(workflowSteps.length === 0 || activeStep !== null) && (
+              <div className="space-y-8 mt-8 animate-fade-in">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-4">Automatic Steps</h3>
+                  <div className="grid grid-cols-4 gap-4">
+                    {automaticSteps.map((step) => (
+                      <Card 
+                        key={step.id}
+                        className="p-4 cursor-pointer hover:border-violet-200 hover:shadow-md transition-all group"
+                        onClick={() => handleAddStep(step)}
+                      >
+                        <div className="space-y-3">
+                          <div className="p-2 bg-gray-50 rounded-lg w-fit group-hover:scale-110 transition-transform">
+                            {step.icon}
+                          </div>
+                          <div>
+                            <div className="font-medium">{step.title}</div>
+                            <div className="text-sm text-gray-500">{step.description}</div>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
                   </div>
                 </div>
-              </Card>
 
-              <Card 
-                className="p-6 cursor-pointer hover:border-violet-200 hover:shadow-md transition-all group"
-              >
-                <div className="flex gap-4 items-start">
-                  <div className="p-3 bg-blue-50 rounded-xl group-hover:scale-110 transition-transform">
-                    <Library className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg">Templates library</h4>
-                    <p className="text-gray-500">Use a template to create your campaign</p>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-4">Manual execution</h3>
+                  <div className="grid grid-cols-4 gap-4">
+                    {manualSteps.map((step) => (
+                      <Card 
+                        key={step.id}
+                        className="p-4 cursor-pointer hover:border-violet-200 hover:shadow-md transition-all group"
+                        onClick={() => handleAddStep(step)}
+                      >
+                        <div className="space-y-3">
+                          <div className="p-2 bg-gray-50 rounded-lg w-fit group-hover:scale-110 transition-transform">
+                            {step.icon}
+                          </div>
+                          <div>
+                            <div className="font-medium">{step.title}</div>
+                            <div className="text-sm text-gray-500">{step.description}</div>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
                   </div>
                 </div>
-              </Card>
-            </div>
+
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-4">Other steps</h3>
+                  <div className="grid grid-cols-4 gap-4">
+                    {otherSteps.map((step) => (
+                      <Card 
+                        key={step.id}
+                        className="p-4 cursor-pointer hover:border-violet-200 hover:shadow-md transition-all group"
+                        onClick={() => handleAddStep(step)}
+                      >
+                        <div className="space-y-3">
+                          <div className="p-2 bg-gray-50 rounded-lg w-fit group-hover:scale-110 transition-transform">
+                            {step.icon}
+                          </div>
+                          <div>
+                            <div className="font-medium">{step.title}</div>
+                            <div className="text-sm text-gray-500">{step.description}</div>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="w-80 shrink-0">
+            <Card className="p-6">
+              <div className="flex gap-4 items-start mb-6">
+                <div className="p-3 bg-violet-50 rounded-xl">
+                  <Bot className="w-6 h-6 text-violet-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-lg">Create with AI</h4>
+                  <p className="text-gray-500">Let AI generate your multichannel campaigns</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-start">
+                <div className="p-3 bg-blue-50 rounded-xl">
+                  <Library className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-lg">Templates</h4>
+                  <p className="text-gray-500">Use a template to create your campaign</p>
+                </div>
+              </div>
+            </Card>
           </div>
         </div>
       </div>
