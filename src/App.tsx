@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Campaigns from "./pages/Campaigns";
 import Integrations from "./pages/Integrations";
 import Pipeline from "./pages/Pipeline";
+import Calendar from "./pages/Calendar";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/pipeline" element={<Pipeline />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

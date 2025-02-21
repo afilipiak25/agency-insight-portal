@@ -23,7 +23,7 @@ const navItems = [
   { icon: BarChartHorizontal, label: 'Kampagnen', path: '/campaigns' },
   { icon: CircuitBoard, label: 'Integrations', path: '/integrations' },
   { icon: Database, label: 'Pipeline', path: '/pipeline' },
-  { icon: Calendar, label: 'Kalender' },
+  { icon: Calendar, label: 'Kalender', path: '/calendar' },
   { icon: Inbox, label: 'Inbox' },
   { icon: Users, label: 'Lead Database' },
   { icon: UserSquare, label: 'Personas' },
