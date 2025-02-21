@@ -1,4 +1,6 @@
 
+import { PreviewSection } from "./PreviewSection";
+
 interface LeadPreviewProps {
   showEmailPreview?: boolean;
 }
