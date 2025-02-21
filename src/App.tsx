@@ -11,6 +11,7 @@ import Campaigns from "./pages/Campaigns";
 import Integrations from "./pages/Integrations";
 import Pipeline from "./pages/Pipeline";
 import Calendar from "./pages/Calendar";
+import LeadDatabase from "./pages/LeadDatabase";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/pipeline" element={<Pipeline />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/leads" element={<LeadDatabase />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

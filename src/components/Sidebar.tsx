@@ -25,7 +25,7 @@ const navItems = [
   { icon: Database, label: 'Pipeline', path: '/pipeline' },
   { icon: Calendar, label: 'Kalender', path: '/calendar' },
   { icon: Inbox, label: 'Inbox' },
-  { icon: Users, label: 'Lead Database' },
+  { icon: Users, label: 'Lead Database', path: '/leads' },
   { icon: UserSquare, label: 'Personas' },
 ];
 
