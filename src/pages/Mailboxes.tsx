@@ -11,6 +11,13 @@ interface MailProvider {
   category: 'popular' | 'additional';
 }
 
+interface ActiveMailbox {
+  id: string;
+  email: string;
+  provider: string;
+  status: 'active' | 'inactive';
+}
+
 const mailProviders: MailProvider[] = [
   { id: 'google', name: 'Google Workspace', icon: '/lovable-uploads/e9ae7944-a5b5-4e65-95ff-f2e4e75302a1.png', category: 'popular' },
   { id: 'gmail', name: 'Gmail', icon: '/lovable-uploads/e9ae7944-a5b5-4e65-95ff-f2e4e75302a1.png', category: 'popular' },
@@ -22,6 +29,13 @@ const mailProviders: MailProvider[] = [
   { id: 'yahoo', name: 'Yahoo', icon: '/lovable-uploads/e9ae7944-a5b5-4e65-95ff-f2e4e75302a1.png', category: 'additional' },
   { id: 'zoho', name: 'Zoho', icon: '/lovable-uploads/e9ae7944-a5b5-4e65-95ff-f2e4e75302a1.png', category: 'additional' },
   { id: 'zohopro', name: 'Zoho-PRO', icon: '/lovable-uploads/e9ae7944-a5b5-4e65-95ff-f2e4e75302a1.png', category: 'additional' },
+];
+
+const activeMailboxes: ActiveMailbox[] = [
+  { id: '1', email: 'max.mueller@company.com', provider: 'SMTP/IMAP', status: 'active' },
+  { id: '2', email: 'sarah.schmidt@company.com', provider: 'SMTP/IMAP', status: 'active' },
+  { id: '3', email: 'andreas.weber@company.com', provider: 'SMTP/IMAP', status: 'active' },
+  { id: '4', email: 'lisa.wagner@company.com', provider: 'SMTP/IMAP', status: 'active' },
 ];
 
 const Mailboxes = () => {
@@ -91,6 +105,33 @@ const Mailboxes = () => {
                         </span>
                       </button>
                     ))}
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-sm font-medium text-gray-500 mb-4">Aktive Mail-Adressen</h2>
+                <div className="space-y-3">
+                  {activeMailboxes.map(mailbox => (
+                    <div
+                      key={mailbox.id}
+                      className="flex items-center justify-between p-4 rounded-lg border bg-gray-50"
+                    >
+                      <div className="flex items-center gap-4">
+                        <Mail className="w-5 h-5 text-violet-600" />
+                        <div>
+                          <p className="font-medium text-sm">{mailbox.provider}</p>
+                          <p className="text-sm text-gray-600">{mailbox.email}</p>
+                        </div>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-sm"
+                      >
+                        Deaktivieren
+                      </Button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
