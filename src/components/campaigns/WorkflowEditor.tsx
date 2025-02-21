@@ -9,6 +9,9 @@ import {
   addEdge,
   Connection,
   Panel,
+  Node,
+  NodeProps,
+  NodeMouseHandler,
 } from '@xyflow/react';
 import { ArrowLeft, Plus, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, MoreHorizontal, Clock, Pencil } from "lucide-react";
 import { Button } from "../ui/button";
@@ -36,19 +39,12 @@ interface NodeData {
   isSelected?: boolean;
   content?: string;
   onContentChange?: (content: string) => void;
+  [key: string]: unknown;
 }
 
-interface WorkflowNode {
-  id: string;
-  type: string;
-  position: {
-    x: number;
-    y: number;
-  };
-  data: NodeData;
-}
+type WorkflowNode = Node<NodeData>;
 
-const CustomNode = ({ data }: { data: NodeData }) => {
+const CustomNode: React.FC<NodeProps<NodeData>> = ({ data }) => {
   return (
     <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
       {data.timing && (
@@ -183,7 +179,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     "module-1": ""
   });
 
-  const initialNodes: WorkflowNode[] = [
+  const initialNodes: Node[] = [
     {
       id: 'start',
       position: { x: 350, y: 50 },
@@ -233,26 +229,21 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       [nodeId]: content
     }));
     
-    setNodes(nds => nds.map(node => {
-      if (node.id === nodeId) {
-        return {
-          ...node,
-          data: {
-            ...node.data,
-            content
-          }
-        };
+    setNodes((nds: Node[]) => nds.map(node => ({
+      ...node,
+      data: {
+        ...node.data,
+        content
       }
-      return node;
-    }));
+    })));
   };
 
   const onConnect = (params: Connection) => {
     setEdges((eds) => addEdge(params, eds));
   };
 
-  const onNodeClick = (_: any, node: WorkflowNode) => {
-    setNodes(nds => nds.map(n => ({
+  const onNodeClick: NodeMouseHandler = (_, node) => {
+    setNodes((nds: Node[]) => nds.map(n => ({
       ...n,
       data: {
         ...n.data,
@@ -272,7 +263,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       [newNodeId]: ""
     }));
 
-    setNodes(nds => nds.map(node => ({
+    setNodes((nds: Node[]) => nds.map(node => ({
       ...node,
       data: {
         ...node.data,
@@ -280,7 +271,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       }
     })));
 
-    const newNode: WorkflowNode = {
+    const newNode: Node<NodeData> = {
       id: newNodeId,
       position: { x: 350, y: lastNodeY + 200 },
       data: {
