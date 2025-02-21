@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { WorkflowStep } from "./workflow/types";
 import { StepCard } from "./workflow/StepCard";
-import { SidePanel } from "./workflow/SidePanel";
 import { StepDialog } from "./workflow/StepDialog";
 import { AIWorkflowDialog } from "./workflow/AIWorkflowDialog";
 
@@ -27,7 +26,7 @@ export const WorkflowTab = () => {
 
   return (
     <TabsContent value="workflow" className="space-y-8 py-4">
-      <div>
+      <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <div>
             <h2 className="text-xl font-semibold flex items-center gap-2">
@@ -41,60 +40,44 @@ export const WorkflowTab = () => {
               Start by choosing your sequence's first step
             </p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-2">
             <Button
-              variant="default"
-              onClick={() => setShowAIDialog(true)}
-              className="gap-2"
+              variant={selectedTab === "steps" ? "default" : "outline"}
+              onClick={() => setSelectedTab("steps")}
+              className="font-medium"
             >
-              <RocketIcon className="w-4 h-4" />
-              Create with AI
+              Steps
             </Button>
-            <div className="flex gap-2">
-              <Button
-                variant={selectedTab === "steps" ? "default" : "outline"}
-                onClick={() => setSelectedTab("steps")}
-                className="font-medium"
-              >
-                Steps
-              </Button>
-              <Button
-                variant={selectedTab === "conditions" ? "default" : "outline"}
-                onClick={() => setSelectedTab("conditions")}
-                className="font-medium"
-              >
-                Conditions
-              </Button>
-            </div>
+            <Button
+              variant={selectedTab === "conditions" ? "default" : "outline"}
+              onClick={() => setSelectedTab("conditions")}
+              className="font-medium"
+            >
+              Conditions
+            </Button>
           </div>
         </div>
 
-        <div className="flex gap-8">
-          <div className="flex-1 space-y-4">
-            {workflowSteps.length === 0 ? (
-              <div 
-                className="text-center py-12 border-2 border-dashed rounded-lg cursor-pointer hover:border-violet-300 transition-colors"
-                onClick={() => setActiveStep("new")}
-              >
-                <p className="text-gray-500">Click here to add your first step</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {workflowSteps.map((step, index) => (
-                  <StepCard
-                    key={`${step.id}-${index}`}
-                    step={step}
-                    index={index}
-                    onAddClick={setActiveStep}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="w-80 shrink-0">
-            <SidePanel />
-          </div>
+        <div className="space-y-4">
+          {workflowSteps.length === 0 ? (
+            <div 
+              className="text-center py-12 border-2 border-dashed rounded-lg cursor-pointer hover:border-violet-300 transition-colors"
+              onClick={() => setActiveStep("new")}
+            >
+              <p className="text-gray-500">Click here to add your first step</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {workflowSteps.map((step, index) => (
+                <StepCard
+                  key={`${step.id}-${index}`}
+                  step={step}
+                  index={index}
+                  onAddClick={setActiveStep}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
