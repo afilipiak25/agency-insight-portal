@@ -24,7 +24,7 @@ const navItems = [
   { icon: CircuitBoard, label: 'Integrations', path: '/integrations' },
   { icon: Database, label: 'Pipeline', path: '/pipeline' },
   { icon: Calendar, label: 'Kalender', path: '/calendar' },
-  { icon: Inbox, label: 'Inbox' },
+  { icon: Inbox, label: 'Inbox', path: '/inbox' },
   { icon: Users, label: 'Lead Database', path: '/leads' },
   { icon: UserSquare, label: 'Personas' },
 ];
