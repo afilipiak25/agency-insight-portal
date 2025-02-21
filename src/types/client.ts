@@ -13,6 +13,18 @@ export interface ConnectionError {
   since: string;
 }
 
+export interface Campaign {
+  id: number;
+  title: string;
+  isActive: boolean;
+  leadCount: number;
+  targetLeadCount: number;
+  industry: string;
+  region: string;
+  startDate: string;
+  lastUpdate: string;
+}
+
 export interface ClientOverview {
   id: number;
   name: string;
@@ -23,4 +35,5 @@ export interface ClientOverview {
   requestType?: 'campaign' | 'connection' | 'other';
   campaignSummary?: ClientCampaignSummary;
   connectionError?: ConnectionError;
+  campaigns?: Campaign[];
 }

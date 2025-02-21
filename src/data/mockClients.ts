@@ -15,7 +15,42 @@ export const mockClientsData: ClientOverview[] = [
       region: "Deutschland",
       aiSummary: "Der Kunde sucht einen erfahrenen Head of Sales für den Automotive-Bereich in Deutschland. Schwerpunkte sind die Entwicklung der Vertriebsstrategie, Führung eines 15-köpfigen Teams und die Expansion im DACH-Raum. Zielprofil: 8+ Jahre Erfahrung im Automotive-Vertrieb, nachweisliche Erfolge im B2B-Bereich, verhandlungssicheres Deutsch und Englisch.",
       lastUpdated: "2024-03-15T14:30:00"
-    }
+    },
+    campaigns: [
+      {
+        id: 1,
+        title: "Senior Sales Manager DACH",
+        isActive: true,
+        leadCount: 156,
+        targetLeadCount: 300,
+        industry: "Automotive",
+        region: "DACH",
+        startDate: "2024-01-15",
+        lastUpdate: "2024-03-15T14:30:00"
+      },
+      {
+        id: 2,
+        title: "Head of Business Development",
+        isActive: false,
+        leadCount: 89,
+        targetLeadCount: 150,
+        industry: "Technology",
+        region: "Deutschland",
+        startDate: "2024-02-01",
+        lastUpdate: "2024-03-14T09:15:00"
+      },
+      {
+        id: 3,
+        title: "Sales Director Automotive",
+        isActive: true,
+        leadCount: 234,
+        targetLeadCount: 400,
+        industry: "Automotive",
+        region: "Europa",
+        startDate: "2024-01-01",
+        lastUpdate: "2024-03-13T16:45:00"
+      }
+    ]
   },
   { 
     id: 2, 
