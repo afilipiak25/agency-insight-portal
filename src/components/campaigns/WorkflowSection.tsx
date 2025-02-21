@@ -2,10 +2,23 @@
 import { Mail, MessageSquare, Mic, UserPlus, Eye, List, Code, Send, Brain, LayoutTemplate, PhoneCall } from "lucide-react";
 import { Button } from "../ui/button";
 import { TabsList, TabsTrigger, Tabs } from "../ui/tabs";
+import { useState } from "react";
+import { WorkflowEditor } from "./WorkflowEditor";
 
 export const WorkflowSection = () => {
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
+
+  const handleStepClick = () => {
+    setIsEditorOpen(true);
+  };
+
   return (
     <div className="space-y-8">
+      <WorkflowEditor 
+        open={isEditorOpen} 
+        onOpenChange={setIsEditorOpen}
+      />
+
       <div className="bg-white rounded-lg border border-gray-100 p-6 space-y-6">
         <div className="flex justify-between items-start">
           <div>
@@ -35,7 +48,11 @@ export const WorkflowSection = () => {
         <div>
           <h3 className="text-sm font-medium text-gray-600 mb-4">Automatic Steps</h3>
           <div className="grid grid-cols-4 gap-4">
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50 border-green-100 hover:bg-green-100">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50 border-green-100 hover:bg-green-100"
+              onClick={handleStepClick}
+            >
               <Mail className="w-5 h-5 text-green-600" />
               <div className="text-center">
                 <div className="font-medium text-gray-900">Email</div>
@@ -43,7 +60,11 @@ export const WorkflowSection = () => {
               </div>
             </Button>
             
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center gap-2"
+              onClick={handleStepClick}
+            >
               <MessageSquare className="w-5 h-5 text-blue-600" />
               <div className="text-center">
                 <div className="font-medium text-gray-900">Chat message</div>
@@ -51,7 +72,11 @@ export const WorkflowSection = () => {
               </div>
             </Button>
             
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center gap-2"
+              onClick={handleStepClick}
+            >
               <Mic className="w-5 h-5 text-blue-600" />
               <div className="text-center">
                 <div className="font-medium text-gray-900">Voice message</div>
@@ -59,7 +84,11 @@ export const WorkflowSection = () => {
               </div>
             </Button>
             
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center gap-2"
+              onClick={handleStepClick}
+            >
               <UserPlus className="w-5 h-5 text-blue-600" />
               <div className="text-center">
                 <div className="font-medium text-gray-900">Invitation</div>
@@ -72,7 +101,11 @@ export const WorkflowSection = () => {
         <div>
           <h3 className="text-sm font-medium text-gray-600 mb-4">Manual execution</h3>
           <div className="grid grid-cols-4 gap-4">
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
+              onClick={handleStepClick}
+            >
               <PhoneCall className="w-5 h-5 text-red-600" />
               <div className="text-center">
                 <div className="font-medium text-gray-900">Call</div>
@@ -80,7 +113,11 @@ export const WorkflowSection = () => {
               </div>
             </Button>
             
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
+              onClick={handleStepClick}
+            >
               <List className="w-5 h-5 text-red-600" />
               <div className="text-center">
                 <div className="font-medium text-gray-900">Manual task</div>
@@ -93,7 +130,11 @@ export const WorkflowSection = () => {
         <div>
           <h3 className="text-sm font-medium text-gray-600 mb-4">Other steps</h3>
           <div className="grid grid-cols-4 gap-4">
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center gap-2"
+              onClick={handleStepClick}
+            >
               <Code className="w-5 h-5 text-blue-600" />
               <div className="text-center">
                 <div className="font-medium text-gray-900">Call an API</div>
@@ -101,7 +142,11 @@ export const WorkflowSection = () => {
               </div>
             </Button>
             
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center gap-2"
+              onClick={handleStepClick}
+            >
               <Send className="w-5 h-5 text-gray-600" />
               <div className="text-center">
                 <div className="font-medium text-gray-900">Send to another campaign</div>
