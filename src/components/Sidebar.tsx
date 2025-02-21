@@ -21,7 +21,7 @@ const mockClients: Client[] = [
 const navItems = [
   { icon: PieChart, label: 'Dashboard', path: '/' },
   { icon: BarChartHorizontal, label: 'Kampagnen', path: '/campaigns' },
-  { icon: CircuitBoard, label: 'Integrations' },
+  { icon: CircuitBoard, label: 'Integrations', path: '/integrations' },
   { icon: Database, label: 'Pipeline' },
   { icon: Calendar, label: 'Kalender' },
   { icon: Inbox, label: 'Inbox' },

@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import AllClients from "./pages/AllClients";
 import NotFound from "./pages/NotFound";
 import Campaigns from "./pages/Campaigns";
+import Integrations from "./pages/Integrations";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/clients" element={<AllClients />} />
           <Route path="/campaigns" element={<Campaigns />} />
+          <Route path="/integrations" element={<Integrations />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
