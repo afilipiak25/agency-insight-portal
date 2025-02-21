@@ -20,7 +20,7 @@ const mockClients: Client[] = [
 
 const navItems = [
   { icon: PieChart, label: 'Dashboard', isActive: true },
-  { icon: BarChartHorizontal, label: 'Kampagnen' },
+  { icon: BarChartHorizontal, label: 'Kampagnen', path: '/campaigns' },
   { icon: CircuitBoard, label: 'Integrations' },
   { icon: Database, label: 'Pipeline' },
   { icon: Calendar, label: 'Kalender' },
@@ -151,8 +151,9 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
           <div className="mt-4 px-3">
             <div className="h-px bg-gray-200 my-4" />
             {navItems.map((item, index) => (
-              <button
+              <Link
                 key={index}
+                to={item.path || '#'}
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors",
                   item.isActive 
@@ -167,7 +168,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 )}>
                   {item.label}
                 </span>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
