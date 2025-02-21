@@ -9,9 +9,8 @@ import {
   addEdge,
   Connection,
   Panel,
-  Position,
 } from '@xyflow/react';
-import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, Pencil } from "lucide-react";
+import { ArrowLeft, Plus, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, MoreHorizontal, Clock, Pencil } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -21,6 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { Textarea } from "../ui/textarea";
 import '@xyflow/react/dist/style.css';
 
 interface WorkflowEditorProps {
@@ -30,7 +30,7 @@ interface WorkflowEditorProps {
 
 const CustomNode = ({ data }: { data: any }) => {
   return (
-    <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-red-200' : 'border-gray-100'} shadow-sm min-w-[280px]`}>
+    <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
       {data.timing && (
         <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
           <Clock className="w-4 h-4" />
@@ -46,7 +46,7 @@ const CustomNode = ({ data }: { data: any }) => {
           <div className="text-left">
             <div className="font-medium">{data.label}</div>
             {data.subtitle && (
-              <div className="text-sm text-red-500">{data.subtitle}</div>
+              <div className="text-sm text-gray-500">{data.subtitle}</div>
             )}
           </div>
         </div>
@@ -54,6 +54,16 @@ const CustomNode = ({ data }: { data: any }) => {
           <MoreHorizontal className="w-4 h-4 text-gray-400" />
         </div>
       </div>
+      {data.isSelected && data.content && (
+        <div className="mt-4 pt-4 border-t">
+          <Textarea 
+            value={data.content}
+            onChange={(e) => data.onContentChange?.(e.target.value)}
+            placeholder="Enter your message content..."
+            className="min-h-[100px] w-full"
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -148,6 +158,11 @@ const getModuleSubtitle = (type: string) => {
 };
 
 export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleType, onBack }) => {
+  const [selectedNodeId, setSelectedNodeId] = React.useState<string | null>("module-1");
+  const [nodeContents, setNodeContents] = React.useState<{[key: string]: string}>({
+    "module-1": "" // Initial content for the first module
+  });
+
   const initialNodes = [
     {
       id: 'start',
@@ -166,7 +181,9 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
         subtitle: getModuleSubtitle(initialModuleType),
         timing: true,
         icon: getModuleIcon(initialModuleType),
-        isSelected: true
+        isSelected: true,
+        content: nodeContents["module-1"],
+        onContentChange: (content: string) => handleContentChange("module-1", content)
       },
       type: 'custom',
     }
@@ -190,14 +207,62 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [isOpen, setIsOpen] = React.useState(false);
 
+  const handleContentChange = (nodeId: string, content: string) => {
+    setNodeContents(prev => ({
+      ...prev,
+      [nodeId]: content
+    }));
+    
+    // Update node data with new content
+    setNodes(nds => nds.map(node => {
+      if (node.id === nodeId) {
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            content
+          }
+        };
+      }
+      return node;
+    }));
+  };
+
   const onConnect = (params: Connection) => {
     setEdges((eds) => addEdge(params, eds));
+  };
+
+  const onNodeClick = (_: any, node: any) => {
+    // Deselect all nodes first
+    setNodes(nds => nds.map(n => ({
+      ...n,
+      data: {
+        ...n.data,
+        isSelected: n.id === node.id
+      }
+    })));
+    setSelectedNodeId(node.id);
   };
 
   const addNewModule = (type: string) => {
     const newNodeId = `module-${nodes.length + 1}`;
     const lastNodeId = nodes[nodes.length - 1].id;
     const lastNodeY = nodes[nodes.length - 1].position.y;
+
+    // Initialize content for the new node
+    setNodeContents(prev => ({
+      ...prev,
+      [newNodeId]: ""
+    }));
+
+    // Deselect all existing nodes and select the new one
+    setNodes(nds => nds.map(node => ({
+      ...node,
+      data: {
+        ...node.data,
+        isSelected: false
+      }
+    })));
 
     const newNode = {
       id: newNodeId,
@@ -207,7 +272,9 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
         subtitle: getModuleSubtitle(type),
         timing: true,
         icon: getModuleIcon(type),
-        isSelected: false
+        isSelected: true,
+        content: "",
+        onContentChange: (content: string) => handleContentChange(newNodeId, content)
       },
       type: 'custom',
     };
@@ -222,6 +289,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
 
     setNodes((nds) => [...nds, newNode]);
     setEdges((eds) => [...eds, newEdge]);
+    setSelectedNodeId(newNodeId);
     setIsOpen(false);
   };
 
@@ -239,10 +307,6 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Mail className="w-4 h-4" />
-            Upload CSV
-          </Button>
           <Button variant="outline" size="sm" className="gap-2 bg-blue-50 text-blue-600 border-blue-100 hover:bg-blue-100">
             <Mail className="w-4 h-4" />
             Generate Sample Email
@@ -256,6 +320,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
+          onNodeClick={onNodeClick}
           nodeTypes={nodeTypes}
           fitView
           className="bg-gray-50"
@@ -264,19 +329,20 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
             animated: true,
           }}
         >
-          <Panel position="top-right" className="bg-white rounded-lg shadow-sm space-x-2">
-            <Button variant="ghost" size="icon">
-              <ZoomIn className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <ZoomOut className="w-4 h-4" />
-            </Button>
-          </Panel>
           <Panel position="bottom-center" className="w-full pointer-events-none">
             <div className="max-w-[600px] mx-auto pointer-events-auto">
               <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
-                  <AddModuleButton onClick={() => setIsOpen(true)} />
+                  <div className="relative flex justify-center my-4">
+                    <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[1px] h-16 bg-gray-200" />
+                    <Button 
+                      variant="outline" 
+                      size="icon" 
+                      className="relative z-10 rounded-full border-dashed border-2 bg-white hover:border-blue-500 hover:text-blue-500"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
