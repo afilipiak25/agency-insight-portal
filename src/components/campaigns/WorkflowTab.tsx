@@ -6,9 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { WorkflowStep } from "./workflow/types";
 import { StepCard } from "./workflow/StepCard";
-import { StepGrid } from "./workflow/StepGrid";
 import { SidePanel } from "./workflow/SidePanel";
-import { automaticSteps, manualSteps, otherSteps } from "./workflow/stepData";
+import { StepDialog } from "./workflow/StepDialog";
 
 export const WorkflowTab = () => {
   const [selectedTab, setSelectedTab] = useState<"steps" | "conditions">("steps");
@@ -57,8 +56,11 @@ export const WorkflowTab = () => {
         <div className="flex gap-8">
           <div className="flex-1 space-y-4">
             {workflowSteps.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed rounded-lg">
-                <p className="text-gray-500">Click the + button to add your first step</p>
+              <div 
+                className="text-center py-12 border-2 border-dashed rounded-lg cursor-pointer hover:border-violet-300 transition-colors"
+                onClick={() => setActiveStep("new")}
+              >
+                <p className="text-gray-500">Click here to add your first step</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -72,26 +74,6 @@ export const WorkflowTab = () => {
                 ))}
               </div>
             )}
-
-            {(workflowSteps.length === 0 || activeStep !== null) && (
-              <div className="space-y-8 mt-8 animate-fade-in">
-                <StepGrid
-                  title="Automatic Steps"
-                  steps={automaticSteps}
-                  onStepClick={handleAddStep}
-                />
-                <StepGrid
-                  title="Manual execution"
-                  steps={manualSteps}
-                  onStepClick={handleAddStep}
-                />
-                <StepGrid
-                  title="Other steps"
-                  steps={otherSteps}
-                  onStepClick={handleAddStep}
-                />
-              </div>
-            )}
           </div>
 
           <div className="w-80 shrink-0">
@@ -99,6 +81,12 @@ export const WorkflowTab = () => {
           </div>
         </div>
       </div>
+
+      <StepDialog 
+        isOpen={activeStep !== null}
+        onClose={() => setActiveStep(null)}
+        onStepSelect={handleAddStep}
+      />
     </TabsContent>
   );
 };
