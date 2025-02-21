@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { AudienceHeader } from "./AudienceHeader";
 import { LocationFields } from "./LocationFields";
 import { JobTitleFields } from "./JobTitleFields";
@@ -11,6 +11,7 @@ import { SectorFields } from "./SectorFields";
 import { PreviewSection } from "./PreviewSection";
 import { AdvancedTargeting } from "./AdvancedTargeting";
 import { AdditionalFields } from "./AdditionalFields";
+import { WorkflowSection } from "./WorkflowSection";
 import { useState } from "react";
 
 export const CreateCampaignForm = () => {
@@ -31,20 +32,33 @@ export const CreateCampaignForm = () => {
     );
   };
 
+  const renderContent = () => {
+    switch (activeSection) {
+      case "targeting":
+        return (
+          <div className="space-y-8 transition-all duration-300 hover:translate-y-[-2px]">
+            <CompanyFields />
+            <LocationFields />
+            <JobTitleFields />
+            <JobFunctionFields />
+            <SectorFields />
+            <AdditionalFields />
+            <AdvancedTargeting />
+          </div>
+        );
+      case "workflow":
+        return <WorkflowSection />;
+      default:
+        return <div>Content for {activeSection}</div>;
+    }
+  };
+
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="mb-8 flex justify-between items-start gap-8">
           <div className="space-y-6 flex-1">
-            <div className="space-y-8 transition-all duration-300 hover:translate-y-[-2px]">
-              <CompanyFields />
-              <LocationFields />
-              <JobTitleFields />
-              <JobFunctionFields />
-              <SectorFields />
-              <AdditionalFields />
-              <AdvancedTargeting />
-            </div>
+            {renderContent()}
 
             <div className="flex gap-4 mt-8">
               <Button variant="outline" className="gap-2 hover:bg-violet-50">
