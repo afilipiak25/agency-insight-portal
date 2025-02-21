@@ -1,3 +1,4 @@
+
 import { Mail, MessageSquare, Mic, UserPlus, Eye, List, Code, Send, Brain, LayoutTemplate, PhoneCall } from "lucide-react";
 import { Button } from "../ui/button";
 import { TabsList, TabsTrigger, Tabs } from "../ui/tabs";
@@ -14,15 +15,11 @@ export const WorkflowSection = () => {
   };
 
   if (showEditor && selectedModule) {
-    return (
-      <div className="h-full">
-        <WorkflowEditor initialModuleType={selectedModule} onBack={() => setShowEditor(false)} />
-      </div>
-    );
+    return <WorkflowEditor initialModuleType={selectedModule} onBack={() => setShowEditor(false)} />;
   }
 
   return (
-    <div className="h-full space-y-8">
+    <div className="space-y-8">
       <div className="bg-white rounded-lg border border-gray-100 p-6 space-y-6">
         <div className="flex justify-between items-start">
           <div>
