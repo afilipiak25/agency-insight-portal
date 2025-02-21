@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight, Brain } from 'lucide-react';
+import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight, Brain, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -27,6 +27,7 @@ const navItems = [
   { icon: Users, label: 'Lead Database', path: '/leads' },
   { icon: Brain, label: 'Train AI', path: '/train-ai' },
   { icon: UserSquare, label: 'Personas', path: '/personas' },
+  { icon: Mail, label: 'Mailboxes', path: '/mailboxes' },
 ];
 
 export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number) => void }) => {
