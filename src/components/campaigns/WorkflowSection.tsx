@@ -6,19 +6,20 @@ import { useState } from "react";
 import { WorkflowEditor } from "./WorkflowEditor";
 
 export const WorkflowSection = () => {
-  const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [showEditor, setShowEditor] = useState(false);
+  const [selectedModule, setSelectedModule] = useState<string | null>(null);
 
-  const handleStepClick = () => {
-    setIsEditorOpen(true);
+  const handleStepClick = (moduleType: string) => {
+    setSelectedModule(moduleType);
+    setShowEditor(true);
   };
+
+  if (showEditor && selectedModule) {
+    return <WorkflowEditor initialModuleType={selectedModule} onBack={() => setShowEditor(false)} />;
+  }
 
   return (
     <div className="space-y-8">
-      <WorkflowEditor 
-        open={isEditorOpen} 
-        onOpenChange={setIsEditorOpen}
-      />
-
       <div className="bg-white rounded-lg border border-gray-100 p-6 space-y-6">
         <div className="flex justify-between items-start">
           <div>
