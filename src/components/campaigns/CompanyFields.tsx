@@ -1,4 +1,3 @@
-
 import {
   Select,
   SelectContent,
@@ -106,11 +105,26 @@ export const CompanyFields = () => {
             <SelectValue placeholder="Search for specific companies..." />
           </SelectTrigger>
           <SelectContent>
-            {[...Array(50)].map((_, i) => (
-              <SelectItem key={i} value={`company-${i + 1}`}>
-                Company {i + 1}
-              </SelectItem>
-            ))}
+            <SelectItem value="microsoft">Microsoft Corporation</SelectItem>
+            <SelectItem value="apple">Apple Inc.</SelectItem>
+            <SelectItem value="amazon">Amazon.com Inc.</SelectItem>
+            <SelectItem value="google">Google (Alphabet Inc.)</SelectItem>
+            <SelectItem value="meta">Meta Platforms Inc.</SelectItem>
+            <SelectItem value="nvidia">NVIDIA Corporation</SelectItem>
+            <SelectItem value="tesla">Tesla, Inc.</SelectItem>
+            <SelectItem value="salesforce">Salesforce.com Inc.</SelectItem>
+            <SelectItem value="oracle">Oracle Corporation</SelectItem>
+            <SelectItem value="ibm">IBM Corporation</SelectItem>
+            <SelectItem value="sap">SAP SE</SelectItem>
+            <SelectItem value="adobe">Adobe Inc.</SelectItem>
+            <SelectItem value="intel">Intel Corporation</SelectItem>
+            <SelectItem value="cisco">Cisco Systems Inc.</SelectItem>
+            <SelectItem value="siemens">Siemens AG</SelectItem>
+            <SelectItem value="samsung">Samsung Electronics</SelectItem>
+            <SelectItem value="sony">Sony Group Corporation</SelectItem>
+            <SelectItem value="dell">Dell Technologies Inc.</SelectItem>
+            <SelectItem value="hp">HP Inc.</SelectItem>
+            <SelectItem value="vmware">VMware Inc.</SelectItem>
           </SelectContent>
         </Select>
       </div>

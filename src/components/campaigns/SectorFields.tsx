@@ -32,11 +32,26 @@ export const SectorFields = () => {
             <SelectValue placeholder="Select sector" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="technology">Technology</SelectItem>
-            <SelectItem value="healthcare">Healthcare</SelectItem>
-            <SelectItem value="finance">Finance</SelectItem>
-            <SelectItem value="retail">Retail</SelectItem>
+            <SelectItem value="technology">Technology & Software</SelectItem>
+            <SelectItem value="fintech">FinTech</SelectItem>
+            <SelectItem value="healthcare">Healthcare & Medical</SelectItem>
+            <SelectItem value="biotech">Biotechnology</SelectItem>
+            <SelectItem value="finance">Banking & Finance</SelectItem>
+            <SelectItem value="insurance">Insurance</SelectItem>
+            <SelectItem value="retail">Retail & E-commerce</SelectItem>
             <SelectItem value="manufacturing">Manufacturing</SelectItem>
+            <SelectItem value="automotive">Automotive</SelectItem>
+            <SelectItem value="education">Education & E-Learning</SelectItem>
+            <SelectItem value="real-estate">Real Estate</SelectItem>
+            <SelectItem value="construction">Construction</SelectItem>
+            <SelectItem value="energy">Energy & Utilities</SelectItem>
+            <SelectItem value="telecommunications">Telecommunications</SelectItem>
+            <SelectItem value="media">Media & Entertainment</SelectItem>
+            <SelectItem value="hospitality">Hospitality & Tourism</SelectItem>
+            <SelectItem value="agriculture">Agriculture & Farming</SelectItem>
+            <SelectItem value="logistics">Logistics & Transportation</SelectItem>
+            <SelectItem value="consulting">Consulting Services</SelectItem>
+            <SelectItem value="legal">Legal Services</SelectItem>
           </SelectContent>
         </Select>
       </div>

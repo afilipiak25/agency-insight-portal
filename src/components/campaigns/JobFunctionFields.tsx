@@ -31,11 +31,24 @@ export const JobFunctionFields = () => {
             <SelectValue placeholder="Select job function" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="sales">Sales</SelectItem>
-            <SelectItem value="marketing">Marketing</SelectItem>
-            <SelectItem value="operations">Operations</SelectItem>
-            <SelectItem value="it">IT</SelectItem>
-            <SelectItem value="finance">Finance</SelectItem>
+            <SelectItem value="sales">Sales & Business Development</SelectItem>
+            <SelectItem value="marketing">Marketing & Communications</SelectItem>
+            <SelectItem value="operations">Operations Management</SelectItem>
+            <SelectItem value="it">Information Technology</SelectItem>
+            <SelectItem value="engineering">Engineering</SelectItem>
+            <SelectItem value="product">Product Management</SelectItem>
+            <SelectItem value="finance">Finance & Accounting</SelectItem>
+            <SelectItem value="hr">Human Resources</SelectItem>
+            <SelectItem value="legal">Legal & Compliance</SelectItem>
+            <SelectItem value="research">Research & Development</SelectItem>
+            <SelectItem value="consulting">Consulting</SelectItem>
+            <SelectItem value="customer-success">Customer Success</SelectItem>
+            <SelectItem value="data">Data & Analytics</SelectItem>
+            <SelectItem value="design">Design & UX</SelectItem>
+            <SelectItem value="procurement">Procurement</SelectItem>
+            <SelectItem value="quality">Quality Assurance</SelectItem>
+            <SelectItem value="support">Customer Support</SelectItem>
+            <SelectItem value="admin">Administration</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -59,10 +72,20 @@ export const JobFunctionFields = () => {
             <SelectValue placeholder="Select management level" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="c-level">C-Level</SelectItem>
-            <SelectItem value="vp">VP Level</SelectItem>
-            <SelectItem value="director">Director Level</SelectItem>
-            <SelectItem value="manager">Manager Level</SelectItem>
+            <SelectItem value="c-level">C-Level Executive</SelectItem>
+            <SelectItem value="president">President</SelectItem>
+            <SelectItem value="vp">Vice President</SelectItem>
+            <SelectItem value="svp">Senior Vice President</SelectItem>
+            <SelectItem value="avp">Associate Vice President</SelectItem>
+            <SelectItem value="director">Director</SelectItem>
+            <SelectItem value="senior-director">Senior Director</SelectItem>
+            <SelectItem value="manager">Manager</SelectItem>
+            <SelectItem value="senior-manager">Senior Manager</SelectItem>
+            <SelectItem value="team-lead">Team Lead</SelectItem>
+            <SelectItem value="supervisor">Supervisor</SelectItem>
+            <SelectItem value="head">Head of Department</SelectItem>
+            <SelectItem value="specialist">Senior Specialist</SelectItem>
+            <SelectItem value="individual">Individual Contributor</SelectItem>
           </SelectContent>
         </Select>
       </div>
