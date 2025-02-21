@@ -1,7 +1,7 @@
 
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Link2, Mail, Database, Calendar, ExternalLink, CheckCircle2, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface IntegrationCardProps {
@@ -10,18 +10,35 @@ interface IntegrationCardProps {
   icon: React.ReactNode;
   buttonText: string;
   buttonColor?: string;
+  iconBgColor?: string;
 }
 
-const IntegrationCard = ({ title, description, icon, buttonText, buttonColor = "text-amplifa-purple" }: IntegrationCardProps) => (
-  <div className="border border-dashed border-gray-200 rounded-lg p-6 flex flex-col items-center text-center">
-    <div className="mb-4 text-4xl">{icon}</div>
-    <h3 className="text-lg font-semibold mb-2">{title}</h3>
-    <p className="text-gray-600 mb-4 text-sm">{description}</p>
+const IntegrationCard = ({ 
+  title, 
+  description, 
+  icon, 
+  buttonText, 
+  buttonColor = "text-amplifa-purple",
+  iconBgColor = "bg-amplifa-purple/10"
+}: IntegrationCardProps) => (
+  <div className="group relative border border-dashed border-gray-200 hover:border-solid hover:border-amplifa-purple/30 rounded-lg p-6 flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:shadow-amplifa-purple/5">
+    <div className={cn(
+      "mb-4 p-4 rounded-full transition-all duration-300 group-hover:scale-110",
+      iconBgColor
+    )}>
+      {icon}
+    </div>
+    <h3 className="text-lg font-semibold mb-2 transition-colors duration-300 group-hover:text-amplifa-purple">{title}</h3>
+    <p className="text-gray-600 mb-6 text-sm">{description}</p>
     <Button
       variant="outline"
-      className={cn("gap-2", buttonColor)}
+      className={cn(
+        "gap-2 transition-all duration-300 group-hover:translate-y-1",
+        buttonColor
+      )}
     >
-      {buttonText} <span className="text-xs">↗</span>
+      {buttonText}
+      <ExternalLink className="w-4 h-4" />
     </Button>
   </div>
 );
@@ -29,23 +46,45 @@ const IntegrationCard = ({ title, description, icon, buttonText, buttonColor = "
 const ActiveIntegration = ({ 
   name, 
   lastSync, 
-  isConnected 
+  isConnected,
+  icon: Icon
 }: { 
   name: string; 
   lastSync?: string; 
   isConnected: boolean;
+  icon: React.ComponentType<{ className?: string }>;
 }) => (
-  <div className="flex items-center justify-between py-4 border-b border-gray-100">
+  <div className="group flex items-center justify-between py-4 px-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
     <div className="flex items-center gap-4">
-      <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
-        {name.charAt(0)}
+      <div className={cn(
+        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
+        isConnected ? "bg-green-50 text-green-500" : "bg-gray-50 text-gray-400"
+      )}>
+        <Icon className="w-5 h-5" />
       </div>
       <div>
-        <h4 className="font-medium">{name}</h4>
-        {lastSync && <p className="text-sm text-gray-500">Letzter Sync: {lastSync}</p>}
+        <h4 className="font-medium flex items-center gap-2">
+          {name}
+          {isConnected ? (
+            <CheckCircle2 className="w-4 h-4 text-green-500" />
+          ) : (
+            <XCircle className="w-4 h-4 text-gray-400" />
+          )}
+        </h4>
+        {lastSync && (
+          <p className="text-sm text-gray-500">
+            Letzter Sync: {lastSync}
+          </p>
+        )}
       </div>
     </div>
-    <Button variant={isConnected ? "default" : "outline"} className="ml-4">
+    <Button 
+      variant={isConnected ? "default" : "outline"} 
+      className={cn(
+        "ml-4 transition-all duration-300",
+        isConnected ? "bg-green-500 hover:bg-green-600" : "hover:border-gray-400"
+      )}
+    >
       {isConnected ? "Verbunden" : "Nicht verbunden"}
     </Button>
   </div>
@@ -54,10 +93,13 @@ const ActiveIntegration = ({
 const Integrations = () => {
   return (
     <Layout>
-      <div className="p-8 max-w-6xl mx-auto">
+      <div className="p-8 max-w-6xl mx-auto animate-fade-in">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-semibold">Integrationen</h1>
-          <Button className="gap-2">
+          <div>
+            <h1 className="text-2xl font-semibold mb-2">Integrationen</h1>
+            <p className="text-gray-600">Verbinden Sie Ihre Werkzeuge und Dienste</p>
+          </div>
+          <Button className="gap-2 bg-gradient-to-r from-amplifa-blue to-amplifa-purple hover:opacity-90 transition-opacity">
             <PlusCircle className="w-4 h-4" />
             Neue Integration
           </Button>
@@ -67,49 +109,61 @@ const Integrations = () => {
           <IntegrationCard
             title="LinkedIn Integration"
             description="Verbinden Sie Ihre LinkedIn-Profile und Sales Navigator"
-            icon="🔗"
+            icon={<Link2 className="w-6 h-6 text-[#0077B5]" />}
             buttonText="Verbinden"
             buttonColor="text-[#0077B5]"
+            iconBgColor="bg-[#0077B5]/10"
           />
           <IntegrationCard
             title="Email Integration"
             description="Gmail, Outlook und andere Email-Provider verbinden"
-            icon="📧"
+            icon={<Mail className="w-6 h-6 text-[#4285F4]" />}
             buttonText="Verbinden"
             buttonColor="text-[#4285F4]"
+            iconBgColor="bg-[#4285F4]/10"
           />
           <IntegrationCard
             title="CRM Integration"
             description="Salesforce, HubSpot und andere CRM-Systeme verbinden"
-            icon="💾"
+            icon={<Database className="w-6 h-6 text-[#FF6B6B]" />}
             buttonText="Verbinden"
             buttonColor="text-[#FF6B6B]"
+            iconBgColor="bg-[#FF6B6B]/10"
           />
           <IntegrationCard
             title="Kalender Integration"
             description="Calendly, Google Calendar und andere Kalender verbinden"
-            icon="📅"
+            icon={<Calendar className="w-6 h-6 text-[#34C759]" />}
             buttonText="Verbinden"
             buttonColor="text-[#34C759]"
+            iconBgColor="bg-[#34C759]/10"
           />
         </div>
 
-        <div>
-          <h2 className="text-xl font-semibold mb-6">Aktive Integrationen</h2>
-          <div className="bg-white rounded-lg border border-gray-200">
+        <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold">Aktive Integrationen</h2>
+            <Button variant="outline" className="text-gray-600">
+              Alle anzeigen
+            </Button>
+          </div>
+          <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-100">
             <ActiveIntegration
               name="LinkedIn Sales Navigator"
               lastSync="Vor 5 Minuten"
               isConnected={true}
+              icon={Link2}
             />
             <ActiveIntegration
               name="Gmail Workspace"
               lastSync="Vor 2 Minuten"
               isConnected={true}
+              icon={Mail}
             />
             <ActiveIntegration
               name="Salesforce"
               isConnected={false}
+              icon={Database}
             />
           </div>
         </div>
