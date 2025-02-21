@@ -13,7 +13,7 @@ export const AudienceHeader = () => {
   return (
     <div className="flex items-center justify-between">
       <div className="space-y-1">
-        <h2 className="text-lg font-semibold">Select target audience</h2>
+        <h2 className="text-lg font-semibold">Select outreach persona</h2>
         <div className="flex items-center gap-4">
           <Select>
             <SelectTrigger className="w-[240px]">
