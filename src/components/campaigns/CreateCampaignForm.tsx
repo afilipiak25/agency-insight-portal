@@ -17,7 +17,7 @@ export const CreateCampaignForm = () => {
   const [activeSection, setActiveSection] = useState<string>("targeting");
 
   const renderProgressBar = () => {
-    const steps = ["targeting", "pitch", "outreach", "workflow", "settings"];
+    const steps = ["targeting", "workflow", "pitch", "outreach", "settings"];
     const currentIndex = steps.indexOf(activeSection);
     const progress = ((currentIndex + 1) / steps.length) * 100;
 
@@ -82,22 +82,22 @@ export const CreateCampaignForm = () => {
                   1. Targeting
                 </TabsTrigger>
                 <TabsTrigger
+                  value="workflow"
+                  className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+                >
+                  2. Workflow
+                </TabsTrigger>
+                <TabsTrigger
                   value="pitch"
                   className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
                 >
-                  2. Pitch
+                  3. Pitch
                 </TabsTrigger>
                 <TabsTrigger
                   value="outreach"
                   className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
                 >
-                  3. Outreach
-                </TabsTrigger>
-                <TabsTrigger
-                  value="workflow"
-                  className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
-                >
-                  4. Workflow
+                  4. Outreach
                 </TabsTrigger>
                 <TabsTrigger
                   value="settings"
