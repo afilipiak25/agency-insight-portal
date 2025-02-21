@@ -1,4 +1,3 @@
-
 import { Mail, MessageSquare, Mic, UserPlus, Eye, List, Code, Send, Brain, LayoutTemplate, PhoneCall, Link, Calendar } from "lucide-react";
 import { Button } from "../ui/button";
 import { TabsList, TabsTrigger, Tabs } from "../ui/tabs";
@@ -20,15 +19,17 @@ export const WorkflowSection = () => {
   }
 
   const renderAutomaticSteps = () => (
-    <div>
+    <div className="animate-fade-in">
       <h3 className="text-sm font-medium text-gray-600 mb-4">Automatic Steps</h3>
       <div className="grid grid-cols-4 gap-4">
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50 border-green-100 hover:bg-green-100"
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50/80 border-green-100 hover:bg-green-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={() => handleStepClick("Email")}
         >
-          <Mail className="w-5 h-5 text-green-600" />
+          <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+            <Mail className="w-5 h-5 text-green-600" />
+          </div>
           <div className="text-center">
             <div className="font-medium text-gray-900">Email</div>
             <div className="text-xs text-gray-500">Send automatic email</div>
@@ -37,10 +38,12 @@ export const WorkflowSection = () => {
         
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex flex-col items-center gap-2"
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-blue-50/80 border-blue-100 hover:bg-blue-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={() => handleStepClick("Chat message")}
         >
-          <MessageSquare className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+            <MessageSquare className="w-5 h-5 text-blue-600" />
+          </div>
           <div className="text-center">
             <div className="font-medium text-gray-900">Chat message</div>
             <div className="text-xs text-gray-500">Send on LinkedIn</div>
@@ -49,10 +52,12 @@ export const WorkflowSection = () => {
         
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex flex-col items-center gap-2"
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-violet-50/80 border-violet-100 hover:bg-violet-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={() => handleStepClick("Voice message")}
         >
-          <Mic className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 rounded-full bg-violet-100 flex items-center justify-center">
+            <Mic className="w-5 h-5 text-violet-600" />
+          </div>
           <div className="text-center">
             <div className="font-medium text-gray-900">Voice message</div>
             <div className="text-xs text-gray-500">Send on LinkedIn</div>
@@ -61,10 +66,12 @@ export const WorkflowSection = () => {
         
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex flex-col items-center gap-2"
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-indigo-50/80 border-indigo-100 hover:bg-indigo-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={() => handleStepClick("Invitation")}
         >
-          <UserPlus className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+            <UserPlus className="w-5 h-5 text-indigo-600" />
+          </div>
           <div className="text-center">
             <div className="font-medium text-gray-900">Invitation</div>
             <div className="text-xs text-gray-500">Send on LinkedIn</div>
@@ -75,15 +82,17 @@ export const WorkflowSection = () => {
   );
 
   const renderManualSteps = () => (
-    <div>
+    <div className="animate-fade-in animation-delay-150">
       <h3 className="text-sm font-medium text-gray-600 mb-4">Manual execution</h3>
       <div className="grid grid-cols-4 gap-4">
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50/80 border-red-100 hover:bg-red-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={() => handleStepClick("Call")}
         >
-          <PhoneCall className="w-5 h-5 text-red-600" />
+          <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+            <PhoneCall className="w-5 h-5 text-red-600" />
+          </div>
           <div className="text-center">
             <div className="font-medium text-gray-900">Call</div>
             <div className="text-xs text-gray-500">Create a task</div>
@@ -92,10 +101,12 @@ export const WorkflowSection = () => {
         
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-orange-50/80 border-orange-100 hover:bg-orange-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={() => handleStepClick("Manual task")}
         >
-          <List className="w-5 h-5 text-red-600" />
+          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+            <List className="w-5 h-5 text-orange-600" />
+          </div>
           <div className="text-center">
             <div className="font-medium text-gray-900">Manual task</div>
             <div className="text-xs text-gray-500">Create a task</div>
@@ -106,15 +117,17 @@ export const WorkflowSection = () => {
   );
 
   const renderOtherSteps = () => (
-    <div>
+    <div className="animate-fade-in animation-delay-300">
       <h3 className="text-sm font-medium text-gray-600 mb-4">Other steps</h3>
       <div className="grid grid-cols-4 gap-4">
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex flex-col items-center gap-2"
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-cyan-50/80 border-cyan-100 hover:bg-cyan-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={() => handleStepClick("Call API")}
         >
-          <Code className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center">
+            <Code className="w-5 h-5 text-cyan-600" />
+          </div>
           <div className="text-center">
             <div className="font-medium text-gray-900">Call an API</div>
             <div className="text-xs text-gray-500">Call an API</div>
@@ -123,10 +136,12 @@ export const WorkflowSection = () => {
         
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex flex-col items-center gap-2"
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-gray-50/80 border-gray-100 hover:bg-gray-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
           onClick={() => handleStepClick("Send to campaign")}
         >
-          <Send className="w-5 h-5 text-gray-600" />
+          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+            <Send className="w-5 h-5 text-gray-600" />
+          </div>
           <div className="text-center">
             <div className="font-medium text-gray-900">Send to another campaign</div>
             <div className="text-xs text-gray-500">Transfer to campaign</div>
@@ -137,16 +152,18 @@ export const WorkflowSection = () => {
   );
 
   const renderConditions = () => (
-    <>
+    <div className="space-y-8 animate-fade-in">
       <div>
         <h3 className="text-sm font-medium text-gray-600 mb-4">Lead information</h3>
         <div className="grid grid-cols-4 gap-4">
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-blue-50/80 border-blue-100 hover:bg-blue-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Has email")}
           >
-            <Mail className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+              <Mail className="w-5 h-5 text-blue-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Has email address</div>
             </div>
@@ -154,10 +171,12 @@ export const WorkflowSection = () => {
 
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-indigo-50/80 border-indigo-100 hover:bg-indigo-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Has LinkedIn URL")}
           >
-            <Link className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+              <Link className="w-5 h-5 text-indigo-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Has LinkedIn URL</div>
               <div className="text-xs text-gray-500">LinkedIn</div>
@@ -166,10 +185,12 @@ export const WorkflowSection = () => {
 
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-violet-50/80 border-violet-100 hover:bg-violet-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Has phone")}
           >
-            <PhoneCall className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-violet-100 flex items-center justify-center">
+              <PhoneCall className="w-5 h-5 text-violet-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Has phone number</div>
             </div>
@@ -177,10 +198,12 @@ export const WorkflowSection = () => {
 
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-cyan-50/80 border-cyan-100 hover:bg-cyan-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Custom condition")}
           >
-            <Code className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center">
+              <Code className="w-5 h-5 text-cyan-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Custom condition</div>
             </div>
@@ -188,15 +211,17 @@ export const WorkflowSection = () => {
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="animate-fade-in animation-delay-150">
         <h3 className="text-sm font-medium text-gray-600 mb-4">Lead actions</h3>
         <div className="grid grid-cols-4 gap-4">
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-blue-50/80 border-blue-100 hover:bg-blue-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Opened email")}
           >
-            <Mail className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+              <Mail className="w-5 h-5 text-blue-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Opened email</div>
             </div>
@@ -204,10 +229,12 @@ export const WorkflowSection = () => {
 
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-indigo-50/80 border-indigo-100 hover:bg-indigo-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Clicked link")}
           >
-            <Link className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+              <Link className="w-5 h-5 text-indigo-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Clicked on link in email</div>
             </div>
@@ -215,10 +242,12 @@ export const WorkflowSection = () => {
 
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50/80 border-red-100 hover:bg-red-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Unsubscribe")}
           >
-            <UserPlus className="w-5 h-5 text-red-600" />
+            <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+              <UserPlus className="w-5 h-5 text-red-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Unsubscribe from email</div>
             </div>
@@ -226,10 +255,12 @@ export const WorkflowSection = () => {
 
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50/80 border-green-100 hover:bg-green-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Booked meeting")}
           >
-            <Calendar className="w-5 h-5 text-green-600" />
+            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-green-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Booked a meeting</div>
               <div className="text-xs text-gray-500">lemcal</div>
@@ -238,10 +269,12 @@ export const WorkflowSection = () => {
 
           <Button 
             variant="outline" 
-            className="h-auto p-4 flex flex-col items-center gap-2"
+            className="h-auto p-4 flex flex-col items-center gap-2 bg-blue-50/80 border-blue-100 hover:bg-blue-100 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
             onClick={() => handleStepClick("Accepted invite")}
           >
-            <Link className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+              <Link className="w-5 h-5 text-blue-600" />
+            </div>
             <div className="text-center">
               <div className="font-medium text-gray-900">Accepted invite</div>
               <div className="text-xs text-gray-500">LinkedIn</div>
@@ -249,7 +282,7 @@ export const WorkflowSection = () => {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 
   const renderModules = () => {
@@ -279,13 +312,13 @@ export const WorkflowSection = () => {
             <TabsList className="bg-blue-50">
               <TabsTrigger 
                 value="steps" 
-                className="data-[state=active]:bg-blue-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-blue-500 data-[state=active]:text-white transition-colors"
               >
                 Steps
               </TabsTrigger>
               <TabsTrigger 
                 value="conditions"
-                className="data-[state=active]:bg-blue-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-blue-500 data-[state=active]:text-white transition-colors"
               >
                 Conditions
               </TabsTrigger>
@@ -295,11 +328,14 @@ export const WorkflowSection = () => {
 
         {renderModules()}
 
-        <div className="border-t pt-6 mt-8">
+        <div className="border-t pt-6 mt-8 animate-fade-in animation-delay-300">
           <h3 className="text-base font-medium text-gray-700 mb-4">Or choose another methods</h3>
           <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" className="h-auto p-4 flex items-center gap-4">
-              <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex items-center gap-4 hover:bg-purple-50/80 transition-colors group"
+            >
+              <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center group-hover:bg-purple-100 transition-colors">
                 <Brain className="w-6 h-6 text-purple-600" />
               </div>
               <div className="text-left">
@@ -308,8 +344,11 @@ export const WorkflowSection = () => {
               </div>
             </Button>
             
-            <Button variant="outline" className="h-auto p-4 flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex items-center gap-4 hover:bg-blue-50/80 transition-colors group"
+            >
+              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center group-hover:bg-blue-100 transition-colors">
                 <LayoutTemplate className="w-6 h-6 text-blue-600" />
               </div>
               <div className="text-left">
