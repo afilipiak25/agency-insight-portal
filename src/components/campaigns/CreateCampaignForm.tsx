@@ -14,6 +14,7 @@ import { AdditionalFields } from "./AdditionalFields";
 import { WorkflowSection } from "./WorkflowSection";
 import { ResourcesSection } from "./ResourcesSection";
 import { WorkflowPreview } from "./WorkflowPreview";
+import { SettingsSection } from "./SettingsSection";
 import { useState } from "react";
 
 export const CreateCampaignForm = () => {
@@ -94,6 +95,8 @@ export const CreateCampaignForm = () => {
         return <ResourcesSection />;
       case "preview":
         return <WorkflowPreview />;
+      case "settings":
+        return <SettingsSection />;
       default:
         return <div>Content for {activeSection}</div>;
     }
