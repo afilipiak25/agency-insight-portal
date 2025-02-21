@@ -28,7 +28,27 @@ interface WorkflowEditorProps {
   onBack: () => void;
 }
 
-const CustomNode = ({ data }: { data: any }) => {
+interface NodeData {
+  label: string;
+  subtitle?: string;
+  timing?: boolean;
+  icon: JSX.Element;
+  isSelected?: boolean;
+  content?: string;
+  onContentChange?: (content: string) => void;
+}
+
+interface WorkflowNode {
+  id: string;
+  type: string;
+  position: {
+    x: number;
+    y: number;
+  };
+  data: NodeData;
+}
+
+const CustomNode = ({ data }: { data: NodeData }) => {
   return (
     <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
       {data.timing && (
@@ -54,10 +74,10 @@ const CustomNode = ({ data }: { data: any }) => {
           <MoreHorizontal className="w-4 h-4 text-gray-400" />
         </div>
       </div>
-      {data.isSelected && data.content && (
+      {data.isSelected && (
         <div className="mt-4 pt-4 border-t">
           <Textarea 
-            value={data.content}
+            value={data.content || ""}
             onChange={(e) => data.onContentChange?.(e.target.value)}
             placeholder="Enter your message content..."
             className="min-h-[100px] w-full"
@@ -114,7 +134,7 @@ const ModuleSelector = ({ onSelect }: { onSelect: (type: string) => void }) => {
   );
 };
 
-const getModuleIcon = (type: string) => {
+const getModuleIcon = (type: string): JSX.Element => {
   switch (type) {
     case "Email":
       return <Mail className="w-5 h-5 text-green-600" />;
@@ -137,7 +157,7 @@ const getModuleIcon = (type: string) => {
   }
 };
 
-const getModuleSubtitle = (type: string) => {
+const getModuleSubtitle = (type: string): string => {
   switch (type) {
     case "Email":
       return "Action needed";
@@ -160,10 +180,10 @@ const getModuleSubtitle = (type: string) => {
 export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleType, onBack }) => {
   const [selectedNodeId, setSelectedNodeId] = React.useState<string | null>("module-1");
   const [nodeContents, setNodeContents] = React.useState<{[key: string]: string}>({
-    "module-1": "" // Initial content for the first module
+    "module-1": ""
   });
 
-  const initialNodes = [
+  const initialNodes: WorkflowNode[] = [
     {
       id: 'start',
       position: { x: 350, y: 50 },
@@ -213,7 +233,6 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       [nodeId]: content
     }));
     
-    // Update node data with new content
     setNodes(nds => nds.map(node => {
       if (node.id === nodeId) {
         return {
@@ -232,8 +251,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     setEdges((eds) => addEdge(params, eds));
   };
 
-  const onNodeClick = (_: any, node: any) => {
-    // Deselect all nodes first
+  const onNodeClick = (_: any, node: WorkflowNode) => {
     setNodes(nds => nds.map(n => ({
       ...n,
       data: {
@@ -249,13 +267,11 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     const lastNodeId = nodes[nodes.length - 1].id;
     const lastNodeY = nodes[nodes.length - 1].position.y;
 
-    // Initialize content for the new node
     setNodeContents(prev => ({
       ...prev,
       [newNodeId]: ""
     }));
 
-    // Deselect all existing nodes and select the new one
     setNodes(nds => nds.map(node => ({
       ...node,
       data: {
@@ -264,7 +280,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       }
     })));
 
-    const newNode = {
+    const newNode: WorkflowNode = {
       id: newNodeId,
       position: { x: 350, y: lastNodeY + 200 },
       data: {
