@@ -1,21 +1,28 @@
+
 import { Button } from "@/components/ui/button";
 import { TabsContent } from "@/components/ui/tabs";
-import { Share2 } from "lucide-react";
+import { Share2, RocketIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { WorkflowStep } from "./workflow/types";
 import { StepCard } from "./workflow/StepCard";
 import { SidePanel } from "./workflow/SidePanel";
 import { StepDialog } from "./workflow/StepDialog";
+import { AIWorkflowDialog } from "./workflow/AIWorkflowDialog";
 
 export const WorkflowTab = () => {
   const [selectedTab, setSelectedTab] = useState<"steps" | "conditions">("steps");
   const [activeStep, setActiveStep] = useState<string | null>(null);
   const [workflowSteps, setWorkflowSteps] = useState<WorkflowStep[]>([]);
+  const [showAIDialog, setShowAIDialog] = useState(false);
 
   const handleAddStep = (step: WorkflowStep) => {
     setWorkflowSteps([...workflowSteps, step]);
     setActiveStep(null);
+  };
+
+  const handleGenerateAIWorkflow = (steps: WorkflowStep[]) => {
+    setWorkflowSteps(steps);
   };
 
   return (
@@ -34,21 +41,31 @@ export const WorkflowTab = () => {
               Start by choosing your sequence's first step
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-4">
             <Button
-              variant={selectedTab === "steps" ? "default" : "outline"}
-              onClick={() => setSelectedTab("steps")}
-              className="font-medium"
+              variant="default"
+              onClick={() => setShowAIDialog(true)}
+              className="gap-2"
             >
-              Steps
+              <RocketIcon className="w-4 h-4" />
+              Create with AI
             </Button>
-            <Button
-              variant={selectedTab === "conditions" ? "default" : "outline"}
-              onClick={() => setSelectedTab("conditions")}
-              className="font-medium"
-            >
-              Conditions
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant={selectedTab === "steps" ? "default" : "outline"}
+                onClick={() => setSelectedTab("steps")}
+                className="font-medium"
+              >
+                Steps
+              </Button>
+              <Button
+                variant={selectedTab === "conditions" ? "default" : "outline"}
+                onClick={() => setSelectedTab("conditions")}
+                className="font-medium"
+              >
+                Conditions
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -85,6 +102,12 @@ export const WorkflowTab = () => {
         isOpen={activeStep !== null}
         onClose={() => setActiveStep(null)}
         onStepSelect={handleAddStep}
+      />
+
+      <AIWorkflowDialog
+        isOpen={showAIDialog}
+        onClose={() => setShowAIDialog(false)}
+        onGenerate={handleGenerateAIWorkflow}
       />
     </TabsContent>
   );
