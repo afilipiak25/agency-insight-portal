@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import {
   ReactFlow,
@@ -31,7 +32,7 @@ interface WorkflowEditorProps {
   onBack: () => void;
 }
 
-interface NodeData {
+interface NodeCustomData {
   label: string;
   subtitle?: string;
   timing?: boolean;
@@ -39,12 +40,14 @@ interface NodeData {
   isSelected?: boolean;
   content?: string;
   onContentChange?: (content: string) => void;
+  [key: string]: unknown;
 }
 
-const CustomNode = ({ data }: NodeProps<NodeData>) => {
+const CustomNode = ({ data }: NodeProps) => {
+  const nodeData = data as NodeCustomData;
   return (
-    <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
-      {data.timing && (
+    <div className={`p-4 rounded-lg bg-white border ${nodeData.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${nodeData.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
+      {nodeData.timing && (
         <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
           <Clock className="w-4 h-4" />
           <span>Send immediately</span>
@@ -53,12 +56,12 @@ const CustomNode = ({ data }: NodeProps<NodeData>) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center">
-            {data.icon}
+            {nodeData.icon}
           </div>
           <div className="text-left">
-            <div className="font-medium">{data.label}</div>
-            {data.subtitle && (
-              <div className="text-sm text-gray-500">{data.subtitle}</div>
+            <div className="font-medium">{nodeData.label}</div>
+            {nodeData.subtitle && (
+              <div className="text-sm text-gray-500">{nodeData.subtitle}</div>
             )}
           </div>
         </div>
@@ -66,11 +69,11 @@ const CustomNode = ({ data }: NodeProps<NodeData>) => {
           <MoreHorizontal className="w-4 h-4 text-gray-400" />
         </div>
       </div>
-      {data.isSelected && (
+      {nodeData.isSelected && (
         <div className="mt-4 pt-4 border-t">
           <Textarea 
-            value={data.content || ""}
-            onChange={(e) => data.onContentChange?.(e.target.value)}
+            value={nodeData.content || ""}
+            onChange={(e) => nodeData.onContentChange?.(e.target.value)}
             placeholder="Enter your message content..."
             className="min-h-[100px] w-full"
           />
@@ -177,14 +180,14 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     "module-1": ""
   });
 
-  const initialNodes: Node<NodeData>[] = [
+  const initialNodes: Node[] = [
     {
       id: 'start',
       position: { x: 350, y: 50 },
       data: { 
         label: 'Sequence start',
         icon: <Mail className="w-5 h-5 text-gray-400" />,
-      },
+      } as NodeCustomData,
       type: 'custom',
     },
     {
@@ -198,7 +201,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
         isSelected: true,
         content: nodeContents["module-1"],
         onContentChange: (content: string) => handleContentChange("module-1", content)
-      },
+      } as NodeCustomData,
       type: 'custom',
     }
   ];
@@ -214,10 +217,10 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
   ];
 
   const nodeTypes = React.useMemo(() => ({
-    custom: CustomNode as any,
+    custom: CustomNode,
   }), []);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node<NodeData>>(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -232,7 +235,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       data: {
         ...node.data,
         content
-      }
+      } as NodeCustomData
     })));
   };
 
@@ -246,7 +249,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       data: {
         ...n.data,
         isSelected: n.id === node.id
-      }
+      } as NodeCustomData
     })));
     setSelectedNodeId(node.id);
   };
@@ -266,10 +269,10 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       data: {
         ...node.data,
         isSelected: false
-      }
+      } as NodeCustomData
     })));
 
-    const newNode: Node<NodeData> = {
+    const newNode: Node = {
       id: newNodeId,
       position: { x: 350, y: lastNodeY + 200 },
       data: {
@@ -280,7 +283,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
         isSelected: true,
         content: "",
         onContentChange: (content: string) => handleContentChange(newNodeId, content)
-      },
+      } as NodeCustomData,
       type: 'custom',
     };
 
