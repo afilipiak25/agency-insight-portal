@@ -44,8 +44,8 @@ const Mailboxes = () => {
     <Layout>
       <div className="flex-1 w-full min-h-screen bg-gray-50">
         <div className="w-full p-4 sm:p-6 md:p-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <div className="w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4 mb-6">
+            <div className="w-full sm:w-auto flex flex-col items-center sm:items-start">
               <h1 className="text-xl sm:text-2xl font-semibold mb-2">Mailboxes</h1>
               <p className="text-sm sm:text-base text-gray-600">
                 Verbinden Sie Ihre E-Mail-Konten und verwalten Sie alle Ihre Mailboxen an einem Ort.
