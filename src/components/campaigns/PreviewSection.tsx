@@ -68,7 +68,7 @@ Mit besten Grüßen`);
         <div className="space-y-3">
           <label className="text-sm font-medium text-violet-700">Zusätzlicher Prompt (optional)</label>
           <Textarea
-            placeholder="Geben Sie zusätzliche Anweisungen für die KI..."
+            placeholder="Enter your prompt..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             className="min-h-[120px] text-lg border-violet-100 focus:border-violet-200 focus:ring-violet-100 transition-colors"
