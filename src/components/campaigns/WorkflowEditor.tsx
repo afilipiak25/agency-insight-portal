@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import {
   ReactFlow,
@@ -14,7 +13,7 @@ import {
   NodeProps,
   NodeMouseHandler,
 } from '@xyflow/react';
-import { ArrowLeft, Plus, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, MoreHorizontal, Clock, Pencil } from "lucide-react";
+import { ArrowLeft, Plus, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, MoreHorizontal, Clock } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -32,7 +31,7 @@ interface WorkflowEditorProps {
   onBack: () => void;
 }
 
-interface NodeCustomData {
+interface NodeCustomData extends Record<string, unknown> {
   label: string;
   subtitle?: string;
   timing?: boolean;
@@ -42,14 +41,13 @@ interface NodeCustomData {
   onContentChange?: (content: string) => void;
 }
 
-const CustomNode: React.FC<NodeProps<NodeCustomData>> = ({ data }) => {
+const CustomNode = React.memo<NodeProps<NodeCustomData>>(({ data }) => {
   return (
     <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
       {data.timing && (
         <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
           <Clock className="w-4 h-4" />
           <span>Send immediately</span>
-          <Pencil className="w-4 h-4 ml-auto text-gray-400" />
         </div>
       )}
       <div className="flex items-center justify-between">
@@ -80,7 +78,9 @@ const CustomNode: React.FC<NodeProps<NodeCustomData>> = ({ data }) => {
       )}
     </div>
   );
-};
+});
+
+CustomNode.displayName = 'CustomNode';
 
 const AddModuleButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -217,7 +217,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     custom: CustomNode,
   }), []);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node<NodeCustomData>>(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -310,12 +310,6 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
             <div className="w-2 h-2 rounded-full bg-blue-500" />
             <span className="font-semibold">Workflow Editor</span>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="gap-2 bg-blue-50 text-blue-600 border-blue-100 hover:bg-blue-100">
-            <Mail className="w-4 h-4" />
-            Generate Sample Email
-          </Button>
         </div>
       </div>
       <div className="h-[calc(100vh-12rem)]">
