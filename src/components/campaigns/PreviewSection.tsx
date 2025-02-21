@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { Bot, RefreshCw, Send } from "lucide-react";
+import { Bot, RefreshCw, Send, Sparkles } from "lucide-react";
 
 export const PreviewSection = () => {
   const [website, setWebsite] = React.useState('');
@@ -34,43 +34,50 @@ Mit besten Grüßen`);
   };
 
   return (
-    <div className="bg-white rounded-lg border p-6 space-y-6">
-      <h2 className="font-semibold text-lg">KI-Analyse & Email-Generator</h2>
+    <div className="bg-gradient-to-b from-white to-violet-50 rounded-xl border shadow-sm p-8 space-y-8">
+      <div className="flex items-center gap-3">
+        <div className="p-2 bg-violet-100 rounded-lg">
+          <Sparkles className="w-5 h-5 text-violet-600" />
+        </div>
+        <h2 className="font-semibold text-xl bg-gradient-to-r from-violet-600 to-violet-400 bg-clip-text text-transparent">
+          KI-Analyse & Email-Generator
+        </h2>
+      </div>
       
       <div className="space-y-6">
         <div className="space-y-3">
-          <label className="text-sm font-medium">Website Domain</label>
+          <label className="text-sm font-medium text-violet-700">Website Domain</label>
           <Input
             placeholder="beispiel.de"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
-            className="h-12 text-lg"
+            className="h-12 text-lg border-violet-100 focus:border-violet-200 focus:ring-violet-100 transition-colors"
           />
         </div>
         
         <div className="space-y-3">
-          <label className="text-sm font-medium">LinkedIn Profil URL</label>
+          <label className="text-sm font-medium text-violet-700">LinkedIn Profil URL</label>
           <Input
             placeholder="linkedin.com/in/beispiel"
             value={linkedin}
             onChange={(e) => setLinkedin(e.target.value)}
-            className="h-12 text-lg"
+            className="h-12 text-lg border-violet-100 focus:border-violet-200 focus:ring-violet-100 transition-colors"
           />
         </div>
 
         <div className="space-y-3">
-          <label className="text-sm font-medium">Zusätzlicher Prompt (optional)</label>
+          <label className="text-sm font-medium text-violet-700">Zusätzlicher Prompt (optional)</label>
           <Textarea
             placeholder="Geben Sie zusätzliche Anweisungen für die KI..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="min-h-[100px] text-lg"
+            className="min-h-[120px] text-lg border-violet-100 focus:border-violet-200 focus:ring-violet-100 transition-colors"
           />
         </div>
         
         <Button 
           onClick={handleGenerate}
-          className="w-full gap-2 h-12 text-lg"
+          className="w-full gap-2 h-14 text-lg bg-gradient-to-r from-violet-600 to-violet-500 hover:from-violet-500 hover:to-violet-400 transition-all duration-300 shadow-md hover:shadow-lg"
           disabled={isGenerating}
         >
           {isGenerating ? (
@@ -87,32 +94,42 @@ Mit besten Grüßen`);
         </Button>
       </div>
 
-      <div className="space-y-4 pt-4 border-t">
+      <div className="space-y-6 pt-6 border-t border-violet-100">
         <div className="flex items-center justify-between">
-          <h3 className="font-medium">Generierte Email</h3>
-          <div className="flex gap-2">
+          <h3 className="font-medium text-lg text-violet-700">Generierte Email</h3>
+          <div className="flex gap-3">
             <Button 
               variant="outline" 
               size="sm"
-              className="gap-2"
+              className="gap-2 border-violet-200 hover:bg-violet-50 text-violet-600"
               onClick={() => handleGenerate()}
             >
               <RefreshCw className="w-4 h-4" />
               Neu generieren
             </Button>
-            <Button size="sm" className="gap-2">
+            <Button 
+              size="sm" 
+              className="gap-2 bg-violet-600 hover:bg-violet-500"
+            >
               <Send className="w-4 h-4" />
               Als Template speichern
             </Button>
           </div>
         </div>
         
-        <Textarea
-          value={generatedEmail}
-          className="min-h-[400px] font-mono text-sm"
-          placeholder="Hier erscheint Ihre generierte Email..."
-          readOnly
-        />
+        <div className="relative">
+          <Textarea
+            value={generatedEmail}
+            className="min-h-[400px] font-mono text-sm bg-white border-violet-100 focus:border-violet-200 focus:ring-violet-100"
+            placeholder="Hier erscheint Ihre generierte Email..."
+            readOnly
+          />
+          {isGenerating && (
+            <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+              <RefreshCw className="w-8 h-8 text-violet-600 animate-spin" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
