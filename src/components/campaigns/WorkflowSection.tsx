@@ -9,7 +9,7 @@ export const WorkflowSection = () => {
   const [showEditor, setShowEditor] = useState(false);
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
 
-  const handleStepClick = (moduleType: string) => {
+  const handleStepClick = (moduleType: string) => () => {
     setSelectedModule(moduleType);
     setShowEditor(true);
   };
@@ -52,7 +52,7 @@ export const WorkflowSection = () => {
             <Button 
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50 border-green-100 hover:bg-green-100"
-              onClick={handleStepClick}
+              onClick={handleStepClick("Email")}
             >
               <Mail className="w-5 h-5 text-green-600" />
               <div className="text-center">
@@ -64,7 +64,7 @@ export const WorkflowSection = () => {
             <Button 
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={handleStepClick}
+              onClick={handleStepClick("Chat message")}
             >
               <MessageSquare className="w-5 h-5 text-blue-600" />
               <div className="text-center">
@@ -76,7 +76,7 @@ export const WorkflowSection = () => {
             <Button 
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={handleStepClick}
+              onClick={handleStepClick("Voice message")}
             >
               <Mic className="w-5 h-5 text-blue-600" />
               <div className="text-center">
@@ -88,7 +88,7 @@ export const WorkflowSection = () => {
             <Button 
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={handleStepClick}
+              onClick={handleStepClick("Invitation")}
             >
               <UserPlus className="w-5 h-5 text-blue-600" />
               <div className="text-center">
@@ -105,7 +105,7 @@ export const WorkflowSection = () => {
             <Button 
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
-              onClick={handleStepClick}
+              onClick={handleStepClick("Call")}
             >
               <PhoneCall className="w-5 h-5 text-red-600" />
               <div className="text-center">
@@ -117,7 +117,7 @@ export const WorkflowSection = () => {
             <Button 
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
-              onClick={handleStepClick}
+              onClick={handleStepClick("Manual task")}
             >
               <List className="w-5 h-5 text-red-600" />
               <div className="text-center">
@@ -134,7 +134,7 @@ export const WorkflowSection = () => {
             <Button 
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={handleStepClick}
+              onClick={handleStepClick("Call API")}
             >
               <Code className="w-5 h-5 text-blue-600" />
               <div className="text-center">
@@ -146,7 +146,7 @@ export const WorkflowSection = () => {
             <Button 
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center gap-2"
-              onClick={handleStepClick}
+              onClick={handleStepClick("Send to campaign")}
             >
               <Send className="w-5 h-5 text-gray-600" />
               <div className="text-center">
