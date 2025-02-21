@@ -14,6 +14,7 @@ import Calendar from "./pages/Calendar";
 import LeadDatabase from "./pages/LeadDatabase";
 import Inbox from "./pages/Inbox";
 import TrainAI from "./pages/TrainAI";
+import Personas from "./pages/Personas";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/leads" element={<LeadDatabase />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/train-ai" element={<TrainAI />} />
+          <Route path="/personas" element={<Personas />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

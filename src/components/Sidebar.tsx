@@ -26,7 +26,7 @@ const navItems = [
   { icon: Inbox, label: 'Inbox', path: '/inbox' },
   { icon: Users, label: 'Lead Database', path: '/leads' },
   { icon: Brain, label: 'Train AI', path: '/train-ai' },
-  { icon: UserSquare, label: 'Personas' },
+  { icon: UserSquare, label: 'Personas', path: '/personas' },
 ];
 
 export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number) => void }) => {
