@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Settings2, MessageSquare, Zap, PipelineIcon, Calendar } from "lucide-react";
+import { Settings2, MessageSquare, Zap, List, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const SettingsSection = () => {
@@ -105,7 +105,7 @@ export const SettingsSection = () => {
         {/* Lead Pipeline Auswahl */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <PipelineIcon className="w-4 h-4 text-gray-500" />
+            <List className="w-4 h-4 text-gray-500" />
             <label className="text-sm font-medium">Lead Pipeline</label>
           </div>
           <div className="flex gap-3">
