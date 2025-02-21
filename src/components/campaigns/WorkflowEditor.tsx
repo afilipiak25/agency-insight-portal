@@ -10,7 +10,7 @@ import {
   Connection,
   Panel,
 } from '@xyflow/react';
-import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut } from "lucide-react";
+import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Pencil } from "lucide-react";
 import { Button } from "../ui/button";
 import '@xyflow/react/dist/style.css';
 
@@ -19,23 +19,60 @@ interface WorkflowEditorProps {
   onBack: () => void;
 }
 
+const CustomNode = ({ data }: { data: any }) => {
+  return (
+    <div className="p-4 min-w-[300px]">
+      {data.timing && (
+        <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+          <Clock className="w-4 h-4" />
+          <span>{data.timing}</span>
+        </div>
+      )}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {data.icon}
+          <div className="text-left">
+            <div className="font-medium">{data.label}</div>
+            {data.subtitle && (
+              <div className="text-sm text-gray-600">{data.subtitle}</div>
+            )}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          {data.showEdit && <Pencil className="w-4 h-4 text-gray-400" />}
+          <MoreHorizontal className="w-4 h-4 text-gray-400" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProps) => {
   const initialNodes = [
     {
       id: 'start',
       position: { x: 350, y: 50 },
-      data: { label: 'Sequence start' },
-      type: 'input',
-      className: 'bg-white border-2 border-gray-200 rounded-lg',
+      data: { 
+        label: 'Sequence start',
+        showEdit: false 
+      },
+      type: 'custom',
+      className: 'bg-white border-2 border-gray-200 rounded-lg shadow-sm',
     },
     {
       id: 'initial-module',
-      position: { x: 350, y: 150 },
+      position: { x: 350, y: 200 },
       data: { 
         label: initialModuleType,
-        subtitle: initialModuleType === 'Email' ? 'Action needed' : 'Send on LinkedIn'
+        subtitle: initialModuleType === 'Email' ? 'Action needed' : 'Send on LinkedIn',
+        timing: 'Send immediately',
+        icon: initialModuleType === 'Email' 
+          ? <Mail className="w-5 h-5 text-green-600" />
+          : <MessageSquare className="w-5 h-5 text-blue-600" />,
+        showEdit: true
       },
-      className: 'bg-white border-2 border-red-200 rounded-lg min-w-[200px]',
+      type: 'custom',
+      className: 'bg-white border-2 border-red-200 rounded-lg shadow-sm',
     }
   ];
 
@@ -48,6 +85,10 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
       animated: true,
     }
   ];
+
+  const nodeTypes = {
+    custom: CustomNode,
+  };
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -85,6 +126,7 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
+          nodeTypes={nodeTypes}
           fitView
           className="bg-gray-50"
           defaultEdgeOptions={{
@@ -100,7 +142,7 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
               <ZoomOut className="w-4 h-4" />
             </Button>
           </Panel>
-          <Background color="#e5e5e5" />
+          <Background color="#e5e5e5" gap={16} />
           <Controls />
           <MiniMap />
         </ReactFlow>
