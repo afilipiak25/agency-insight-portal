@@ -13,6 +13,7 @@ import Pipeline from "./pages/Pipeline";
 import Calendar from "./pages/Calendar";
 import LeadDatabase from "./pages/LeadDatabase";
 import Inbox from "./pages/Inbox";
+import TrainAI from "./pages/TrainAI";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/leads" element={<LeadDatabase />} />
           <Route path="/inbox" element={<Inbox />} />
+          <Route path="/train-ai" element={<TrainAI />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
