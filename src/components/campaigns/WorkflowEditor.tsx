@@ -8,8 +8,9 @@ import {
   useEdgesState,
   addEdge,
   Connection,
+  Panel,
 } from '@xyflow/react';
-import { ArrowLeft, Plus, Settings2 } from "lucide-react";
+import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "../ui/button";
 import '@xyflow/react/dist/style.css';
 
@@ -22,14 +23,19 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
   const initialNodes = [
     {
       id: 'start',
-      position: { x: 250, y: 0 },
+      position: { x: 350, y: 50 },
       data: { label: 'Sequence start' },
       type: 'input',
+      className: 'bg-white border-2 border-gray-200 rounded-lg',
     },
     {
       id: 'initial-module',
-      position: { x: 250, y: 100 },
-      data: { label: initialModuleType },
+      position: { x: 350, y: 150 },
+      data: { 
+        label: initialModuleType,
+        subtitle: initialModuleType === 'Email' ? 'Action needed' : 'Send on LinkedIn'
+      },
+      className: 'bg-white border-2 border-red-200 rounded-lg min-w-[200px]',
     }
   ];
 
@@ -39,6 +45,7 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
       source: 'start',
       target: 'initial-module',
       type: 'smoothstep',
+      animated: true,
     }
   ];
 
@@ -50,8 +57,8 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
   };
 
   return (
-    <div className="h-full">
-      <div className="p-4 border-b flex items-center justify-between">
+    <div className="h-full bg-gray-50">
+      <div className="p-4 border-b bg-white flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="ghost" onClick={onBack} className="gap-2">
             <ArrowLeft className="w-4 h-4" />
@@ -59,16 +66,16 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
           </Button>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-blue-500" />
-            <h2 className="font-semibold">Anthony's campaign (3)</h2>
+            <h2 className="font-semibold">Workflow Editor</h2>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button className="p-2 hover:bg-gray-100 rounded-md">
+          <Button variant="outline" size="icon">
             <Settings2 className="w-5 h-5 text-gray-600" />
-          </button>
-          <button className="p-2 hover:bg-gray-100 rounded-md">
+          </Button>
+          <Button variant="outline" size="icon">
             <Plus className="w-5 h-5 text-gray-600" />
-          </button>
+          </Button>
         </div>
       </div>
       <div className="h-[calc(100%-73px)]">
@@ -79,9 +86,21 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           fitView
-          className="bg-blue-50/20"
+          className="bg-gray-50"
+          defaultEdgeOptions={{
+            type: 'smoothstep',
+            animated: true,
+          }}
         >
-          <Background />
+          <Panel position="top-right" className="bg-white p-2 rounded-lg shadow-sm space-x-2">
+            <Button variant="outline" size="icon">
+              <ZoomIn className="w-4 h-4" />
+            </Button>
+            <Button variant="outline" size="icon">
+              <ZoomOut className="w-4 h-4" />
+            </Button>
+          </Panel>
+          <Background color="#e5e5e5" />
           <Controls />
           <MiniMap />
         </ReactFlow>
