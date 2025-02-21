@@ -15,9 +15,8 @@ import { AdditionalFields } from "./AdditionalFields";
 export const CreateCampaignForm = () => {
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="mb-8 flex justify-between items-start">
+      <div className="mb-8 flex justify-between items-start gap-8">
         <div className="space-y-6 flex-1">
-          <AudienceHeader />
           <CompanyFields />
           <LocationFields />
           <JobTitleFields />
@@ -37,7 +36,10 @@ export const CreateCampaignForm = () => {
           </div>
         </div>
 
-        <PreviewSection />
+        <div className="space-y-6 w-96">
+          <AudienceHeader />
+          <PreviewSection />
+        </div>
       </div>
 
       <div className="border-t pt-6">
