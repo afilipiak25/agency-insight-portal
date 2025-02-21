@@ -6,14 +6,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Building2, ShoppingCart, Upload, Store } from "lucide-react";
+import { Building2, ShoppingCart, Upload, Store, Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const CompanyFields = () => {
   return (
     <>
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           Select Data Type:
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="w-4 h-4 text-gray-400" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Choose the type of data source for your campaign</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </label>
         <Select>
           <SelectTrigger className="w-full">
@@ -77,8 +88,18 @@ export const CompanyFields = () => {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           Company Search
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="w-4 h-4 text-gray-400" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Search for specific companies you want to target</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </label>
         <Select>
           <SelectTrigger className="w-full">

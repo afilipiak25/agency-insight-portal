@@ -1,13 +1,24 @@
 
 import { Input } from "@/components/ui/input";
-import { X } from "lucide-react";
+import { Info, X } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const LocationFields = () => {
   return (
     <>
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           Locations
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="w-4 h-4 text-gray-400" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Select the geographical locations you want to target</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </label>
         <div className="space-y-3">
           <Input 
@@ -38,8 +49,18 @@ export const LocationFields = () => {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           Locations (To Exclude)
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="w-4 h-4 text-gray-400" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Specify locations you want to exclude from your targeting</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </label>
         <Input 
           placeholder="Search locations to exclude..."
