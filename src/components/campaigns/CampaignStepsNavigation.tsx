@@ -1,0 +1,71 @@
+
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+interface CampaignStepsNavigationProps {
+  activeSection: string;
+  onSectionChange: (section: string) => void;
+}
+
+export const CampaignStepsNavigation = ({
+  activeSection,
+  onSectionChange,
+}: CampaignStepsNavigationProps) => {
+  const renderProgressBar = () => {
+    const steps = ["targeting", "workflow", "resources", "preview", "settings"];
+    const currentIndex = steps.indexOf(activeSection);
+    const progress = ((currentIndex + 1) / steps.length) * 100;
+
+    return (
+      <div className="h-1 bg-violet-100 rounded-full w-full mb-8">
+        <div 
+          className="h-full bg-violet-600 rounded-full transition-all duration-500"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      {renderProgressBar()}
+      <Tabs 
+        value={activeSection} 
+        onValueChange={onSectionChange}
+        className="w-full"
+      >
+        <TabsList className="w-full justify-center mb-8 bg-transparent p-0 h-auto">
+          <TabsTrigger
+            value="targeting"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+          >
+            1. Targeting
+          </TabsTrigger>
+          <TabsTrigger
+            value="workflow"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+          >
+            2. Workflow
+          </TabsTrigger>
+          <TabsTrigger
+            value="resources"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+          >
+            3. Resources
+          </TabsTrigger>
+          <TabsTrigger
+            value="preview"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+          >
+            4. Preview
+          </TabsTrigger>
+          <TabsTrigger
+            value="settings"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+          >
+            5. Settings
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </div>
+  );
+};
