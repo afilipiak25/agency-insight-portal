@@ -29,9 +29,8 @@ export const AudienceHeader = () => {
               Edit Name
             </button>
             <span className="text-gray-300">|</span>
-            <Button size="sm" variant="outline" className="gap-2">
+            <Button size="icon" variant="outline">
               <Plus className="w-4 h-4" />
-              Create New
             </Button>
           </div>
         </div>
