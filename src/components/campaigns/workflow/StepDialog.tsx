@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { StepGrid } from "./StepGrid";
 import { automaticSteps, manualSteps, otherSteps } from "./stepData";
+import { leadInformationConditions, leadActionsConditions } from "./conditionData";
 import { WorkflowStep } from "./types";
 import { useState } from "react";
 
@@ -40,36 +41,59 @@ export const StepDialog = ({ isOpen, onClose, onStepSelect }: StepDialogProps) =
               Conditions
             </Button>
           </div>
-          <DialogTitle className="text-center">
+          <DialogTitle className="text-center text-gray-600">
             Add conditions to your sequence and create decisions branches to get the best results possible
           </DialogTitle>
         </DialogHeader>
 
         <div className="mt-8 space-y-8">
-          <StepGrid 
-            title="Automatic Steps" 
-            steps={automaticSteps} 
-            onStepClick={(step) => {
-              onStepSelect(step);
-              onClose();
-            }}
-          />
-          <StepGrid 
-            title="Manual execution" 
-            steps={manualSteps} 
-            onStepClick={(step) => {
-              onStepSelect(step);
-              onClose();
-            }}
-          />
-          <StepGrid 
-            title="Other steps" 
-            steps={otherSteps} 
-            onStepClick={(step) => {
-              onStepSelect(step);
-              onClose();
-            }}
-          />
+          {selectedView === "steps" ? (
+            <>
+              <StepGrid 
+                title="Automatic Steps" 
+                steps={automaticSteps} 
+                onStepClick={(step) => {
+                  onStepSelect(step);
+                  onClose();
+                }}
+              />
+              <StepGrid 
+                title="Manual execution" 
+                steps={manualSteps} 
+                onStepClick={(step) => {
+                  onStepSelect(step);
+                  onClose();
+                }}
+              />
+              <StepGrid 
+                title="Other steps" 
+                steps={otherSteps} 
+                onStepClick={(step) => {
+                  onStepSelect(step);
+                  onClose();
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <StepGrid 
+                title="Lead information" 
+                steps={leadInformationConditions} 
+                onStepClick={(step) => {
+                  onStepSelect(step as any);
+                  onClose();
+                }}
+              />
+              <StepGrid 
+                title="Lead actions" 
+                steps={leadActionsConditions} 
+                onStepClick={(step) => {
+                  onStepSelect(step as any);
+                  onClose();
+                }}
+              />
+            </>
+          )}
         </div>
       </DialogContent>
     </Dialog>
