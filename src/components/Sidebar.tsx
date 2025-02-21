@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface Client {
   id: number;
@@ -19,7 +19,7 @@ const mockClients: Client[] = [
 ];
 
 const navItems = [
-  { icon: PieChart, label: 'Dashboard', path: '/', isActive: true },
+  { icon: PieChart, label: 'Dashboard', path: '/' },
   { icon: BarChartHorizontal, label: 'Kampagnen', path: '/campaigns' },
   { icon: CircuitBoard, label: 'Integrations' },
   { icon: Database, label: 'Pipeline' },
@@ -34,6 +34,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const location = useLocation();
 
   const handleClientSelect = (clientId: number) => {
     setSelectedClient(clientId);
@@ -156,7 +157,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 to={item.path || '#'}
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors",
-                  item.isActive 
+                  location.pathname === item.path 
                     ? "bg-gradient-to-r from-amplifa-blue/10 to-amplifa-purple/10 text-amplifa-purple"
                     : "text-gray-600 hover:bg-gray-50"
                 )}
