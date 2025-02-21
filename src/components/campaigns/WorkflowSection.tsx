@@ -1,3 +1,4 @@
+
 import { Mail, MessageSquare, Mic, UserPlus, Eye, List, Code, Send, Brain, LayoutTemplate, PhoneCall, Link, Calendar } from "lucide-react";
 import { Button } from "../ui/button";
 import { TabsList, TabsTrigger, Tabs } from "../ui/tabs";
@@ -18,239 +19,250 @@ export const WorkflowSection = () => {
     return <WorkflowEditor initialModuleType={selectedModule} onBack={() => setShowEditor(false)} />;
   }
 
+  const renderAutomaticSteps = () => (
+    <div>
+      <h3 className="text-sm font-medium text-gray-600 mb-4">Automatic Steps</h3>
+      <div className="grid grid-cols-4 gap-4">
+        <Button 
+          variant="outline" 
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50 border-green-100 hover:bg-green-100"
+          onClick={() => handleStepClick("Email")}
+        >
+          <Mail className="w-5 h-5 text-green-600" />
+          <div className="text-center">
+            <div className="font-medium text-gray-900">Email</div>
+            <div className="text-xs text-gray-500">Send automatic email</div>
+          </div>
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          className="h-auto p-4 flex flex-col items-center gap-2"
+          onClick={() => handleStepClick("Chat message")}
+        >
+          <MessageSquare className="w-5 h-5 text-blue-600" />
+          <div className="text-center">
+            <div className="font-medium text-gray-900">Chat message</div>
+            <div className="text-xs text-gray-500">Send on LinkedIn</div>
+          </div>
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          className="h-auto p-4 flex flex-col items-center gap-2"
+          onClick={() => handleStepClick("Voice message")}
+        >
+          <Mic className="w-5 h-5 text-blue-600" />
+          <div className="text-center">
+            <div className="font-medium text-gray-900">Voice message</div>
+            <div className="text-xs text-gray-500">Send on LinkedIn</div>
+          </div>
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          className="h-auto p-4 flex flex-col items-center gap-2"
+          onClick={() => handleStepClick("Invitation")}
+        >
+          <UserPlus className="w-5 h-5 text-blue-600" />
+          <div className="text-center">
+            <div className="font-medium text-gray-900">Invitation</div>
+            <div className="text-xs text-gray-500">Send on LinkedIn</div>
+          </div>
+        </Button>
+      </div>
+    </div>
+  );
+
+  const renderManualSteps = () => (
+    <div>
+      <h3 className="text-sm font-medium text-gray-600 mb-4">Manual execution</h3>
+      <div className="grid grid-cols-4 gap-4">
+        <Button 
+          variant="outline" 
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
+          onClick={() => handleStepClick("Call")}
+        >
+          <PhoneCall className="w-5 h-5 text-red-600" />
+          <div className="text-center">
+            <div className="font-medium text-gray-900">Call</div>
+            <div className="text-xs text-gray-500">Create a task</div>
+          </div>
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
+          onClick={() => handleStepClick("Manual task")}
+        >
+          <List className="w-5 h-5 text-red-600" />
+          <div className="text-center">
+            <div className="font-medium text-gray-900">Manual task</div>
+            <div className="text-xs text-gray-500">Create a task</div>
+          </div>
+        </Button>
+      </div>
+    </div>
+  );
+
+  const renderOtherSteps = () => (
+    <div>
+      <h3 className="text-sm font-medium text-gray-600 mb-4">Other steps</h3>
+      <div className="grid grid-cols-4 gap-4">
+        <Button 
+          variant="outline" 
+          className="h-auto p-4 flex flex-col items-center gap-2"
+          onClick={() => handleStepClick("Call API")}
+        >
+          <Code className="w-5 h-5 text-blue-600" />
+          <div className="text-center">
+            <div className="font-medium text-gray-900">Call an API</div>
+            <div className="text-xs text-gray-500">Call an API</div>
+          </div>
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          className="h-auto p-4 flex flex-col items-center gap-2"
+          onClick={() => handleStepClick("Send to campaign")}
+        >
+          <Send className="w-5 h-5 text-gray-600" />
+          <div className="text-center">
+            <div className="font-medium text-gray-900">Send to another campaign</div>
+            <div className="text-xs text-gray-500">Transfer to campaign</div>
+          </div>
+        </Button>
+      </div>
+    </div>
+  );
+
+  const renderConditions = () => (
+    <>
+      <div>
+        <h3 className="text-sm font-medium text-gray-600 mb-4">Lead information</h3>
+        <div className="grid grid-cols-4 gap-4">
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Has email")}
+          >
+            <Mail className="w-5 h-5 text-blue-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Has email address</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Has LinkedIn URL")}
+          >
+            <Link className="w-5 h-5 text-blue-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Has LinkedIn URL</div>
+              <div className="text-xs text-gray-500">LinkedIn</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Has phone")}
+          >
+            <PhoneCall className="w-5 h-5 text-blue-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Has phone number</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Custom condition")}
+          >
+            <Code className="w-5 h-5 text-blue-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Custom condition</div>
+            </div>
+          </Button>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <h3 className="text-sm font-medium text-gray-600 mb-4">Lead actions</h3>
+        <div className="grid grid-cols-4 gap-4">
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Opened email")}
+          >
+            <Mail className="w-5 h-5 text-blue-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Opened email</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Clicked link")}
+          >
+            <Link className="w-5 h-5 text-blue-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Clicked on link in email</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Unsubscribe")}
+          >
+            <UserPlus className="w-5 h-5 text-red-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Unsubscribe from email</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Booked meeting")}
+          >
+            <Calendar className="w-5 h-5 text-green-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Booked a meeting</div>
+              <div className="text-xs text-gray-500">lemcal</div>
+            </div>
+          </Button>
+
+          <Button 
+            variant="outline" 
+            className="h-auto p-4 flex flex-col items-center gap-2"
+            onClick={() => handleStepClick("Accepted invite")}
+          >
+            <Link className="w-5 h-5 text-blue-600" />
+            <div className="text-center">
+              <div className="font-medium text-gray-900">Accepted invite</div>
+              <div className="text-xs text-gray-500">LinkedIn</div>
+            </div>
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+
   const renderModules = () => {
     if (activeTab === "steps") {
       return (
         <>
-          <div>
-            <h3 className="text-sm font-medium text-gray-600 mb-4">Automatic Steps</h3>
-            <div className="grid grid-cols-4 gap-4">
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2 bg-green-50 border-green-100 hover:bg-green-100"
-                onClick={() => handleStepClick("Email")}
-              >
-                <Mail className="w-5 h-5 text-green-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Email</div>
-                  <div className="text-xs text-gray-500">Send automatic email</div>
-                </div>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Chat message")}
-              >
-                <MessageSquare className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Chat message</div>
-                  <div className="text-xs text-gray-500">Send on LinkedIn</div>
-                </div>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Voice message")}
-              >
-                <Mic className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Voice message</div>
-                  <div className="text-xs text-gray-500">Send on LinkedIn</div>
-                </div>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Invitation")}
-              >
-                <UserPlus className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Invitation</div>
-                  <div className="text-xs text-gray-500">Send on LinkedIn</div>
-                </div>
-              </Button>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-medium text-gray-600 mb-4">Manual execution</h3>
-            <div className="grid grid-cols-4 gap-4">
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
-                onClick={() => handleStepClick("Call")}
-              >
-                <PhoneCall className="w-5 h-5 text-red-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Call</div>
-                  <div className="text-xs text-gray-500">Create a task</div>
-                </div>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2 bg-red-50 border-red-100 hover:bg-red-100"
-                onClick={() => handleStepClick("Manual task")}
-              >
-                <List className="w-5 h-5 text-red-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Manual task</div>
-                  <div className="text-xs text-gray-500">Create a task</div>
-                </div>
-              </Button>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-medium text-gray-600 mb-4">Other steps</h3>
-            <div className="grid grid-cols-4 gap-4">
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Call API")}
-              >
-                <Code className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Call an API</div>
-                  <div className="text-xs text-gray-500">Call an API</div>
-                </div>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Send to campaign")}
-              >
-                <Send className="w-5 h-5 text-gray-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Send to another campaign</div>
-                  <div className="text-xs text-gray-500">Transfer to campaign</div>
-                </div>
-              </Button>
-            </div>
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div>
-            <h3 className="text-sm font-medium text-gray-600 mb-4">Lead information</h3>
-            <div className="grid grid-cols-4 gap-4">
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Has email")}
-              >
-                <Mail className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Has email address</div>
-                </div>
-              </Button>
-
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Has LinkedIn URL")}
-              >
-                <Link className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Has LinkedIn URL</div>
-                  <div className="text-xs text-gray-500">LinkedIn</div>
-                </div>
-              </Button>
-
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Has phone")}
-              >
-                <PhoneCall className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Has phone number</div>
-                </div>
-              </Button>
-
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Custom condition")}
-              >
-                <Code className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Custom condition</div>
-                </div>
-              </Button>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="text-sm font-medium text-gray-600 mb-4">Lead actions</h3>
-            <div className="grid grid-cols-4 gap-4">
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Opened email")}
-              >
-                <Mail className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Opened email</div>
-                </div>
-              </Button>
-
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Clicked link")}
-              >
-                <Link className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Clicked on link in email</div>
-                </div>
-              </Button>
-
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Unsubscribe")}
-              >
-                <UserPlus className="w-5 h-5 text-red-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Unsubscribe from email</div>
-                </div>
-              </Button>
-
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Booked meeting")}
-              >
-                <Calendar className="w-5 h-5 text-green-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Booked a meeting</div>
-                  <div className="text-xs text-gray-500">lemcal</div>
-                </div>
-              </Button>
-
-              <Button 
-                variant="outline" 
-                className="h-auto p-4 flex flex-col items-center gap-2"
-                onClick={() => handleStepClick("Accepted invite")}
-              >
-                <Link className="w-5 h-5 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium text-gray-900">Accepted invite</div>
-                  <div className="text-xs text-gray-500">LinkedIn</div>
-                </div>
-              </Button>
-            </div>
-          </div>
+          {renderAutomaticSteps()}
+          {renderManualSteps()}
+          {renderOtherSteps()}
         </>
       );
     }
+    return renderConditions();
   };
 
   return (
