@@ -8,8 +8,10 @@ const Index = () => {
 
   return (
     <Layout>
-      <div className="p-8">
-        <ClientStats clientId={selectedClientId} />
+      <div className="w-full min-h-screen bg-gray-50">
+        <div className="p-4 sm:p-6 md:p-8 w-full">
+          <ClientStats clientId={selectedClientId} />
+        </div>
       </div>
     </Layout>
   );

@@ -8,9 +8,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen w-full">
       <Sidebar onClientSelect={setSelectedClientId} />
-      <div className="flex-1 w-full">
+      <main className="flex-1 w-full overflow-x-hidden">
         {children}
-      </div>
+      </main>
     </div>
   );
 };
