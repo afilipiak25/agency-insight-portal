@@ -1,4 +1,3 @@
-
 import {
   ReactFlow,
   MiniMap,
@@ -9,7 +8,9 @@ import {
   addEdge,
   Connection,
   Panel,
+  Position,
 } from '@xyflow/react';
+import { useState } from 'react';
 import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, Pencil } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -271,7 +272,7 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
               <ZoomOut className="w-4 h-4" />
             </Button>
           </Panel>
-          <Panel position="center" className="w-full pointer-events-none">
+          <Panel position="bottom-center" className="w-full pointer-events-none">
             <div className="max-w-[600px] mx-auto pointer-events-auto">
               <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
