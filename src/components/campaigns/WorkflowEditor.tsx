@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
   ReactFlow,
   MiniMap,
@@ -10,7 +11,6 @@ import {
   Panel,
   Position,
 } from '@xyflow/react';
-import { useState } from 'react';
 import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, Pencil } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -147,7 +147,7 @@ const getModuleSubtitle = (type: string) => {
   }
 };
 
-export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProps) => {
+export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleType, onBack }) => {
   const initialNodes = [
     {
       id: 'start',
@@ -188,7 +188,7 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const onConnect = (params: Connection) => {
     setEdges((eds) => addEdge(params, eds));
