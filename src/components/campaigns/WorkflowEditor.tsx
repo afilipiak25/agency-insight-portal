@@ -1,3 +1,4 @@
+
 import {
   ReactFlow,
   MiniMap,
@@ -11,6 +12,14 @@ import {
 } from '@xyflow/react';
 import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, Pencil } from "lucide-react";
 import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import '@xyflow/react/dist/style.css';
 
 interface WorkflowEditorProps {
@@ -44,6 +53,52 @@ const CustomNode = ({ data }: { data: any }) => {
           <MoreHorizontal className="w-4 h-4 text-gray-400" />
         </div>
       </div>
+    </div>
+  );
+};
+
+const AddModuleButton = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <div className="relative flex justify-center my-4">
+      <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[1px] h-16 bg-gray-200" />
+      <Button 
+        variant="outline" 
+        size="icon" 
+        className="relative z-10 rounded-full border-dashed border-2 bg-white hover:border-blue-500 hover:text-blue-500"
+        onClick={onClick}
+      >
+        <Plus className="w-4 h-4" />
+      </Button>
+    </div>
+  );
+};
+
+const ModuleSelector = ({ onSelect }: { onSelect: (type: string) => void }) => {
+  const moduleTypes = [
+    { type: "Email", icon: <Mail className="w-5 h-5 text-green-600" />, label: "Email", subtitle: "Send automatic email" },
+    { type: "Chat message", icon: <MessageSquare className="w-5 h-5 text-blue-600" />, label: "Chat message", subtitle: "Send on LinkedIn" },
+    { type: "Voice message", icon: <Mic className="w-5 h-5 text-blue-600" />, label: "Voice message", subtitle: "Send on LinkedIn" },
+    { type: "Call", icon: <PhoneCall className="w-5 h-5 text-red-600" />, label: "Call", subtitle: "Create a task" },
+  ];
+
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      {moduleTypes.map((module) => (
+        <Button
+          key={module.type}
+          variant="outline"
+          className="h-auto p-4 flex flex-col items-center gap-2 hover:border-blue-500"
+          onClick={() => onSelect(module.type)}
+        >
+          <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center">
+            {module.icon}
+          </div>
+          <div className="text-center">
+            <div className="font-medium">{module.label}</div>
+            <div className="text-xs text-gray-500">{module.subtitle}</div>
+          </div>
+        </Button>
+      ))}
     </div>
   );
 };
@@ -132,9 +187,41 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [isOpen, setIsOpen] = useState(false);
 
   const onConnect = (params: Connection) => {
     setEdges((eds) => addEdge(params, eds));
+  };
+
+  const addNewModule = (type: string) => {
+    const newNodeId = `module-${nodes.length + 1}`;
+    const lastNodeId = nodes[nodes.length - 1].id;
+    const lastNodeY = nodes[nodes.length - 1].position.y;
+
+    const newNode = {
+      id: newNodeId,
+      position: { x: 350, y: lastNodeY + 200 },
+      data: {
+        label: type,
+        subtitle: getModuleSubtitle(type),
+        timing: true,
+        icon: getModuleIcon(type),
+        isSelected: false
+      },
+      type: 'custom',
+    };
+
+    const newEdge = {
+      id: `e${lastNodeId}-${newNodeId}`,
+      source: lastNodeId,
+      target: newNodeId,
+      type: 'smoothstep',
+      animated: true,
+    };
+
+    setNodes((nds) => [...nds, newNode]);
+    setEdges((eds) => [...eds, newEdge]);
+    setIsOpen(false);
   };
 
   return (
@@ -183,6 +270,24 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
             <Button variant="ghost" size="icon">
               <ZoomOut className="w-4 h-4" />
             </Button>
+          </Panel>
+          <Panel position="center" className="w-full pointer-events-none">
+            <div className="max-w-[600px] mx-auto pointer-events-auto">
+              <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogTrigger asChild>
+                  <AddModuleButton onClick={() => setIsOpen(true)} />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add new module</DialogTitle>
+                    <DialogDescription>
+                      Choose the type of module you want to add to your workflow
+                    </DialogDescription>
+                  </DialogHeader>
+                  <ModuleSelector onSelect={addNewModule} />
+                </DialogContent>
+              </Dialog>
+            </div>
           </Panel>
           <Background color="#e5e5e5" gap={16} />
           <Controls />
