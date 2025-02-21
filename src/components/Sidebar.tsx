@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight, Brain } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -154,7 +155,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
             {navItems.map((item, index) => (
               <Link
                 key={index}
-                to={item.path || '#'}
+                to={item.path}
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors",
                   location.pathname === item.path 
