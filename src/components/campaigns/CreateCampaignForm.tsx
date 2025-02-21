@@ -1,7 +1,6 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Users, Upload, ChevronDown, Plus, X } from "lucide-react";
+import { Users, Upload, ChevronDown, Plus, X, ChevronUp } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -59,6 +58,25 @@ export const CreateCampaignForm = () => {
                 </SelectContent>
               </Select>
             </div>
+          </div>
+
+          {/* Company Search */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Company Search
+            </label>
+            <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Search for specific companies..." />
+              </SelectTrigger>
+              <SelectContent>
+                {[...Array(50)].map((_, i) => (
+                  <SelectItem key={i} value={`company-${i + 1}`}>
+                    Company {i + 1}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Locations */}
@@ -138,6 +156,181 @@ export const CreateCampaignForm = () => {
               <Button variant="outline" className="rounded-full">
                 + Add Job Title
               </Button>
+            </div>
+          </div>
+
+          {/* Job Titles to Exclude */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Job Titles to Exclude
+            </label>
+            <Input 
+              placeholder="Enter job titles to exclude..."
+              className="w-full"
+            />
+          </div>
+
+          {/* Job Function */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Job Function
+            </label>
+            <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select job function" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="sales">Sales</SelectItem>
+                <SelectItem value="marketing">Marketing</SelectItem>
+                <SelectItem value="operations">Operations</SelectItem>
+                <SelectItem value="it">IT</SelectItem>
+                <SelectItem value="finance">Finance</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Management Level */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Management Level
+            </label>
+            <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select management level" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="c-level">C-Level</SelectItem>
+                <SelectItem value="vp">VP Level</SelectItem>
+                <SelectItem value="director">Director Level</SelectItem>
+                <SelectItem value="manager">Manager Level</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Sector */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Sector
+            </label>
+            <Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select sector" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="technology">Technology</SelectItem>
+                <SelectItem value="healthcare">Healthcare</SelectItem>
+                <SelectItem value="finance">Finance</SelectItem>
+                <SelectItem value="retail">Retail</SelectItem>
+                <SelectItem value="manufacturing">Manufacturing</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Sectors to Exclude */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Sectors to Exclude
+            </label>
+            <Input 
+              placeholder="Enter sectors to exclude..."
+              className="w-full"
+            />
+          </div>
+
+          {/* Number of Employees */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Number of Employees
+            </label>
+            <div className="flex gap-4">
+              <Input 
+                type="number"
+                placeholder="Min"
+                className="w-full"
+                defaultValue={1}
+              />
+              <Input 
+                type="number"
+                placeholder="Max"
+                className="w-full"
+                defaultValue={1000000}
+              />
+            </div>
+          </div>
+
+          {/* Outbound Keywords */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              Outbound Keywords
+              <span className="text-xs text-gray-500">(Add Comma to Separate)</span>
+            </label>
+            <div className="flex gap-2">
+              <Input 
+                placeholder="Add your keywords here"
+                className="flex-1"
+              />
+              <Button variant="secondary" className="bg-violet-100 text-violet-700 hover:bg-violet-200">
+                Add New
+              </Button>
+              <Button variant="outline" className="gap-2">
+                <Upload className="w-4 h-4" />
+                Upload CSV
+              </Button>
+            </div>
+          </div>
+
+          {/* Blacklisted Email Domains */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Blacklisted Email Domains
+            </label>
+            <Input 
+              placeholder="Enter domains to blacklist..."
+              className="w-full"
+            />
+          </div>
+
+          {/* Advanced Targeting */}
+          <div className="space-y-2 border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">Advanced Targeting</h3>
+              <ChevronUp className="w-5 h-5 text-gray-500" />
+            </div>
+            
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Technologies Used
+                </label>
+                <div className="relative">
+                  <Input 
+                    placeholder="Search technologies used"
+                    className="w-full pr-16"
+                  />
+                  <button className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-gray-700">
+                    Clear All
+                  </button>
+                </div>
+                <div className="space-y-2 mt-2">
+                  {[
+                    "1World Online",
+                    "1plusX",
+                    "1time",
+                    "20-20 Technologies",
+                    "2020 Technologies",
+                    "HubSpot",
+                    "Salesforce",
+                    "Marketo",
+                    "Zendesk",
+                    "Mailchimp"
+                  ].map((tech) => (
+                    <div key={tech} className="flex items-center gap-2">
+                      <input type="checkbox" id={tech} className="rounded border-gray-300" />
+                      <label htmlFor={tech} className="text-sm text-gray-700">{tech}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
