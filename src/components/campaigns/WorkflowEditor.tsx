@@ -32,7 +32,7 @@ interface WorkflowEditorProps {
   onBack: () => void;
 }
 
-interface NodeData extends Record<string, unknown> {
+interface NodeCustomData {
   label: string;
   subtitle?: string;
   timing?: boolean;
@@ -42,7 +42,7 @@ interface NodeData extends Record<string, unknown> {
   onContentChange?: (content: string) => void;
 }
 
-const CustomNode: React.FC<NodeProps<NodeData>> = ({ data }) => {
+const CustomNode: React.FC<NodeProps<NodeCustomData>> = ({ data }) => {
   return (
     <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
       {data.timing && (
@@ -177,7 +177,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     "module-1": ""
   });
 
-  const initialNodes: Node<NodeData>[] = [
+  const initialNodes: Node<NodeCustomData>[] = [
     {
       id: 'start',
       position: { x: 350, y: 50 },
@@ -217,7 +217,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     custom: CustomNode,
   }), []);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState<NodeData>(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node<NodeCustomData>>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -227,7 +227,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       [nodeId]: content
     }));
     
-    setNodes((nds: Node<NodeData>[]) => nds.map(node => ({
+    setNodes((nds) => nds.map(node => ({
       ...node,
       data: {
         ...node.data,
@@ -241,7 +241,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
   };
 
   const onNodeClick: NodeMouseHandler = (_, node) => {
-    setNodes((nds: Node<NodeData>[]) => nds.map(n => ({
+    setNodes((nds) => nds.map(n => ({
       ...n,
       data: {
         ...n.data,
@@ -253,15 +253,15 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
 
   const addNewModule = (type: string) => {
     const newNodeId = `module-${nodes.length + 1}`;
-    const lastNodeId = nodes[nodes.length - 1].id;
-    const lastNodeY = nodes[nodes.length - 1].position.y;
+    const lastNode = nodes[nodes.length - 1];
+    const lastNodeY = lastNode.position.y;
 
     setNodeContents(prev => ({
       ...prev,
       [newNodeId]: ""
     }));
 
-    setNodes((nds: Node<NodeData>[]) => nds.map(node => ({
+    setNodes((nds) => nds.map(node => ({
       ...node,
       data: {
         ...node.data,
@@ -269,7 +269,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       }
     })));
 
-    const newNode: Node<NodeData> = {
+    const newNode: Node<NodeCustomData> = {
       id: newNodeId,
       position: { x: 350, y: lastNodeY + 200 },
       data: {
@@ -285,8 +285,8 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     };
 
     const newEdge = {
-      id: `e${lastNodeId}-${newNodeId}`,
-      source: lastNodeId,
+      id: `e${lastNode.id}-${newNodeId}`,
+      source: lastNode.id,
       target: newNodeId,
       type: 'smoothstep',
       animated: true,
