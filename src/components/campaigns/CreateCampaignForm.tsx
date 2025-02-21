@@ -32,6 +32,21 @@ export const CreateCampaignForm = () => {
     );
   };
 
+  const renderPreview = () => {
+    if (activeSection === "workflow") {
+      return <PreviewSection />;
+    }
+    return (
+      <div className="bg-white rounded-lg border p-4 space-y-4">
+        <h2 className="font-semibold text-lg">Preview Leads</h2>
+        <p className="text-gray-500 text-sm">
+          Select your targeting criteria to preview matching leads.
+        </p>
+        {/* Placeholder für die Original Preview-Funktionalität */}
+      </div>
+    );
+  };
+
   const renderContent = () => {
     switch (activeSection) {
       case "targeting":
@@ -76,7 +91,7 @@ export const CreateCampaignForm = () => {
 
           <div className="space-y-6 w-96 sticky top-8">
             <AudienceHeader />
-            <PreviewSection />
+            {renderPreview()}
           </div>
         </div>
 
