@@ -27,69 +27,71 @@ const mailProviders: MailProvider[] = [
 const Mailboxes = () => {
   return (
     <Layout>
-      <div className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
-          <div className="w-full sm:w-auto">
-            <h1 className="text-xl sm:text-2xl font-semibold mb-2">Mailboxes</h1>
-            <p className="text-sm sm:text-base text-gray-600">
-              Verbinden Sie Ihre E-Mail-Konten und verwalten Sie alle Ihre Mailboxen an einem Ort.
-            </p>
-          </div>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="gap-2 w-full sm:w-auto whitespace-nowrap"
-          >
-            <Settings className="w-4 h-4" />
-            Einstellungen
-          </Button>
-        </div>
-
-        <div className="bg-white rounded-lg border p-4 sm:p-6 mb-6 sm:mb-8 overflow-hidden">
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <Input
-              placeholder="Nach Anbietern suchen..."
-              className="pl-10 w-full"
-            />
+      <div className="flex-1 w-full min-h-screen bg-gray-50">
+        <div className="w-full p-4 sm:p-6 md:p-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div className="w-full sm:w-auto">
+              <h1 className="text-xl sm:text-2xl font-semibold mb-2">Mailboxes</h1>
+              <p className="text-sm sm:text-base text-gray-600">
+                Verbinden Sie Ihre E-Mail-Konten und verwalten Sie alle Ihre Mailboxen an einem Ort.
+              </p>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 w-full sm:w-auto whitespace-nowrap"
+            >
+              <Settings className="w-4 h-4" />
+              Einstellungen
+            </Button>
           </div>
 
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-sm font-medium text-gray-500 mb-4">Beliebt</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                {mailProviders
-                  .filter(provider => provider.category === 'popular')
-                  .map(provider => (
-                    <button
-                      key={provider.id}
-                      className="flex items-center gap-3 p-3 sm:p-4 rounded-lg border hover:border-violet-400 hover:bg-violet-50 transition-all w-full text-left"
-                    >
-                      <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-violet-600 flex-shrink-0" />
-                      <span className="font-medium text-sm sm:text-base truncate">
-                        {provider.name}
-                      </span>
-                    </button>
-                  ))}
-              </div>
+          <div className="bg-white rounded-lg border p-4 sm:p-6">
+            <div className="relative mb-6">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Input
+                placeholder="Nach Anbietern suchen..."
+                className="pl-10 w-full"
+              />
             </div>
 
-            <div>
-              <h2 className="text-sm font-medium text-gray-500 mb-4">Weitere Anbieter</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                {mailProviders
-                  .filter(provider => provider.category === 'additional')
-                  .map(provider => (
-                    <button
-                      key={provider.id}
-                      className="flex items-center gap-3 p-3 sm:p-4 rounded-lg border hover:border-violet-400 hover:bg-violet-50 transition-all w-full text-left"
-                    >
-                      <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-violet-600 flex-shrink-0" />
-                      <span className="font-medium text-sm sm:text-base truncate">
-                        {provider.name}
-                      </span>
-                    </button>
-                  ))}
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-sm font-medium text-gray-500 mb-4">Beliebt</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {mailProviders
+                    .filter(provider => provider.category === 'popular')
+                    .map(provider => (
+                      <button
+                        key={provider.id}
+                        className="flex items-center gap-3 p-3 sm:p-4 rounded-lg border hover:border-violet-400 hover:bg-violet-50 transition-all w-full text-left"
+                      >
+                        <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-violet-600 flex-shrink-0" />
+                        <span className="font-medium text-sm sm:text-base truncate">
+                          {provider.name}
+                        </span>
+                      </button>
+                    ))}
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-sm font-medium text-gray-500 mb-4">Weitere Anbieter</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {mailProviders
+                    .filter(provider => provider.category === 'additional')
+                    .map(provider => (
+                      <button
+                        key={provider.id}
+                        className="flex items-center gap-3 p-3 sm:p-4 rounded-lg border hover:border-violet-400 hover:bg-violet-50 transition-all w-full text-left"
+                      >
+                        <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-violet-600 flex-shrink-0" />
+                        <span className="font-medium text-sm sm:text-base truncate">
+                          {provider.name}
+                        </span>
+                      </button>
+                    ))}
+                </div>
               </div>
             </div>
           </div>
