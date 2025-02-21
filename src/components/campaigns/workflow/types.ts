@@ -1,15 +1,18 @@
 
+import { ReactNode } from "react";
+
 export interface WorkflowStep {
   id: string;
   type: "automatic" | "manual" | "other";
   title: string;
   description: string;
-  icon: React.ReactNode | null;
+  icon: ReactNode | null;
 }
 
 export interface WorkflowCondition {
   id: string;
   title: string;
   description: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
+  type?: string;
 }

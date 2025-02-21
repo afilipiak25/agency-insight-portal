@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { StepGrid } from "./StepGrid";
 import { automaticSteps, manualSteps, otherSteps } from "./stepData";
 import { leadInformationConditions, leadActionsConditions } from "./conditionData";
-import { WorkflowStep } from "./types";
+import { WorkflowStep, WorkflowCondition } from "./types";
 import { useState } from "react";
 
 interface StepDialogProps {
@@ -20,6 +20,14 @@ interface StepDialogProps {
 
 export const StepDialog = ({ isOpen, onClose, onStepSelect }: StepDialogProps) => {
   const [selectedView, setSelectedView] = useState<"steps" | "conditions">("steps");
+
+  const handleConditionSelect = (condition: WorkflowCondition) => {
+    const step: WorkflowStep = {
+      ...condition,
+      type: "automatic",
+    };
+    onStepSelect(step);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -49,7 +57,7 @@ export const StepDialog = ({ isOpen, onClose, onStepSelect }: StepDialogProps) =
         <div className="mt-8 space-y-8">
           {selectedView === "steps" ? (
             <>
-              <StepGrid 
+              <StepGrid<WorkflowStep>
                 title="Automatic Steps" 
                 steps={automaticSteps} 
                 onStepClick={(step) => {
@@ -57,7 +65,7 @@ export const StepDialog = ({ isOpen, onClose, onStepSelect }: StepDialogProps) =
                   onClose();
                 }}
               />
-              <StepGrid 
+              <StepGrid<WorkflowStep>
                 title="Manual execution" 
                 steps={manualSteps} 
                 onStepClick={(step) => {
@@ -65,7 +73,7 @@ export const StepDialog = ({ isOpen, onClose, onStepSelect }: StepDialogProps) =
                   onClose();
                 }}
               />
-              <StepGrid 
+              <StepGrid<WorkflowStep>
                 title="Other steps" 
                 steps={otherSteps} 
                 onStepClick={(step) => {
@@ -76,19 +84,19 @@ export const StepDialog = ({ isOpen, onClose, onStepSelect }: StepDialogProps) =
             </>
           ) : (
             <>
-              <StepGrid 
+              <StepGrid<WorkflowCondition>
                 title="Lead information" 
                 steps={leadInformationConditions} 
-                onStepClick={(step) => {
-                  onStepSelect(step as any);
+                onStepClick={(condition) => {
+                  handleConditionSelect(condition);
                   onClose();
                 }}
               />
-              <StepGrid 
+              <StepGrid<WorkflowCondition>
                 title="Lead actions" 
                 steps={leadActionsConditions} 
-                onStepClick={(step) => {
-                  onStepSelect(step as any);
+                onStepClick={(condition) => {
+                  handleConditionSelect(condition);
                   onClose();
                 }}
               />

@@ -1,14 +1,18 @@
 
 import { Card } from "@/components/ui/card";
-import { WorkflowStep } from "./types";
+import { WorkflowStep, WorkflowCondition } from "./types";
 
-interface StepGridProps {
+interface StepGridProps<T extends WorkflowStep | WorkflowCondition> {
   title: string;
-  steps: WorkflowStep[];
-  onStepClick: (step: WorkflowStep) => void;
+  steps: T[];
+  onStepClick: (step: T) => void;
 }
 
-export const StepGrid = ({ title, steps, onStepClick }: StepGridProps) => {
+export const StepGrid = <T extends WorkflowStep | WorkflowCondition>({ 
+  title, 
+  steps, 
+  onStepClick 
+}: StepGridProps<T>) => {
   return (
     <div>
       <h3 className="text-sm font-medium text-gray-500 mb-4">{title}</h3>
