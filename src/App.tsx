@@ -16,7 +16,6 @@ import LeadDatabase from "./pages/LeadDatabase";
 import Inbox from "./pages/Inbox";
 import TrainAI from "./pages/TrainAI";
 import Personas from "./pages/Personas";
-import "./App.css";
 
 const queryClient = new QueryClient();
 

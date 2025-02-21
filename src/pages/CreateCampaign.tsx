@@ -38,5 +38,4 @@ const CreateCampaign = () => {
   );
 };
 
-// Wichtig: Default Export hinzufügen
 export default CreateCampaign;
