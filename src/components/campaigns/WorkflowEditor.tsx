@@ -1,4 +1,3 @@
-
 import {
   ReactFlow,
   MiniMap,
@@ -10,7 +9,7 @@ import {
   Connection,
   Panel,
 } from '@xyflow/react';
-import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send } from "lucide-react";
+import { ArrowLeft, Plus, Settings2, ZoomIn, ZoomOut, MoreHorizontal, Clock, Mail, MessageSquare, Mic, UserPlus, PhoneCall, List, Code, Send, Pencil } from "lucide-react";
 import { Button } from "../ui/button";
 import '@xyflow/react/dist/style.css';
 
@@ -21,20 +20,23 @@ interface WorkflowEditorProps {
 
 const CustomNode = ({ data }: { data: any }) => {
   return (
-    <div className="p-4 min-w-[300px] bg-white rounded-lg border-2 border-gray-200">
+    <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-red-200' : 'border-gray-100'} shadow-sm min-w-[280px]`}>
       {data.timing && (
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+        <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
           <Clock className="w-4 h-4" />
-          <span>{data.timing}</span>
+          <span>Send immediately</span>
+          <Pencil className="w-4 h-4 ml-auto text-gray-400" />
         </div>
       )}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {data.icon}
+          <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center">
+            {data.icon}
+          </div>
           <div className="text-left">
             <div className="font-medium">{data.label}</div>
             {data.subtitle && (
-              <div className="text-sm text-gray-600">{data.subtitle}</div>
+              <div className="text-sm text-red-500">{data.subtitle}</div>
             )}
           </div>
         </div>
@@ -72,7 +74,7 @@ const getModuleIcon = (type: string) => {
 const getModuleSubtitle = (type: string) => {
   switch (type) {
     case "Email":
-      return "Send automatic email";
+      return "Action needed";
     case "Chat message":
     case "Voice message":
     case "Invitation":
@@ -95,9 +97,8 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
       id: 'start',
       position: { x: 350, y: 50 },
       data: { 
-        label: 'Campaign Start',
-        icon: <Mail className="w-5 h-5 text-gray-600" />,
-        showEdit: false 
+        label: 'Sequence start',
+        icon: <Mail className="w-5 h-5 text-gray-400" />,
       },
       type: 'custom',
     },
@@ -107,8 +108,9 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
       data: { 
         label: initialModuleType,
         subtitle: getModuleSubtitle(initialModuleType),
-        timing: 'Send immediately',
-        icon: getModuleIcon(initialModuleType)
+        timing: true,
+        icon: getModuleIcon(initialModuleType),
+        isSelected: true
       },
       type: 'custom',
     }
@@ -144,16 +146,18 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
             Back to modules
           </Button>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-blue-500" />
-            <h2 className="font-semibold">Workflow Editor</h2>
+            <div className="w-2 h-2 rounded-full bg-blue-500" />
+            <span className="font-semibold">Workflow Editor</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon">
-            <Settings2 className="w-5 h-5 text-gray-600" />
+          <Button variant="outline" size="sm" className="gap-2">
+            <Mail className="w-4 h-4" />
+            Upload CSV
           </Button>
-          <Button variant="outline" size="icon">
-            <Plus className="w-5 h-5 text-gray-600" />
+          <Button variant="outline" size="sm" className="gap-2 bg-blue-50 text-blue-600 border-blue-100 hover:bg-blue-100">
+            <Mail className="w-4 h-4" />
+            Generate Sample Email
           </Button>
         </div>
       </div>
@@ -172,11 +176,11 @@ export const WorkflowEditor = ({ initialModuleType, onBack }: WorkflowEditorProp
             animated: true,
           }}
         >
-          <Panel position="top-right" className="bg-white p-2 rounded-lg shadow-sm space-x-2">
-            <Button variant="outline" size="icon">
+          <Panel position="top-right" className="bg-white rounded-lg shadow-sm space-x-2">
+            <Button variant="ghost" size="icon">
               <ZoomIn className="w-4 h-4" />
             </Button>
-            <Button variant="outline" size="icon">
+            <Button variant="ghost" size="icon">
               <ZoomOut className="w-4 h-4" />
             </Button>
           </Panel>
