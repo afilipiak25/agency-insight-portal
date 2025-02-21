@@ -97,24 +97,15 @@ Mit besten Grüßen`);
       <div className="space-y-6 pt-6 border-t border-violet-100">
         <div className="flex items-center justify-between">
           <h3 className="font-medium text-lg text-violet-700">Generierte Email</h3>
-          <div className="flex gap-3">
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="gap-2 border-violet-200 hover:bg-violet-50 text-violet-600"
-              onClick={() => handleGenerate()}
-            >
-              <RefreshCw className="w-4 h-4" />
-              Neu generieren
-            </Button>
-            <Button 
-              size="sm" 
-              className="gap-2 bg-violet-600 hover:bg-violet-500"
-            >
-              <Send className="w-4 h-4" />
-              Als Template speichern
-            </Button>
-          </div>
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="gap-2 border-violet-200 hover:bg-violet-50 text-violet-600"
+            onClick={() => handleGenerate()}
+          >
+            <RefreshCw className="w-4 h-4" />
+            Neu generieren
+          </Button>
         </div>
         
         <div className="relative">
