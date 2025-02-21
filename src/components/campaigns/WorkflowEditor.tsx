@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import {
   ReactFlow,
@@ -31,7 +32,7 @@ interface WorkflowEditorProps {
   onBack: () => void;
 }
 
-interface NodeData {
+interface NodeData extends Record<string, unknown> {
   label: string;
   subtitle?: string;
   timing?: boolean;
@@ -41,7 +42,7 @@ interface NodeData {
   onContentChange?: (content: string) => void;
 }
 
-const CustomNode = ({ data }: { data: NodeData }) => {
+const CustomNode: React.FC<NodeProps<NodeData>> = ({ data }) => {
   return (
     <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
       {data.timing && (
@@ -213,7 +214,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
   ];
 
   const nodeTypes = React.useMemo(() => ({
-    custom: CustomNode as React.ComponentType<NodeProps<NodeData>>,
+    custom: CustomNode,
   }), []);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<NodeData>(initialNodes);
@@ -226,7 +227,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       [nodeId]: content
     }));
     
-    setNodes((nds) => nds.map(node => ({
+    setNodes((nds: Node<NodeData>[]) => nds.map(node => ({
       ...node,
       data: {
         ...node.data,
@@ -240,7 +241,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
   };
 
   const onNodeClick: NodeMouseHandler = (_, node) => {
-    setNodes((nds) => nds.map(n => ({
+    setNodes((nds: Node<NodeData>[]) => nds.map(n => ({
       ...n,
       data: {
         ...n.data,
@@ -260,7 +261,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       [newNodeId]: ""
     }));
 
-    setNodes((nds) => nds.map(node => ({
+    setNodes((nds: Node<NodeData>[]) => nds.map(node => ({
       ...node,
       data: {
         ...node.data,
