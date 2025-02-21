@@ -39,12 +39,9 @@ interface NodeData {
   isSelected?: boolean;
   content?: string;
   onContentChange?: (content: string) => void;
-  [key: string]: unknown;
 }
 
-type WorkflowNode = Node<NodeData>;
-
-const CustomNode: React.FC<NodeProps<NodeData>> = ({ data }) => {
+const CustomNode = ({ data }: { data: NodeData }) => {
   return (
     <div className={`p-4 rounded-lg bg-white border ${data.isSelected ? 'border-blue-200' : 'border-gray-100'} shadow-sm min-w-[280px] ${data.isSelected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
       {data.timing && (
@@ -179,7 +176,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     "module-1": ""
   });
 
-  const initialNodes: Node[] = [
+  const initialNodes: Node<NodeData>[] = [
     {
       id: 'start',
       position: { x: 350, y: 50 },
@@ -215,11 +212,11 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
     }
   ];
 
-  const nodeTypes = {
-    custom: CustomNode,
-  };
+  const nodeTypes = React.useMemo(() => ({
+    custom: CustomNode as React.ComponentType<NodeProps<NodeData>>,
+  }), []);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState<NodeData>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -229,7 +226,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       [nodeId]: content
     }));
     
-    setNodes((nds: Node[]) => nds.map(node => ({
+    setNodes((nds) => nds.map(node => ({
       ...node,
       data: {
         ...node.data,
@@ -243,7 +240,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
   };
 
   const onNodeClick: NodeMouseHandler = (_, node) => {
-    setNodes((nds: Node[]) => nds.map(n => ({
+    setNodes((nds) => nds.map(n => ({
       ...n,
       data: {
         ...n.data,
@@ -263,7 +260,7 @@ export const WorkflowEditor: React.FC<WorkflowEditorProps> = ({ initialModuleTyp
       [newNodeId]: ""
     }));
 
-    setNodes((nds: Node[]) => nds.map(node => ({
+    setNodes((nds) => nds.map(node => ({
       ...node,
       data: {
         ...node.data,
