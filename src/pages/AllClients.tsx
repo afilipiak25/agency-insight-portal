@@ -8,8 +8,12 @@ import { ConnectionErrorDialog } from '@/components/clients/ConnectionErrorDialo
 import { CampaignsOverview } from '@/components/campaigns/CampaignsOverview';
 import { mockClientsData } from '@/data/mockClients';
 import type { ClientOverview } from '@/types/client';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { UserPlus } from 'lucide-react';
 
 const AllClients = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [hoveredClient, setHoveredClient] = useState<number | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'campaign' | 'connection' | 'other'>('all');
@@ -39,11 +43,20 @@ const AllClients = () => {
       ) : (
         <div className="p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="mb-8 animate-fade-in">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-amplifa-blue via-amplifa-purple to-amplifa-pink bg-clip-text text-transparent">
-                Alle Kunden
-              </h1>
-              <p className="text-gray-600 mt-2">Übersicht aller Kundenaktivitäten und Performance</p>
+            <div className="mb-8 animate-fade-in flex justify-between items-start">
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-amplifa-blue via-amplifa-purple to-amplifa-pink bg-clip-text text-transparent">
+                  Alle Kunden
+                </h1>
+                <p className="text-gray-600 mt-2">Übersicht aller Kundenaktivitäten und Performance</p>
+              </div>
+              <Button
+                onClick={() => navigate('/clients/create')}
+                className="gap-2 bg-gradient-to-r from-amplifa-blue to-amplifa-purple hover:opacity-90"
+              >
+                <UserPlus className="w-4 h-4" />
+                Neuer Kunde
+              </Button>
             </div>
 
             <ClientFilters

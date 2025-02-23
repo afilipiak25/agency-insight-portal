@@ -12,6 +12,7 @@ import TrainAI from './pages/TrainAI';
 import Personas from './pages/Personas';
 import Mailboxes from './pages/Mailboxes';
 import AllClients from './pages/AllClients';
+import CreateClient from './pages/CreateClient';
 import NotFound from './pages/NotFound';
 import './App.css';
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/personas" element={<Personas />} />
         <Route path="/mailboxes" element={<Mailboxes />} />
         <Route path="/clients" element={<AllClients />} />
+        <Route path="/clients/create" element={<CreateClient />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
