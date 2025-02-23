@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { LeadDeepResearchDialog } from "@/components/campaigns/LeadDeepResearchDialog";
+import { useState } from "react";
 
 interface PipelineCardProps {
   name: string;
@@ -23,9 +25,10 @@ interface PipelineCardProps {
   interest: "High Interest" | "Medium Interest";
   value: number;
   status: "new" | "contacted" | "meeting";
+  onClick: () => void;
 }
 
-const PipelineCard = ({ name, company, position, interest, value, status }: PipelineCardProps) => {
+const PipelineCard = ({ name, company, position, interest, value, status, onClick }: PipelineCardProps) => {
   const getInterestColor = (interest: string) => {
     return interest === "High Interest" ? "text-green-600" : "text-orange-500";
   };
@@ -44,7 +47,10 @@ const PipelineCard = ({ name, company, position, interest, value, status }: Pipe
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+    <div 
+      className="bg-white p-4 rounded-lg border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
+      onClick={onClick}
+    >
       <div className="flex justify-between items-start mb-3">
         <div>
           <h3 className="font-medium text-gray-900">{name}</h3>
@@ -99,6 +105,8 @@ const MetricCard = ({ icon: Icon, label, value, change }: {
 );
 
 const Pipeline = () => {
+  const [selectedLead, setSelectedLead] = useState<{ name: string; company: string; position: string; location: string; } | null>(null);
+
   return (
     <Layout>
       <div className="p-8 max-w-7xl mx-auto">
@@ -180,6 +188,12 @@ const Pipeline = () => {
                   interest="High Interest"
                   value={50000}
                   status="new"
+                  onClick={() => setSelectedLead({
+                    name: "Michael Schmidt",
+                    company: "TechCorp GmbH",
+                    position: "Head of Sales",
+                    location: "Berlin, Germany"
+                  })}
                 />
               </div>
             </div>
@@ -195,6 +209,12 @@ const Pipeline = () => {
                   interest="Medium Interest"
                   value={75000}
                   status="contacted"
+                  onClick={() => setSelectedLead({
+                    name: "Sarah Weber",
+                    company: "Digital Solutions AG",
+                    position: "CEO",
+                    location: "Munich, Germany"
+                  })}
                 />
               </div>
             </div>
@@ -210,11 +230,25 @@ const Pipeline = () => {
                   interest="High Interest"
                   value={100000}
                   status="meeting"
+                  onClick={() => setSelectedLead({
+                    name: "Thomas Müller",
+                    company: "Innovation Labs",
+                    position: "Marketing Director",
+                    location: "Hamburg, Germany"
+                  })}
                 />
               </div>
             </div>
           </div>
         </div>
+
+        {selectedLead && (
+          <LeadDeepResearchDialog
+            lead={selectedLead}
+            open={!!selectedLead}
+            onClose={() => setSelectedLead(null)}
+          />
+        )}
       </div>
     </Layout>
   );
