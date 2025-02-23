@@ -3,10 +3,15 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+// Definiere ein eigenes Interface für die zusätzlichen Props
+interface InputPrefixProps {
   prefix?: React.ReactNode;
 }
+
+// Kombiniere die Standard-Input-Props mit unseren zusätzlichen Props
+export interface InputProps 
+  extends React.InputHTMLAttributes<HTMLInputElement>,
+    InputPrefixProps {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, prefix, ...props }, ref) => {
