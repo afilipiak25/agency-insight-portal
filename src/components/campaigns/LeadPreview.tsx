@@ -1,4 +1,3 @@
-
 import { PreviewSection } from "./PreviewSection";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
@@ -10,6 +9,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LeadDeepResearchDialog } from "./LeadDeepResearchDialog";
+import { useState } from "react";
 
 interface FilterOption {
   id: string;
@@ -92,16 +93,46 @@ const filterOptions: FilterOption[] = [
   },
 ];
 
+interface Lead {
+  name: string;
+  position: string;
+  company: string;
+  location: string;
+}
+
 interface LeadPreviewProps {
   showEmailPreview?: boolean;
 }
 
 export const LeadPreview = ({ showEmailPreview = false }: LeadPreviewProps) => {
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+
   if (showEmailPreview) {
     return <PreviewSection />;
   }
 
   const categories = Array.from(new Set(filterOptions.map(filter => filter.category)));
+
+  const leads: Lead[] = [
+    {
+      name: "Marc Nagel",
+      position: "CEO",
+      company: "Acme GmbH",
+      location: "Berlin, Germany",
+    },
+    {
+      name: "Sarah Weber",
+      position: "Marketing Director",
+      company: "TechCorp",
+      location: "Munich, Germany",
+    },
+    {
+      name: "Thomas Müller",
+      position: "Head of Sales",
+      company: "Digital Solutions",
+      location: "Hamburg, Germany",
+    },
+  ];
 
   return (
     <div className="space-y-4">
@@ -112,29 +143,21 @@ export const LeadPreview = ({ showEmailPreview = false }: LeadPreviewProps) => {
         </div>
         
         <div className="space-y-3">
-          <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">Marc Nagel</span>
-              <span className="text-xs text-gray-500">CEO</span>
+          {leads.map((lead) => (
+            <div
+              key={lead.name}
+              className="p-3 bg-gray-50 rounded-lg border border-gray-100 cursor-pointer hover:border-violet-500 transition-colors"
+              onClick={() => setSelectedLead(lead)}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium">{lead.name}</span>
+                <span className="text-xs text-gray-500">{lead.position}</span>
+              </div>
+              <div className="text-xs text-gray-500">
+                {lead.company} • {lead.location}
+              </div>
             </div>
-            <div className="text-xs text-gray-500">Acme GmbH • Berlin, Germany</div>
-          </div>
-          
-          <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">Sarah Weber</span>
-              <span className="text-xs text-gray-500">Marketing Director</span>
-            </div>
-            <div className="text-xs text-gray-500">TechCorp • Munich, Germany</div>
-          </div>
-          
-          <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">Thomas Müller</span>
-              <span className="text-xs text-gray-500">Head of Sales</span>
-            </div>
-            <div className="text-xs text-gray-500">Digital Solutions • Hamburg, Germany</div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -189,6 +212,14 @@ export const LeadPreview = ({ showEmailPreview = false }: LeadPreviewProps) => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {selectedLead && (
+        <LeadDeepResearchDialog
+          lead={selectedLead}
+          open={!!selectedLead}
+          onClose={() => setSelectedLead(null)}
+        />
+      )}
     </div>
   );
 };
