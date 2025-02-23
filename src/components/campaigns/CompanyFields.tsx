@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Building2, ShoppingCart, Upload, Store, Info, Users } from "lucide-react";
+import { Building2, ShoppingCart, Upload, Store, Info, Users, Globe } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const CompanyFields = () => {
@@ -40,6 +40,19 @@ export const CompanyFields = () => {
                   <div className="font-medium">B2B</div>
                   <div className="text-sm text-gray-500 break-words">
                     Search from a database of over 100M verified contacts with an extraordinary amount of enriched data.
+                  </div>
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="website-retargeting" className="py-3">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-violet-50 rounded-lg flex-shrink-0">
+                  <Globe className="w-5 h-5 text-violet-600" />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-medium">Website Retargeting</div>
+                  <div className="text-sm text-gray-500 break-words">
+                    Target visitors who have shown interest in your website and convert them into leads.
                   </div>
                 </div>
               </div>
