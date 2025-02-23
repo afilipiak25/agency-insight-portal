@@ -10,9 +10,10 @@ interface CampaignRow {
   name: string;
   status: 'active' | 'inactive';
   leadsCompleted: string;
-  sender?: string;
-  tag?: string;
-  createdAt: string;
+  sourced?: string;
+  activated?: string;
+  opened?: string;
+  replied?: string;
 }
 
 const mockCampaigns: CampaignRow[] = [
@@ -21,31 +22,40 @@ const mockCampaigns: CampaignRow[] = [
     name: "Anthony's campaign (1)",
     status: 'active',
     leadsCompleted: "0/1",
-    createdAt: "6 days ago"
+    sourced: "100%",
+    activated: "80%",
+    opened: "60%",
+    replied: "40%"
   },
   {
     id: 2,
     name: "BAFA",
     status: 'active',
     leadsCompleted: "64/733",
-    sender: "Amplifa",
-    createdAt: "9 days ago"
+    sourced: "95%",
+    activated: "75%",
+    opened: "55%",
+    replied: "35%"
   },
   {
     id: 3,
     name: "Bildungsträger",
     status: 'active',
     leadsCompleted: "231/3988",
-    sender: "Amplifa",
-    createdAt: "2 months ago"
+    sourced: "90%",
+    activated: "70%",
+    opened: "50%",
+    replied: "30%"
   },
   {
     id: 4,
     name: "Leadgenerierung",
     status: 'active',
     leadsCompleted: "788/20904",
-    sender: "Amplifa",
-    createdAt: "2 months ago"
+    sourced: "85%",
+    activated: "65%",
+    opened: "45%",
+    replied: "25%"
   }
 ];
 
@@ -90,19 +100,19 @@ const Campaigns = () => {
             </div>
             <div className="relative">
               <Button variant="outline" className="flex items-center gap-2">
-                Sender: Alle
+                Sourced: Alle
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </div>
             <div className="relative">
               <Button variant="outline" className="flex items-center gap-2">
-                Tags: Alle
+                Activated: Alle
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </div>
             <div className="relative">
               <Button variant="outline" className="flex items-center gap-2">
-                Ersteller: Alle
+                Opened: Alle
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </div>
@@ -118,9 +128,10 @@ const Campaigns = () => {
                   <th className="p-4 text-left text-sm font-medium text-gray-500">Status</th>
                   <th className="p-4 text-left text-sm font-medium text-gray-500">Kampagnen Name</th>
                   <th className="p-4 text-left text-sm font-medium text-gray-500">Leads completed</th>
-                  <th className="p-4 text-left text-sm font-medium text-gray-500">Sender</th>
-                  <th className="p-4 text-left text-sm font-medium text-gray-500">Tag</th>
-                  <th className="p-4 text-left text-sm font-medium text-gray-500">Erstellt am</th>
+                  <th className="p-4 text-left text-sm font-medium text-gray-500">Sourced</th>
+                  <th className="p-4 text-left text-sm font-medium text-gray-500">Activated</th>
+                  <th className="p-4 text-left text-sm font-medium text-gray-500">Opened</th>
+                  <th className="p-4 text-left text-sm font-medium text-gray-500">Replied</th>
                   <th className="w-20 p-4 text-left text-sm font-medium text-gray-500">Actions</th>
                 </tr>
               </thead>
@@ -137,9 +148,10 @@ const Campaigns = () => {
                     </td>
                     <td className="p-4 font-medium">{campaign.name}</td>
                     <td className="p-4">{campaign.leadsCompleted}</td>
-                    <td className="p-4">{campaign.sender || '-'}</td>
-                    <td className="p-4">{campaign.tag || '-'}</td>
-                    <td className="p-4">{campaign.createdAt}</td>
+                    <td className="p-4">{campaign.sourced || '-'}</td>
+                    <td className="p-4">{campaign.activated || '-'}</td>
+                    <td className="p-4">{campaign.opened || '-'}</td>
+                    <td className="p-4">{campaign.replied || '-'}</td>
                     <td className="p-4">
                       <button className="text-gray-400 hover:text-gray-600">
                         •••
