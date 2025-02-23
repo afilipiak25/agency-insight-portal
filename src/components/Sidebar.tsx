@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight, Brain, Mail } from 'lucide-react';
+import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight, Brain, Mail, Headset } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -22,6 +22,13 @@ const navItems = [
   { icon: PieChart, label: 'Dashboard', path: '/' },
   { icon: BarChartHorizontal, label: 'Kampagnen', path: '/campaigns' },
   { icon: CircuitBoard, label: 'Integrations', path: '/integrations' },
+  { 
+    icon: Headset, 
+    label: 'AI Callcenter', 
+    path: '/ai-callcenter',
+    tag: 'Coming Soon',
+    disabled: true 
+  },
   { icon: Database, label: 'Pipeline', path: '/pipeline' },
   { icon: Calendar, label: 'Kalender', path: '/calendar' },
   { icon: Inbox, label: 'Inbox', path: '/inbox' },
@@ -157,13 +164,15 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
             {navItems.map((item, index) => (
               <Link
                 key={index}
-                to={item.path || '#'}
+                to={item.path}
                 className={cn(
-                  "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors",
+                  "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors relative",
+                  item.disabled ? "opacity-60 cursor-not-allowed" : "",
                   location.pathname === item.path 
                     ? "bg-gradient-to-r from-amplifa-blue/10 to-amplifa-purple/10 text-amplifa-purple"
                     : "text-gray-600 hover:bg-gray-50"
                 )}
+                onClick={e => item.disabled && e.preventDefault()}
               >
                 <item.icon className="w-5 h-5 flex-shrink-0" />
                 <span className={cn(
@@ -172,6 +181,11 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 )}>
                   {item.label}
                 </span>
+                {item.tag && !isCollapsed && (
+                  <span className="absolute right-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-amplifa-purple/10 text-amplifa-purple text-xs rounded-full">
+                    {item.tag}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
