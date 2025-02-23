@@ -30,7 +30,7 @@ export const CompanyFields = () => {
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select database" />
           </SelectTrigger>
-          <SelectContent className="w-[400px]">
+          <SelectContent className="w-[500px]">
             <SelectItem value="b2b" className="py-3">
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-violet-50 rounded-lg">
