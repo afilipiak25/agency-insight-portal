@@ -24,6 +24,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
+import { LeadDeepResearchDialog } from "@/components/campaigns/LeadDeepResearchDialog";
+import { useState } from "react";
 
 interface Lead {
   id: number;
@@ -33,6 +35,9 @@ interface Lead {
   status: "New" | "Contacted" | "Qualified";
   owner: string;
   isCampaignHot?: boolean;
+  location: string;
+  company: string;
+  position: string;
 }
 
 const mockLeads: Lead[] = [
@@ -44,6 +49,9 @@ const mockLeads: Lead[] = [
     status: "New",
     owner: "Anthony Filipiak",
     isCampaignHot: true,
+    location: "Berlin, Deutschland",
+    company: "Tech Solutions GmbH",
+    position: "Head of Sales",
   },
   {
     id: 2,
@@ -52,6 +60,9 @@ const mockLeads: Lead[] = [
     phone: "+49 123 4567890",
     status: "Contacted",
     owner: "Anthony Filipiak",
+    location: "München, Deutschland",
+    company: "Digital Marketing AG",
+    position: "Marketing Director",
   },
   {
     id: 3,
@@ -60,10 +71,15 @@ const mockLeads: Lead[] = [
     phone: "+49 157 98765432",
     status: "Qualified",
     owner: "Anthony Filipiak",
+    location: "Hamburg, Deutschland",
+    company: "Innovation Labs",
+    position: "Sales Manager",
   },
 ];
 
 const LeadDatabase = () => {
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+
   const getStatusStyle = (status: string) => {
     switch (status) {
       case "New":
@@ -145,8 +161,12 @@ const LeadDatabase = () => {
             </TableHeader>
             <TableBody>
               {mockLeads.map((lead) => (
-                <TableRow key={lead.id}>
-                  <TableCell>
+                <TableRow 
+                  key={lead.id}
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => setSelectedLead(lead)}
+                >
+                  <TableCell onClick={(e) => e.stopPropagation()}>
                     <Checkbox />
                   </TableCell>
                   <TableCell className="font-medium">{lead.name}</TableCell>
@@ -165,7 +185,7 @@ const LeadDatabase = () => {
                     </span>
                   </TableCell>
                   <TableCell>{lead.owner}</TableCell>
-                  <TableCell>
+                  <TableCell onClick={(e) => e.stopPropagation()}>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -185,6 +205,14 @@ const LeadDatabase = () => {
             </TableBody>
           </Table>
         </div>
+
+        {selectedLead && (
+          <LeadDeepResearchDialog
+            lead={selectedLead}
+            open={!!selectedLead}
+            onClose={() => setSelectedLead(null)}
+          />
+        )}
       </div>
     </Layout>
   );
