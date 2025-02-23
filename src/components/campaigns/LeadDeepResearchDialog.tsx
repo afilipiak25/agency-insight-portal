@@ -1,4 +1,3 @@
-
 import {
   Dialog,
   DialogContent,
@@ -7,7 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Info, Search, Database, FileText, Download, Link2 } from "lucide-react";
+import { Info, Search, Database, FileText, Download, Link2, ChartBar } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Lead {
@@ -22,6 +21,35 @@ interface LeadDeepResearchDialogProps {
   open: boolean;
   onClose: () => void;
 }
+
+interface ResearchTool {
+  title: string;
+  description: string;
+  tags: string[];
+}
+
+const researchTools: ResearchTool[] = [
+  {
+    title: "SWOT Analysis",
+    description: "Help brainstorm how to position my solution to this account.",
+    tags: ["Default Template", "account"],
+  },
+  {
+    title: "Conference Attendance Tracker",
+    description: "Find any upcoming conferences that this account will be speaking or exhibiting in.",
+    tags: ["Default Template", "account"],
+  },
+  {
+    title: "Financials Analyzer",
+    description: "Find any information in the latest public filings of this account that indicates business performance and strategy.",
+    tags: ["Default Template", "account"],
+  },
+  {
+    title: "Competitor Researcher",
+    description: "Find information on any competitors that are already working with this account and give you a researched battlecard.",
+    tags: ["Default Template", "account"],
+  },
+];
 
 export const LeadDeepResearchDialog = ({
   lead,
@@ -74,6 +102,10 @@ export const LeadDeepResearchDialog = ({
             <TabsTrigger value="research" className="gap-2">
               <FileText className="w-4 h-4" />
               Research Reports (3)
+            </TabsTrigger>
+            <TabsTrigger value="tools" className="gap-2">
+              <ChartBar className="w-4 h-4" />
+              Research Tools
             </TabsTrigger>
           </TabsList>
 
@@ -167,6 +199,30 @@ export const LeadDeepResearchDialog = ({
               </p>
               <p className="text-xs text-gray-400">Published: January 2024</p>
             </div>
+          </TabsContent>
+
+          <TabsContent value="tools" className="space-y-4">
+            {researchTools.map((tool, index) => (
+              <div key={index} className="p-6 border rounded-lg hover:border-blue-200 transition-colors cursor-pointer">
+                <div className="flex justify-between items-start mb-2">
+                  <div className="flex gap-2 items-center">
+                    <ChartBar className="w-5 h-5 text-blue-600" />
+                    <h3 className="font-medium text-lg">{tool.title}</h3>
+                  </div>
+                  <div className="flex gap-2">
+                    {tool.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600">{tool.description}</p>
+              </div>
+            ))}
           </TabsContent>
         </Tabs>
       </DialogContent>
