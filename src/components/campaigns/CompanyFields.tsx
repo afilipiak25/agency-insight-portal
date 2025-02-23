@@ -30,15 +30,15 @@ export const CompanyFields = () => {
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select database" />
           </SelectTrigger>
-          <SelectContent className="w-[500px]">
+          <SelectContent className="w-[calc(100vw-32rem)] max-w-2xl">
             <SelectItem value="b2b" className="py-3">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-violet-50 rounded-lg">
+                <div className="p-2 bg-violet-50 rounded-lg flex-shrink-0">
                   <Building2 className="w-5 h-5 text-violet-600" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="font-medium">B2B</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 break-words">
                     Search from a database of over 100M verified contacts with an extraordinary amount of enriched data.
                   </div>
                 </div>
@@ -46,12 +46,12 @@ export const CompanyFields = () => {
             </SelectItem>
             <SelectItem value="lookalike" className="py-3">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-violet-50 rounded-lg">
+                <div className="p-2 bg-violet-50 rounded-lg flex-shrink-0">
                   <Users className="w-5 h-5 text-violet-600" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="font-medium">Lookalike LinkedIn Audience</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 break-words">
                     Find similar companies based on your successful LinkedIn connections and engagements.
                   </div>
                 </div>
@@ -59,12 +59,12 @@ export const CompanyFields = () => {
             </SelectItem>
             <SelectItem value="ecommerce" className="py-3">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-violet-50 rounded-lg">
+                <div className="p-2 bg-violet-50 rounded-lg flex-shrink-0">
                   <ShoppingCart className="w-5 h-5 text-violet-600" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="font-medium">E-Commerce</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 break-words">
                     Search leads from 12M stores across 300 platforms including Shopify and WooCommerce.
                   </div>
                 </div>
@@ -72,12 +72,12 @@ export const CompanyFields = () => {
             </SelectItem>
             <SelectItem value="csv" className="py-3">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-violet-50 rounded-lg">
+                <div className="p-2 bg-violet-50 rounded-lg flex-shrink-0">
                   <Upload className="w-5 h-5 text-violet-600" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="font-medium">CSV</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 break-words">
                     Import your leads and enrich them with our data miner.
                   </div>
                 </div>
@@ -85,12 +85,12 @@ export const CompanyFields = () => {
             </SelectItem>
             <SelectItem value="local" className="py-3">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-violet-50 rounded-lg">
+                <div className="p-2 bg-violet-50 rounded-lg flex-shrink-0">
                   <Store className="w-5 h-5 text-violet-600" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="font-medium">Local Data</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 break-words">
                     Access a database of over 200M local Google Maps businesses and decision makers worldwide.
                   </div>
                 </div>
