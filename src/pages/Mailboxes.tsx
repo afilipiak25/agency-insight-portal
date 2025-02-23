@@ -1,8 +1,7 @@
-
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mail, Search, Settings } from "lucide-react";
+import { Mail, Search, Settings, Globe } from "lucide-react";
 
 interface MailProvider {
   id: string;
@@ -51,14 +50,24 @@ const Mailboxes = () => {
                 Verbinden Sie Ihre E-Mail-Konten und verwalten Sie alle Ihre Mailboxen an einem Ort.
               </p>
             </div>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="gap-2 w-full sm:w-auto whitespace-nowrap"
-            >
-              <Settings className="w-4 h-4" />
-              Einstellungen
-            </Button>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="gap-2 flex-1 sm:flex-initial whitespace-nowrap"
+              >
+                <Settings className="w-4 h-4" />
+                Einstellungen
+              </Button>
+              <Button 
+                variant="default"
+                size="sm"
+                className="gap-2 flex-1 sm:flex-initial whitespace-nowrap bg-[#7E69AB] hover:bg-[#6A5A91]"
+              >
+                <Globe className="w-4 h-4" />
+                Domain kaufen
+              </Button>
+            </div>
           </div>
 
           <div className="bg-white rounded-lg border p-4 sm:p-6">
