@@ -1,9 +1,11 @@
 
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Globe, FileText, Building2 } from "lucide-react";
+import { Globe, FileText, Building2, Plus, Info } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const TrainAI = () => {
   return (
@@ -16,7 +18,7 @@ const TrainAI = () => {
           </p>
         </div>
 
-        <Tabs defaultValue="website" className="space-y-6">
+        <Tabs defaultValue="company" className="space-y-6">
           <TabsList className="bg-gray-100/80 p-1">
             <TabsTrigger value="website" className="flex items-center gap-2">
               <Globe className="w-4 h-4" />
@@ -28,7 +30,7 @@ const TrainAI = () => {
             </TabsTrigger>
             <TabsTrigger value="company" className="flex items-center gap-2">
               <Building2 className="w-4 h-4" />
-              Unternehmensinformationen
+              Brancheninformationen
             </TabsTrigger>
           </TabsList>
 
@@ -83,36 +85,129 @@ const TrainAI = () => {
 
           <TabsContent value="company" className="space-y-6">
             <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <h2 className="text-lg font-medium mb-2">Unternehmensinformationen</h2>
+              <h2 className="text-lg font-medium mb-2">Brancheninformationen</h2>
               <p className="text-gray-600 mb-6">
-                Fügen Sie wichtige Unternehmensinformationen hinzu, die Ihre KI kennen sollte.
+                Fügen Sie wichtige Brancheninformationen hinzu, die Ihre KI kennen sollte, um relevantere Ergebnisse zu erzielen.
               </p>
               
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Unternehmensname
+                    Hauptbranche
                   </label>
-                  <Input 
-                    type="text" 
-                    placeholder="Ihr Unternehmen GmbH"
-                    className="w-full"
-                  />
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Branche auswählen" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="tech">Technologie & Software</SelectItem>
+                      <SelectItem value="finance">Finanzen & Versicherungen</SelectItem>
+                      <SelectItem value="healthcare">Gesundheitswesen</SelectItem>
+                      <SelectItem value="manufacturing">Produktion & Industrie</SelectItem>
+                      <SelectItem value="retail">Einzelhandel & E-Commerce</SelectItem>
+                      <SelectItem value="education">Bildung & Training</SelectItem>
+                      <SelectItem value="consulting">Beratung & Dienstleistungen</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Beschreibung
+                    Unterbranche
+                  </label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Unterbranche auswählen" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="saas">SaaS & Cloud Services</SelectItem>
+                      <SelectItem value="ai">KI & Machine Learning</SelectItem>
+                      <SelectItem value="cybersecurity">Cybersicherheit</SelectItem>
+                      <SelectItem value="data">Data Analytics</SelectItem>
+                      <SelectItem value="mobile">Mobile Entwicklung</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                    Branchenspezifische Begriffe
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="w-4 h-4 text-gray-400" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Fügen Sie wichtige Fachbegriffe hinzu, die in Ihrer Branche häufig verwendet werden</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </label>
+                  <div className="flex gap-2">
+                    <Input 
+                      type="text" 
+                      placeholder="z.B. Cloud Computing, DevOps, Agile..."
+                      className="flex-1"
+                    />
+                    <Button variant="outline" size="icon">
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {["Cloud Computing", "DevOps", "Agile", "Scrum", "CI/CD"].map((term) => (
+                      <div key={term} className="bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-700">
+                        {term}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Branchenbeschreibung
                   </label>
                   <textarea 
                     rows={4}
-                    placeholder="Beschreiben Sie Ihr Unternehmen..."
+                    placeholder="Beschreiben Sie die wichtigsten Aspekte und Besonderheiten Ihrer Branche..."
+                    className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amplifa-purple/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Hauptherausforderungen
+                  </label>
+                  <textarea 
+                    rows={4}
+                    placeholder="Was sind die größten Herausforderungen in Ihrer Branche?"
+                    className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amplifa-purple/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Wichtige Markttrends
+                  </label>
+                  <textarea 
+                    rows={4}
+                    placeholder="Welche aktuellen Trends beeinflussen Ihre Branche?"
+                    className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amplifa-purple/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Regulatorische Anforderungen
+                  </label>
+                  <textarea 
+                    rows={4}
+                    placeholder="Welche rechtlichen und regulatorischen Anforderungen müssen beachtet werden?"
                     className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amplifa-purple/30"
                   />
                 </div>
                 
                 <Button className="w-full bg-[#7E69AB] hover:bg-[#6A5A91]">
-                  Informationen speichern
+                  Brancheninformationen speichern
                 </Button>
               </div>
             </div>
