@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight, Brain, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -105,12 +106,13 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               />
               <Search className="absolute left-2 top-2.5 w-4 h-4 text-gray-400" />
             </div>
-            <button 
+            <Link 
+              to="/clients/create"
               className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-amplifa-blue to-amplifa-purple rounded-lg hover:opacity-90 transition-opacity"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Neuer Kunde</span>
-            </button>
+            </Link>
           </div>
         </div>
 
