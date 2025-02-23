@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
@@ -10,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Settings2, MessageSquare, Zap, List, Calendar } from "lucide-react";
+import { Settings2, MessageSquare, Zap, List, Calendar, Building2, Mail, Phone, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const SettingsSection = () => {
@@ -20,6 +19,7 @@ export const SettingsSection = () => {
   const [autoCommunication, setAutoCommunication] = useState(true);
   const [selectedPipeline, setSelectedPipeline] = useState("default");
   const [stopAfterMeetings, setStopAfterMeetings] = useState("3");
+  const [customFields, setCustomFields] = useState("firstName,lastName,company");
 
   const emailsPerMonth = emailsPerDay[0] * 30;
 
@@ -141,6 +141,105 @@ export const SettingsSection = () => {
               max="100"
             />
             <span className="text-sm text-gray-500">Termine</span>
+          </div>
+        </div>
+
+        {/* Push-Einstellungen */}
+        <div className="space-y-6 pt-4 border-t">
+          <h3 className="font-medium">Push-Einstellungen</h3>
+          
+          {/* Push Deals */}
+          <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <List className="w-4 h-4 text-purple-600" />
+                  <label className="text-sm font-medium">Push Deals</label>
+                </div>
+                <p className="text-sm text-gray-500">Push neu erstellte Deals zum CRM, wenn ein Lead eine neue Phase erreicht</p>
+              </div>
+              <Switch checked={true} className="data-[state=checked]:bg-purple-600" />
+            </div>
+            <div className="flex gap-2">
+              <div className="bg-white px-3 py-1.5 rounded border text-sm">On First Outreach</div>
+              <div className="bg-white px-3 py-1.5 rounded border text-sm text-purple-600 border-purple-200 bg-purple-50">On Positive Reply</div>
+            </div>
+            <Select defaultValue="default">
+              <SelectTrigger className="w-full bg-white">
+                <SelectValue placeholder="Custom fields" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="default">Standardfelder</SelectItem>
+                <SelectItem value="custom">Benutzerdefinierte Felder</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Push Companies */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-gray-600" />
+                  <label className="text-sm font-medium">Push Companies</label>
+                </div>
+                <p className="text-sm text-gray-500">Unternehmen in HubSpot erstellen, wenn keine gefunden werden</p>
+              </div>
+              <Switch checked={true} className="data-[state=checked]:bg-violet-600" />
+            </div>
+          </div>
+
+          {/* Push Emails */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-violet-600" />
+                  <label className="text-sm font-medium">Push Emails</label>
+                </div>
+                <p className="text-sm text-gray-500">Email-Aktivitäten zu HubSpot pushen</p>
+              </div>
+              <Switch checked={true} className="data-[state=checked]:bg-violet-600" />
+            </div>
+            <div className="flex gap-2">
+              <div className="bg-white px-3 py-1.5 rounded border text-sm">All</div>
+              <div className="bg-white px-3 py-1.5 rounded border text-sm">First Outreach</div>
+              <div className="bg-white px-3 py-1.5 rounded border text-sm text-violet-600 border-violet-200 bg-violet-50">First Positive Reply</div>
+            </div>
+          </div>
+
+          {/* Push Calls */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-gray-600" />
+                  <label className="text-sm font-medium">Push Calls</label>
+                </div>
+                <p className="text-sm text-gray-500">Anrufe nach Abschluss zu HubSpot pushen</p>
+              </div>
+              <Switch checked={true} className="data-[state=checked]:bg-violet-600" />
+            </div>
+          </div>
+
+          {/* Push LinkedIn Activities */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <Linkedin className="w-4 h-4 text-blue-600" />
+                  <label className="text-sm font-medium">Push LinkedIn Activities</label>
+                </div>
+                <p className="text-sm text-gray-500">LinkedIn-Anfragen zu HubSpot pushen</p>
+              </div>
+              <Switch checked={true} className="data-[state=checked]:bg-violet-600" />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <div className="bg-white px-3 py-1.5 rounded border text-sm">Request Sent</div>
+              <div className="bg-white px-3 py-1.5 rounded border text-sm">Request Accepted</div>
+              <div className="bg-white px-3 py-1.5 rounded border text-sm">Message Sent</div>
+              <div className="bg-white px-3 py-1.5 rounded border text-sm">Message Sent</div>
+            </div>
           </div>
         </div>
       </div>
