@@ -123,7 +123,7 @@ const Integrations = () => {
             iconBgColor="bg-[#4285F4]/10"
           />
           <IntegrationCard
-            title="CRM Integration"
+            title="CRM/ATS System"
             description="Salesforce, HubSpot, sCRM, ATS und andere CRM-Systeme verbinden"
             icon={<Database className="w-6 h-6 text-[#FF6B6B]" />}
             buttonText="Verbinden"
