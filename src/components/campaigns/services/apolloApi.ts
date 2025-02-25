@@ -1,25 +1,12 @@
 
 import { ApolloFilters, ApolloLead } from "../types/apollo-filters";
 
-const APOLLO_API_KEY = "rtd26I4RRDz7ZMo0GqsrxQ";
-const API_BASE_URL = "https://api.apollo.io/v1";
+const SUPABASE_PROJECT_URL = 'https://YOUR_PROJECT_URL.supabase.co';
 
 interface ApolloApiResponse {
   leads: ApolloLead[];
   total: number;
   hasMore: boolean;
-}
-
-interface ApolloRequestBody {
-  api_key: string;
-  page: number;
-  per_page: number;
-  person_titles?: string[];
-  organization_names?: string;
-  organization_industries?: string;
-  person_departments?: string;
-  person_locations?: string[];
-  [key: string]: any;
 }
 
 export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloApiResponse> => {
@@ -35,43 +22,12 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       }
     });
 
-    // Request Body MIT api_key - dies ist der korrekte Weg laut Apollo.io Dokumentation
-    const requestBody: ApolloRequestBody = {
-      api_key: APOLLO_API_KEY,
-      page: 1,
-      per_page: 25
-    };
-
-    if (cleanFilters.titles?.length) {
-      requestBody.person_titles = cleanFilters.titles;
-    }
-
-    if (cleanFilters.companyName) {
-      requestBody.organization_names = cleanFilters.companyName;
-    }
-
-    if (cleanFilters.industry) {
-      requestBody.organization_industries = cleanFilters.industry;
-    }
-
-    if (cleanFilters.department) {
-      requestBody.person_departments = cleanFilters.department;
-    }
-
-    if (cleanFilters.countries?.length) {
-      requestBody.person_locations = cleanFilters.countries;
-    }
-
-    console.log('Sending Apollo API request with body:', requestBody);
-
-    // Direkte Anfrage an Apollo API ohne CORS-Proxy
-    const response = await fetch(`${API_BASE_URL}/people/search`, {
+    const response = await fetch(`${SUPABASE_PROJECT_URL}/functions/v1/apollo-search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify({ filters: cleanFilters })
     });
 
     if (!response.ok) {
