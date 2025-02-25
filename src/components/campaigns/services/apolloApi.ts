@@ -26,8 +26,11 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${process.env.SUPABASE_ANON_KEY}`,
       },
-      body: JSON.stringify({ filters: cleanFilters })
+      body: JSON.stringify({ filters: cleanFilters }),
+      credentials: 'include'
     });
 
     if (!response.ok) {
@@ -37,15 +40,36 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
         statusText: response.statusText,
         body: errorText
       });
-      throw new Error(`Apollo API error: ${response.status} - ${errorText}`);
+      
+      // Detailliertere Fehlermeldung
+      if (response.status === 401) {
+        throw new Error('Nicht autorisiert - Bitte überprüfen Sie Ihre API-Schlüssel');
+      } else if (response.status === 404) {
+        throw new Error('Edge Function nicht gefunden - Bitte stellen Sie sicher, dass die apollo-search Funktion deployed ist');
+      } else {
+        throw new Error(`Apollo API error: ${response.status} - ${errorText}`);
+      }
     }
 
     const data = await response.json();
     console.log('Apollo API Response:', data);
 
+    // Überprüfung der API-Antwort
+    if (!data || (!data.people && !Array.isArray(data))) {
+      console.error('Unerwartetes API-Antwortformat:', data);
+      return {
+        leads: [],
+        total: 0,
+        hasMore: false
+      };
+    }
+
+    // Behandlung verschiedener Antwortformate
+    const people = Array.isArray(data) ? data : data.people || [];
+
     return {
-      leads: Array.isArray(data.people) ? data.people.map(transformApolloLead) : [],
-      total: data.pagination?.total_entries || 0,
+      leads: people.map(transformApolloLead),
+      total: data.pagination?.total_entries || people.length || 0,
       hasMore: data.pagination?.has_next_page || false
     };
 
