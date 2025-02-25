@@ -11,14 +11,14 @@ interface ApolloApiResponse {
 
 export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse> => {
   try {
-    // Füge eine Log-Nachricht für die Filter hinzu
     console.log('Sending request with filters:', filters);
     
+    // Vereinfachte Anfrage für ersten Test
     const requestBody = {
       api_key: APOLLO_API_KEY,
+      q_organization_name: filters.companyName || "",
       page: 1,
-      per_page: 25,
-      ...transformFilters(filters)
+      per_page: 25
     };
     
     console.log('Request body:', requestBody);
@@ -27,58 +27,23 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${APOLLO_API_KEY}`,
-        'Accept': 'application/json',
         'Cache-Control': 'no-cache',
-        'Origin': window.location.origin
+        'Accept': 'application/json'
       },
-      mode: 'cors',
-      credentials: 'omit',
       body: JSON.stringify(requestBody)
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('API Error Response:', errorData);
-      throw new Error(`Apollo API request failed: ${JSON.stringify(errorData)}`);
-    }
-
+    console.log('Response status:', response.status);
     const data = await response.json();
     console.log('Apollo API Response:', data);
 
-    // Füge Mock-Daten hinzu, falls keine echten Daten verfügbar sind
+    if (!response.ok) {
+      throw new Error(`Apollo API request failed: ${JSON.stringify(data)}`);
+    }
+
     if (!data.people || !Array.isArray(data.people) || data.people.length === 0) {
       console.log('No data from API, using mock data');
-      return {
-        leads: [
-          {
-            id: '1',
-            name: 'John Doe',
-            position: 'CEO',
-            company: 'Tech Corp',
-            location: 'Berlin, Germany',
-            email: 'john@techcorp.com',
-            department: 'Executive',
-            companySize: '50-100',
-            technology: ['React', 'Node.js'],
-            lastUpdated: new Date().toISOString()
-          },
-          {
-            id: '2',
-            name: 'Jane Smith',
-            position: 'CTO',
-            company: 'Innovation GmbH',
-            location: 'München, Germany',
-            email: 'jane@innovation.de',
-            department: 'Technology',
-            companySize: '100-500',
-            technology: ['Python', 'AWS'],
-            lastUpdated: new Date().toISOString()
-          }
-        ],
-        total: 2,
-        hasMore: false
-      };
+      return getMockData();
     }
 
     return {
@@ -88,27 +53,56 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     };
   } catch (error) {
     console.error('Apollo API Error:', error);
-    
-    // Bei einem Fehler geben wir Mock-Daten zurück
-    return {
-      leads: [
-        {
-          id: '1',
-          name: 'John Doe',
-          position: 'CEO',
-          company: 'Tech Corp',
-          location: 'Berlin, Germany',
-          email: 'john@techcorp.com',
-          department: 'Executive',
-          companySize: '50-100',
-          technology: ['React', 'Node.js'],
-          lastUpdated: new Date().toISOString()
-        }
-      ],
-      total: 1,
-      hasMore: false
-    };
+    return getMockData();
   }
+};
+
+const getMockData = (): ApolloApiResponse => {
+  return {
+    leads: [
+      {
+        id: '1',
+        name: 'John Doe',
+        position: 'CEO',
+        company: 'Tech Corp',
+        location: 'Berlin, Germany',
+        email: 'john@techcorp.com',
+        department: 'Executive',
+        companySize: '50-100',
+        technology: ['React', 'Node.js'],
+        lastUpdated: new Date().toISOString()
+      },
+      {
+        id: '2',
+        name: 'Jane Smith',
+        position: 'CTO',
+        company: 'Innovation GmbH',
+        location: 'München, Germany',
+        email: 'jane@innovation.de',
+        department: 'Technology',
+        companySize: '100-500',
+        technology: ['Python', 'AWS'],
+        lastUpdated: new Date().toISOString()
+      }
+    ],
+    total: 2,
+    hasMore: false
+  };
+};
+
+const transformApolloLead = (apiLead: any): ApolloLead => {
+  return {
+    id: apiLead.id,
+    name: `${apiLead.first_name} ${apiLead.last_name}`,
+    position: apiLead.title || '',
+    company: apiLead.organization?.name || '',
+    location: `${apiLead.city || ''}, ${apiLead.country || ''}`,
+    email: apiLead.email || undefined,
+    department: apiLead.department || undefined,
+    companySize: apiLead.organization?.employee_count || undefined,
+    technology: apiLead.organization?.technologies || [],
+    lastUpdated: apiLead.updated_at
+  };
 };
 
 const transformFilters = (filters: any) => {
@@ -163,21 +157,6 @@ const transformFilters = (filters: any) => {
   });
 
   return transformedFilters;
-};
-
-const transformApolloLead = (apiLead: any): ApolloLead => {
-  return {
-    id: apiLead.id,
-    name: `${apiLead.first_name} ${apiLead.last_name}`,
-    position: apiLead.title || '',
-    company: apiLead.organization?.name || '',
-    location: `${apiLead.city || ''}, ${apiLead.country || ''}`,
-    email: apiLead.email || undefined,
-    department: apiLead.department || undefined,
-    companySize: apiLead.organization?.employee_count || undefined,
-    technology: apiLead.organization?.technologies || [],
-    lastUpdated: apiLead.updated_at
-  };
 };
 
 const getEmployeeRange = (min?: string, max?: string) => {
