@@ -9,6 +9,7 @@ interface RequestBody {
     industry?: string;
     department?: string;
     countries?: string[];
+    // ... weitere Filter
   }
 }
 
@@ -31,6 +32,7 @@ serve(async (req) => {
       per_page: 25
     }
 
+    // Konvertiere die Filter in das Apollo.io API Format
     if (filters.titles?.length) {
       requestBody.person_titles = filters.titles
     }
