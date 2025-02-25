@@ -1,14 +1,97 @@
+
 import { Input } from "@/components/ui/input";
 import { ChevronUp } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
+
+interface ApolloFilters {
+  companyName: string;
+  industry: string;
+  subIndustry: string;
+  businessModel: string;
+  companyKeywords: string;
+  descriptionKeywords: string;
+  employeesMin: string;
+  employeesMax: string;
+  revenueMin: string;
+  revenueMax: string;
+  technologies: string;
+  fundingStatus: string;
+  contactLevel: string;
+  ageMin: string;
+  ageMax: string;
+  growthRate: string;
+  hiringStatus: string;
+  department: string;
+  intent: {
+    activelyHiring: boolean;
+    highGrowth: boolean;
+    recentlyFunded: boolean;
+  }
+}
 
 export const AdvancedTargeting = () => {
+  const [filters, setFilters] = useState<ApolloFilters>({
+    companyName: "",
+    industry: "",
+    subIndustry: "",
+    businessModel: "",
+    companyKeywords: "",
+    descriptionKeywords: "",
+    employeesMin: "",
+    employeesMax: "",
+    revenueMin: "",
+    revenueMax: "",
+    technologies: "",
+    fundingStatus: "",
+    contactLevel: "",
+    ageMin: "",
+    ageMax: "",
+    growthRate: "",
+    hiringStatus: "",
+    department: "",
+    intent: {
+      activelyHiring: false,
+      highGrowth: false,
+      recentlyFunded: false
+    }
+  });
+
+  const handleFilterChange = (key: keyof ApolloFilters, value: any) => {
+    setFilters(prev => ({
+      ...prev,
+      [key]: value
+    }));
+
+    // Log the updated filters for debugging
+    console.log("Apollo.io Filter Update:", {
+      ...filters,
+      [key]: value
+    });
+  };
+
+  const handleIntentChange = (key: keyof typeof filters.intent) => {
+    setFilters(prev => ({
+      ...prev,
+      intent: {
+        ...prev.intent,
+        [key]: !prev.intent[key]
+      }
+    }));
+
+    // Log intent signals update
+    console.log("Intent Signals Update:", {
+      ...filters.intent,
+      [key]: !filters.intent[key]
+    });
+  };
+
   return (
     <div className="space-y-4 border rounded-lg p-4">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">Advanced Targeting</h3>
+        <h3 className="text-lg font-semibold">Erweiterte Apollo.io Filter</h3>
         <ChevronUp className="w-5 h-5 text-gray-500" />
       </div>
       
@@ -16,42 +99,36 @@ export const AdvancedTargeting = () => {
         {/* Company Name */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            Company Name
+            Firmenname
           </Label>
           <Input 
-            placeholder="Enter company names, separated by commas"
+            placeholder="Firmennamen eingeben, durch Kommas getrennt"
             className="w-full"
+            value={filters.companyName}
+            onChange={(e) => handleFilterChange("companyName", e.target.value)}
           />
-          <p className="text-xs text-gray-500">
-            Add multiple company names or partial matches
-          </p>
         </div>
 
         {/* Industry */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            Industry
+            Branche
           </Label>
-          <Select>
+          <Select value={filters.industry} onValueChange={(value) => handleFilterChange("industry", value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Select industry" />
+              <SelectValue placeholder="Branche auswählen" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="software">Software & Technology</SelectItem>
-              <SelectItem value="financial">Financial Services</SelectItem>
-              <SelectItem value="healthcare">Healthcare</SelectItem>
-              <SelectItem value="manufacturing">Manufacturing</SelectItem>
-              <SelectItem value="retail">Retail & E-commerce</SelectItem>
-              <SelectItem value="education">Education</SelectItem>
+              <SelectItem value="software">Software & Technologie</SelectItem>
+              <SelectItem value="financial">Finanzdienstleistungen</SelectItem>
+              <SelectItem value="healthcare">Gesundheitswesen</SelectItem>
+              <SelectItem value="manufacturing">Produktion</SelectItem>
+              <SelectItem value="retail">Einzelhandel & E-Commerce</SelectItem>
+              <SelectItem value="education">Bildung</SelectItem>
               <SelectItem value="professional">Professional Services</SelectItem>
-              <SelectItem value="real_estate">Real Estate</SelectItem>
-              <SelectItem value="telecom">Telecommunications</SelectItem>
-              <SelectItem value="media">Media & Entertainment</SelectItem>
-              <SelectItem value="hospitality">Hospitality & Tourism</SelectItem>
-              <SelectItem value="automotive">Automotive</SelectItem>
-              <SelectItem value="energy">Energy & Utilities</SelectItem>
-              <SelectItem value="logistics">Transportation & Logistics</SelectItem>
-              <SelectItem value="agriculture">Agriculture</SelectItem>
+              <SelectItem value="real_estate">Immobilien</SelectItem>
+              <SelectItem value="telecom">Telekommunikation</SelectItem>
+              <SelectItem value="media">Medien & Unterhaltung</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -59,88 +136,34 @@ export const AdvancedTargeting = () => {
         {/* Sub-Industry */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            Sub-Industry
+            Unterbranche
           </Label>
-          <Select>
+          <Select value={filters.subIndustry} onValueChange={(value) => handleFilterChange("subIndustry", value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Select sub-industry" />
+              <SelectValue placeholder="Unterbranche auswählen" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="saas">SaaS</SelectItem>
-              <SelectItem value="ai_ml">AI & Machine Learning</SelectItem>
+              <SelectItem value="ai_ml">KI & Machine Learning</SelectItem>
               <SelectItem value="cybersecurity">Cybersecurity</SelectItem>
               <SelectItem value="cloud">Cloud Services</SelectItem>
               <SelectItem value="fintech">FinTech</SelectItem>
               <SelectItem value="biotech">Biotech</SelectItem>
-              <SelectItem value="ecommerce">E-commerce Platforms</SelectItem>
-              <SelectItem value="digital_marketing">Digital Marketing</SelectItem>
-              <SelectItem value="consulting">Management Consulting</SelectItem>
-              <SelectItem value="investment">Investment Banking</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-
-        {/* Business Model */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">
-            Business Model
-          </Label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Select business model" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="b2b">B2B</SelectItem>
-              <SelectItem value="b2c">B2C</SelectItem>
-              <SelectItem value="b2b2c">B2B2C</SelectItem>
-              <SelectItem value="d2c">D2C</SelectItem>
-              <SelectItem value="marketplace">Marketplace</SelectItem>
-              <SelectItem value="saas">SaaS</SelectItem>
-              <SelectItem value="enterprise">Enterprise</SelectItem>
-              <SelectItem value="smb">SMB</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Company Keywords */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">
-            Company Keywords
-          </Label>
-          <Input 
-            placeholder="e.g., startup, enterprise, innovation"
-            className="w-full"
-          />
-          <p className="text-xs text-gray-500">
-            Add keywords that describe the companies you want to target
-          </p>
-        </div>
-
-        {/* Company Description Keywords */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">
-            Company Description Keywords
-          </Label>
-          <Input 
-            placeholder="e.g., artificial intelligence, cloud computing"
-            className="w-full"
-          />
-          <p className="text-xs text-gray-500">
-            Search for specific terms in company descriptions
-          </p>
         </div>
 
         {/* Company Size */}
         <div className="space-y-4">
           <Label className="text-sm font-medium text-gray-700">
-            Company Size
+            Unternehmensgröße
           </Label>
           <div className="flex gap-4">
             <div className="flex-1">
               <Label className="text-xs text-gray-600">Min</Label>
-              <Select>
+              <Select value={filters.employeesMin} onValueChange={(value) => handleFilterChange("employeesMin", value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Min. Employees" />
+                  <SelectValue placeholder="Min. Mitarbeiter" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="1">1</SelectItem>
@@ -153,57 +176,56 @@ export const AdvancedTargeting = () => {
             </div>
             <div className="flex-1">
               <Label className="text-xs text-gray-600">Max</Label>
-              <Select>
+              <Select value={filters.employeesMax} onValueChange={(value) => handleFilterChange("employeesMax", value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Max. Employees" />
+                  <SelectValue placeholder="Max. Mitarbeiter" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="10">10</SelectItem>
                   <SelectItem value="50">50</SelectItem>
                   <SelectItem value="100">100</SelectItem>
                   <SelectItem value="500">500</SelectItem>
-                  <SelectItem value="1000">1,000</SelectItem>
-                  <SelectItem value="5000">5,000</SelectItem>
-                  <SelectItem value="10000">10,000+</SelectItem>
+                  <SelectItem value="1000">1.000</SelectItem>
+                  <SelectItem value="5000">5.000</SelectItem>
+                  <SelectItem value="10000">10.000+</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
         </div>
 
-        {/* Company Revenue */}
+        {/* Revenue */}
         <div className="space-y-4">
           <Label className="text-sm font-medium text-gray-700">
-            Annual Revenue
+            Jahresumsatz
           </Label>
           <div className="flex gap-4">
             <div className="flex-1">
               <Label className="text-xs text-gray-600">Min</Label>
-              <Select>
+              <Select value={filters.revenueMin} onValueChange={(value) => handleFilterChange("revenueMin", value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Min. Revenue" />
+                  <SelectValue placeholder="Min. Umsatz" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1m">$1M</SelectItem>
-                  <SelectItem value="5m">$5M</SelectItem>
-                  <SelectItem value="10m">$10M</SelectItem>
-                  <SelectItem value="50m">$50M</SelectItem>
-                  <SelectItem value="100m">$100M</SelectItem>
+                  <SelectItem value="1m">1 Mio. €</SelectItem>
+                  <SelectItem value="5m">5 Mio. €</SelectItem>
+                  <SelectItem value="10m">10 Mio. €</SelectItem>
+                  <SelectItem value="50m">50 Mio. €</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex-1">
               <Label className="text-xs text-gray-600">Max</Label>
-              <Select>
+              <Select value={filters.revenueMax} onValueChange={(value) => handleFilterChange("revenueMax", value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Max. Revenue" />
+                  <SelectValue placeholder="Max. Umsatz" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="5m">$5M</SelectItem>
-                  <SelectItem value="10m">$10M</SelectItem>
-                  <SelectItem value="50m">$50M</SelectItem>
-                  <SelectItem value="100m">$100M</SelectItem>
-                  <SelectItem value="1b">$1B+</SelectItem>
+                  <SelectItem value="5m">5 Mio. €</SelectItem>
+                  <SelectItem value="10m">10 Mio. €</SelectItem>
+                  <SelectItem value="50m">50 Mio. €</SelectItem>
+                  <SelectItem value="100m">100 Mio. €</SelectItem>
+                  <SelectItem value="1b">1 Mrd. €+</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -213,11 +235,11 @@ export const AdvancedTargeting = () => {
         {/* Technologies */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            Technologies
+            Technologien
           </Label>
-          <Select>
+          <Select value={filters.technologies} onValueChange={(value) => handleFilterChange("technologies", value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Select technology" />
+              <SelectValue placeholder="Technologie auswählen" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="salesforce">Salesforce</SelectItem>
@@ -226,30 +248,6 @@ export const AdvancedTargeting = () => {
               <SelectItem value="zendesk">Zendesk</SelectItem>
               <SelectItem value="intercom">Intercom</SelectItem>
               <SelectItem value="slack">Slack</SelectItem>
-              <SelectItem value="microsoft_teams">Microsoft Teams</SelectItem>
-              <SelectItem value="zoom">Zoom</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Funding */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">
-            Funding Status
-          </Label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Select funding status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="seed">Seed</SelectItem>
-              <SelectItem value="series_a">Series A</SelectItem>
-              <SelectItem value="series_b">Series B</SelectItem>
-              <SelectItem value="series_c">Series C</SelectItem>
-              <SelectItem value="series_d_plus">Series D+</SelectItem>
-              <SelectItem value="ipo">IPO</SelectItem>
-              <SelectItem value="private">Private</SelectItem>
-              <SelectItem value="public">Public</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -257,59 +255,56 @@ export const AdvancedTargeting = () => {
         {/* Intent Signals */}
         <div className="space-y-4">
           <Label className="text-sm font-medium text-gray-700">
-            Intent Signals
+            Intent Signale
           </Label>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <Label className="text-sm text-gray-600" htmlFor="hiring">
-                Actively Hiring
+                Aktiv auf der Suche nach Mitarbeitern
               </Label>
-              <Switch id="hiring" />
+              <Switch 
+                id="hiring"
+                checked={filters.intent.activelyHiring}
+                onCheckedChange={() => handleIntentChange("activelyHiring")}
+              />
             </div>
             <div className="flex items-center justify-between">
               <Label className="text-sm text-gray-600" htmlFor="growth">
-                High Company Growth
+                Hohes Unternehmenswachstum
               </Label>
-              <Switch id="growth" />
+              <Switch 
+                id="growth"
+                checked={filters.intent.highGrowth}
+                onCheckedChange={() => handleIntentChange("highGrowth")}
+              />
             </div>
             <div className="flex items-center justify-between">
               <Label className="text-sm text-gray-600" htmlFor="funding">
-                Recently Funded
+                Kürzlich finanziert
               </Label>
-              <Switch id="funding" />
+              <Switch 
+                id="funding"
+                checked={filters.intent.recentlyFunded}
+                onCheckedChange={() => handleIntentChange("recentlyFunded")}
+              />
             </div>
           </div>
-        </div>
-
-        {/* Keywords */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">
-            Keywords
-          </Label>
-          <Input 
-            placeholder="e.g., AI, Machine Learning, Digital Transformation"
-            className="w-full"
-          />
-          <p className="text-xs text-gray-500">
-            Separate multiple keywords with commas
-          </p>
         </div>
 
         {/* Contact Level */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            Contact Level
+            Kontaktebene
           </Label>
-          <Select>
+          <Select value={filters.contactLevel} onValueChange={(value) => handleFilterChange("contactLevel", value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Select contact level" />
+              <SelectValue placeholder="Kontaktebene auswählen" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="c_level">C-Level</SelectItem>
               <SelectItem value="vp_level">VP Level</SelectItem>
               <SelectItem value="director_level">Director Level</SelectItem>
               <SelectItem value="manager_level">Manager Level</SelectItem>
-              <SelectItem value="senior_individual">Senior Individual</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -317,29 +312,28 @@ export const AdvancedTargeting = () => {
         {/* Company Age */}
         <div className="space-y-4">
           <Label className="text-sm font-medium text-gray-700">
-            Company Age
+            Unternehmensalter
           </Label>
           <div className="flex gap-4">
             <div className="flex-1">
-              <Label className="text-xs text-gray-600">Min Years</Label>
-              <Select>
+              <Label className="text-xs text-gray-600">Min Jahre</Label>
+              <Select value={filters.ageMin} onValueChange={(value) => handleFilterChange("ageMin", value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Min age" />
+                  <SelectValue placeholder="Min. Alter" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="0">0</SelectItem>
                   <SelectItem value="1">1</SelectItem>
                   <SelectItem value="2">2</SelectItem>
                   <SelectItem value="5">5</SelectItem>
-                  <SelectItem value="10">10</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex-1">
-              <Label className="text-xs text-gray-600">Max Years</Label>
-              <Select>
+              <Label className="text-xs text-gray-600">Max Jahre</Label>
+              <Select value={filters.ageMax} onValueChange={(value) => handleFilterChange("ageMax", value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Max age" />
+                  <SelectValue placeholder="Max. Alter" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="2">2</SelectItem>
@@ -356,14 +350,14 @@ export const AdvancedTargeting = () => {
         {/* Growth Rate */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            Growth Rate (YoY)
+            Wachstumsrate (YoY)
           </Label>
-          <Select>
+          <Select value={filters.growthRate} onValueChange={(value) => handleFilterChange("growthRate", value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Select growth rate" />
+              <SelectValue placeholder="Wachstumsrate auswählen" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="negative">Negative</SelectItem>
+              <SelectItem value="negative">Negativ</SelectItem>
               <SelectItem value="0_10">0-10%</SelectItem>
               <SelectItem value="10_25">10-25%</SelectItem>
               <SelectItem value="25_50">25-50%</SelectItem>
@@ -373,42 +367,26 @@ export const AdvancedTargeting = () => {
           </Select>
         </div>
 
-        {/* Hiring Plans */}
+        {/* Department */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            Hiring Plans
+            Abteilung
           </Label>
-          <Select>
+          <Select value={filters.department} onValueChange={(value) => handleFilterChange("department", value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Select hiring status" />
+              <SelectValue placeholder="Abteilung auswählen" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="actively_hiring">Actively Hiring</SelectItem>
-              <SelectItem value="planning_to_hire">Planning to Hire</SelectItem>
-              <SelectItem value="not_hiring">Not Hiring</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Departments */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">
-            Departments Using Apollo
-          </Label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Select department" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="sales">Sales</SelectItem>
+              <SelectItem value="sales">Vertrieb</SelectItem>
               <SelectItem value="marketing">Marketing</SelectItem>
               <SelectItem value="it">IT</SelectItem>
-              <SelectItem value="hr">HR</SelectItem>
-              <SelectItem value="finance">Finance</SelectItem>
+              <SelectItem value="hr">Personal</SelectItem>
+              <SelectItem value="finance">Finanzen</SelectItem>
               <SelectItem value="operations">Operations</SelectItem>
             </SelectContent>
           </Select>
         </div>
+
       </div>
     </div>
   );
