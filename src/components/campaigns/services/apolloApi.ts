@@ -2,7 +2,7 @@
 import { ApolloFilters, ApolloLead } from "../types/apollo-filters";
 
 const APOLLO_API_KEY = "rtd26I4RRDz7ZMo0GqsrxQ";
-const API_BASE_URL = "https://cors-anywhere.herokuapp.com/https://api.apollo.io/v1";
+const API_BASE_URL = "https://api.apollo.io/v1";
 
 interface ApolloApiResponse {
   leads: ApolloLead[];
@@ -71,15 +71,12 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
 
     console.log('Cleaned request body:', requestBody);
 
-    // Modifizierte Headers für CORS und Apollo.io
-    const response = await fetch(`${API_BASE_URL}/mixed_people/search`, {
+    // Verwenden Sie den Apollo Search Endpoint und setzen Sie die erforderlichen Headers
+    const response = await fetch(`${API_BASE_URL}/people/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0',
-        'X-Requested-With': 'XMLHttpRequest'
+        'Authorization': `Bearer ${APOLLO_API_KEY}`
       },
       body: JSON.stringify(requestBody)
     });
