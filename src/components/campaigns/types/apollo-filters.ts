@@ -24,3 +24,16 @@ export interface ApolloFilters {
     recentlyFunded: boolean;
   }
 }
+
+export interface ApolloLead {
+  id: string;
+  name: string;
+  position: string;
+  company: string;
+  location: string;
+  email?: string;
+  department?: string;
+  companySize?: string;
+  technology?: string[];
+  lastUpdated?: string;
+}
