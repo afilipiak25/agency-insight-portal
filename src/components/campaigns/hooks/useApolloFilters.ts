@@ -24,10 +24,30 @@ export const useApolloFilters = () => {
     growthRate: "",
     hiringStatus: "",
     department: "",
+    countries: [],
+    city: "",
+    region: "",
+    postalCode: "",
+    titles: [],
+    jobTitles: [],
+    seniority: [],
+    fundingMin: "",
+    fundingMax: "",
+    fundingRounds: "",
+    foundedMin: "",
+    foundedMax: "",
+    sicCodes: [],
+    naicsCodes: [],
+    leadQuality: "",
+    emailStatus: "",
+    sortBy: "",
+    sortDirection: "desc",
     intent: {
       activelyHiring: false,
       highGrowth: false,
-      recentlyFunded: false
+      recentlyFunded: false,
+      buyingIntent: false,
+      recentTechnology: false
     }
   });
 
