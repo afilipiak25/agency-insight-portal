@@ -85,21 +85,22 @@ export const CreateCampaignForm = () => {
 
   return (
     <div className="p-4 sm:p-6 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
-        <div className="mb-8 flex flex-col md:flex-row justify-between items-start gap-8">
-          <div className="space-y-6 flex-1 w-full">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex gap-8">
+          <div className="flex-1 space-y-8">
             {renderContent()}
           </div>
-          <div className="w-full md:w-96">
+          
+          <div className="w-[400px] sticky top-4 h-fit">
             <LeadPreview 
               showEmailPreview={activeSection === "workflow"} 
               selectedDataSource={selectedDataSource}
-              position="left"
+              position="right"
             />
           </div>
         </div>
 
-        <div className="border-t pt-6">
+        <div className="border-t mt-8 pt-6">
           <CampaignStepsNavigation 
             activeSection={activeSection}
             onSectionChange={setActiveSection}
