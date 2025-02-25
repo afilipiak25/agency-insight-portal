@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { AudienceHeader } from "./AudienceHeader";
 import { JobTitleFields } from "./JobTitleFields";
@@ -107,12 +108,12 @@ export const CreateCampaignForm = () => {
   return (
     <div className="p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex gap-8">
-          <div className="flex-1 space-y-8">
+        <div className="grid grid-cols-[1fr,400px] gap-8">
+          <div className="space-y-8">
             {renderContent()}
           </div>
           
-          <div className="w-[400px] sticky top-4 h-fit">
+          <div className="sticky top-4 h-fit">
             <LeadPreview 
               showEmailPreview={activeSection === "workflow"} 
               selectedDataSource={selectedDataSource}
