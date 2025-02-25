@@ -2,6 +2,7 @@
 import { ApolloFilters, ApolloLead } from "../types/apollo-filters";
 
 const SUPABASE_PROJECT_URL = 'https://xqnomvfmulzltjkusrlv.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhxbm9tdmZtdWx6bHRqa3Vzcmx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODQ4NzIsImV4cCI6MjAyMzA2MDg3Mn0.Ej6M5ePUNqKdZHSIQFO_DKUkJv61F0k6jvxJkEnB9hk';
 
 interface ApolloApiResponse {
   leads: ApolloLead[];
@@ -27,10 +28,9 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': `Bearer ${process.env.SUPABASE_ANON_KEY}`,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       },
-      body: JSON.stringify({ filters: cleanFilters }),
-      credentials: 'include'
+      body: JSON.stringify({ filters: cleanFilters })
     });
 
     if (!response.ok) {
