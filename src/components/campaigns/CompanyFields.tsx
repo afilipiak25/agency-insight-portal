@@ -1,3 +1,4 @@
+
 import {
   Select,
   SelectContent,
@@ -7,6 +8,8 @@ import {
 } from "@/components/ui/select";
 import { Building2, ShoppingCart, Upload, Store, Info, Users, Globe } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 interface CompanyFieldsProps {
   onDataSourceChange?: (source: string) => void;
@@ -20,7 +23,7 @@ export const CompanyFields = ({ onDataSourceChange }: CompanyFieldsProps) => {
   };
 
   return (
-    <>
+    <div className="space-y-6">
       <div className="space-y-2">
         <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           Select Data Type:
@@ -121,49 +124,6 @@ export const CompanyFields = ({ onDataSourceChange }: CompanyFieldsProps) => {
           </SelectContent>
         </Select>
       </div>
-
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-          Company Search
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Info className="w-4 h-4 text-gray-400" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Search for specific companies you want to target</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </label>
-        <Select>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Search for specific companies..." />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="microsoft">Microsoft Corporation</SelectItem>
-            <SelectItem value="apple">Apple Inc.</SelectItem>
-            <SelectItem value="amazon">Amazon.com Inc.</SelectItem>
-            <SelectItem value="google">Google (Alphabet Inc.)</SelectItem>
-            <SelectItem value="meta">Meta Platforms Inc.</SelectItem>
-            <SelectItem value="nvidia">NVIDIA Corporation</SelectItem>
-            <SelectItem value="tesla">Tesla, Inc.</SelectItem>
-            <SelectItem value="salesforce">Salesforce.com Inc.</SelectItem>
-            <SelectItem value="oracle">Oracle Corporation</SelectItem>
-            <SelectItem value="ibm">IBM Corporation</SelectItem>
-            <SelectItem value="sap">SAP SE</SelectItem>
-            <SelectItem value="adobe">Adobe Inc.</SelectItem>
-            <SelectItem value="intel">Intel Corporation</SelectItem>
-            <SelectItem value="cisco">Cisco Systems Inc.</SelectItem>
-            <SelectItem value="siemens">Siemens AG</SelectItem>
-            <SelectItem value="samsung">Samsung Electronics</SelectItem>
-            <SelectItem value="sony">Sony Group Corporation</SelectItem>
-            <SelectItem value="dell">Dell Technologies Inc.</SelectItem>
-            <SelectItem value="hp">HP Inc.</SelectItem>
-            <SelectItem value="vmware">VMware Inc.</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    </>
+    </div>
   );
 };
