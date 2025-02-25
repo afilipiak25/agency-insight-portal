@@ -3,6 +3,8 @@ import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Link2, Mail, Database, Calendar, ExternalLink, CheckCircle2, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 interface IntegrationCardProps {
   title: string;
@@ -11,6 +13,7 @@ interface IntegrationCardProps {
   buttonText: string;
   buttonColor?: string;
   iconBgColor?: string;
+  onConnect?: () => void;
 }
 
 const IntegrationCard = ({ 
@@ -19,7 +22,8 @@ const IntegrationCard = ({
   icon, 
   buttonText, 
   buttonColor = "text-amplifa-purple",
-  iconBgColor = "bg-amplifa-purple/10"
+  iconBgColor = "bg-amplifa-purple/10",
+  onConnect
 }: IntegrationCardProps) => (
   <div className="group relative border border-dashed border-gray-200 hover:border-solid hover:border-amplifa-purple/30 rounded-lg p-6 flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:shadow-amplifa-purple/5">
     <div className={cn(
@@ -36,6 +40,7 @@ const IntegrationCard = ({
         "gap-2 transition-all duration-300 group-hover:translate-y-1",
         buttonColor
       )}
+      onClick={onConnect}
     >
       {buttonText}
       <ExternalLink className="w-4 h-4" />
@@ -91,6 +96,32 @@ const ActiveIntegration = ({
 );
 
 const Integrations = () => {
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const handleLinkedInConnect = async () => {
+    setIsConnecting(true);
+    try {
+      // In einer echten Implementierung würde hier die OAuth-Authentifizierung stattfinden
+      const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${import.meta.env.VITE_LINKEDIN_CLIENT_ID}&redirect_uri=${encodeURIComponent(window.location.origin + '/integrations/callback')}&scope=r_liteprofile%20r_emailaddress%20w_member_social`;
+      
+      toast({
+        title: "LinkedIn Verbindung wird hergestellt",
+        description: "Sie werden zu LinkedIn weitergeleitet...",
+      });
+
+      window.location.href = linkedInAuthUrl;
+    } catch (error) {
+      console.error('LinkedIn connection error:', error);
+      toast({
+        title: "Verbindung fehlgeschlagen",
+        description: "Bitte versuchen Sie es später erneut.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
   return (
     <Layout>
       <div className="p-8 max-w-6xl mx-auto animate-fade-in">
@@ -110,9 +141,10 @@ const Integrations = () => {
             title="LinkedIn Integration"
             description="Verbinden Sie Ihre LinkedIn-Profile und Sales Navigator"
             icon={<Link2 className="w-6 h-6 text-[#0077B5]" />}
-            buttonText="Verbinden"
+            buttonText={isConnecting ? "Verbinde..." : "Verbinden"}
             buttonColor="text-[#0077B5]"
             iconBgColor="bg-[#0077B5]/10"
+            onConnect={handleLinkedInConnect}
           />
           <IntegrationCard
             title="Email Integration"
