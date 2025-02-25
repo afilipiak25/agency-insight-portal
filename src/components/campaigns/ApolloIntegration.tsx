@@ -204,11 +204,11 @@ export const ApolloIntegration = () => {
                 <SelectValue placeholder="Umsatz auswählen" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1m">< 1M €</SelectItem>
-                <SelectItem value="1-10m">1M - 10M €</SelectItem>
-                <SelectItem value="10-50m">10M - 50M €</SelectItem>
-                <SelectItem value="50-100m">50M - 100M €</SelectItem>
-                <SelectItem value="100m+">100M+ €</SelectItem>
+                <SelectItem value="less_than_1m">Unter 1M €</SelectItem>
+                <SelectItem value="1m_10m">1M - 10M €</SelectItem>
+                <SelectItem value="10m_50m">10M - 50M €</SelectItem>
+                <SelectItem value="50m_100m">50M - 100M €</SelectItem>
+                <SelectItem value="more_than_100m">Über 100M €</SelectItem>
               </SelectContent>
             </Select>
           </div>
