@@ -64,18 +64,13 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
 
     console.log('Sending Apollo API request with body:', requestBody);
 
-    // Füge Proxy-URL hinzu, um CORS zu umgehen
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const targetUrl = `${API_BASE_URL}/people/search`;
-    
-    const response = await fetch(proxyUrl + targetUrl, {
+    // Direkte Anfrage an Apollo API ohne CORS-Proxy
+    const response = await fetch(`${API_BASE_URL}/people/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        'Accept': 'application/json'
       },
-      mode: 'cors',
       body: JSON.stringify(requestBody)
     });
 
