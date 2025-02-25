@@ -1,0 +1,70 @@
+
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ApolloFilters } from "../types/apollo-filters";
+
+interface CompanyInfoFiltersProps {
+  filters: ApolloFilters;
+  onFilterChange: (key: keyof ApolloFilters, value: any) => void;
+}
+
+export const CompanyInfoFilters = ({ filters, onFilterChange }: CompanyInfoFiltersProps) => {
+  return (
+    <>
+      <div className="space-y-2">
+        <Label className="text-sm font-medium text-gray-700">
+          Firmenname
+        </Label>
+        <Input 
+          placeholder="Firmennamen eingeben, durch Kommas getrennt"
+          className="w-full"
+          value={filters.companyName}
+          onChange={(e) => onFilterChange("companyName", e.target.value)}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label className="text-sm font-medium text-gray-700">
+          Branche
+        </Label>
+        <Select value={filters.industry} onValueChange={(value) => onFilterChange("industry", value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Branche auswählen" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="software">Software & Technologie</SelectItem>
+            <SelectItem value="financial">Finanzdienstleistungen</SelectItem>
+            <SelectItem value="healthcare">Gesundheitswesen</SelectItem>
+            <SelectItem value="manufacturing">Produktion</SelectItem>
+            <SelectItem value="retail">Einzelhandel & E-Commerce</SelectItem>
+            <SelectItem value="education">Bildung</SelectItem>
+            <SelectItem value="professional">Professional Services</SelectItem>
+            <SelectItem value="real_estate">Immobilien</SelectItem>
+            <SelectItem value="telecom">Telekommunikation</SelectItem>
+            <SelectItem value="media">Medien & Unterhaltung</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-2">
+        <Label className="text-sm font-medium text-gray-700">
+          Unterbranche
+        </Label>
+        <Select value={filters.subIndustry} onValueChange={(value) => onFilterChange("subIndustry", value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Unterbranche auswählen" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="saas">SaaS</SelectItem>
+            <SelectItem value="ai_ml">KI & Machine Learning</SelectItem>
+            <SelectItem value="cybersecurity">Cybersecurity</SelectItem>
+            <SelectItem value="cloud">Cloud Services</SelectItem>
+            <SelectItem value="fintech">FinTech</SelectItem>
+            <SelectItem value="biotech">Biotech</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </>
+  );
+};
