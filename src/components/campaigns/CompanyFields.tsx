@@ -1,4 +1,3 @@
-
 import {
   Select,
   SelectContent,
@@ -9,7 +8,17 @@ import {
 import { Building2, ShoppingCart, Upload, Store, Info, Users, Globe } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-export const CompanyFields = () => {
+interface CompanyFieldsProps {
+  onDataSourceChange?: (source: string) => void;
+}
+
+export const CompanyFields = ({ onDataSourceChange }: CompanyFieldsProps) => {
+  const handleDataSourceChange = (value: string) => {
+    if (onDataSourceChange) {
+      onDataSourceChange(value);
+    }
+  };
+
   return (
     <>
       <div className="space-y-2">
@@ -26,7 +35,7 @@ export const CompanyFields = () => {
             </Tooltip>
           </TooltipProvider>
         </label>
-        <Select>
+        <Select onValueChange={handleDataSourceChange}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select database" />
           </SelectTrigger>

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LeadDeepResearchDialog } from "./LeadDeepResearchDialog";
+import { ApolloIntegration } from "./ApolloIntegration";
 import { useState } from "react";
 
 interface FilterOption {
@@ -106,9 +107,14 @@ interface LeadPreviewProps {
 
 export const LeadPreview = ({ showEmailPreview = false }: LeadPreviewProps) => {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [selectedDataSource, setSelectedDataSource] = useState<string>("");
 
   if (showEmailPreview) {
     return <PreviewSection />;
+  }
+
+  if (selectedDataSource === "b2b") {
+    return <ApolloIntegration />;
   }
 
   const categories = Array.from(new Set(filterOptions.map(filter => filter.category)));
