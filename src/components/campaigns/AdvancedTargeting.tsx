@@ -1,4 +1,3 @@
-
 import { Input } from "@/components/ui/input";
 import { ChevronUp } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -14,6 +13,123 @@ export const AdvancedTargeting = () => {
       </div>
       
       <div className="space-y-6">
+        {/* Company Name */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-gray-700">
+            Company Name
+          </Label>
+          <Input 
+            placeholder="Enter company names, separated by commas"
+            className="w-full"
+          />
+          <p className="text-xs text-gray-500">
+            Add multiple company names or partial matches
+          </p>
+        </div>
+
+        {/* Industry */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-gray-700">
+            Industry
+          </Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select industry" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="software">Software & Technology</SelectItem>
+              <SelectItem value="financial">Financial Services</SelectItem>
+              <SelectItem value="healthcare">Healthcare</SelectItem>
+              <SelectItem value="manufacturing">Manufacturing</SelectItem>
+              <SelectItem value="retail">Retail & E-commerce</SelectItem>
+              <SelectItem value="education">Education</SelectItem>
+              <SelectItem value="professional">Professional Services</SelectItem>
+              <SelectItem value="real_estate">Real Estate</SelectItem>
+              <SelectItem value="telecom">Telecommunications</SelectItem>
+              <SelectItem value="media">Media & Entertainment</SelectItem>
+              <SelectItem value="hospitality">Hospitality & Tourism</SelectItem>
+              <SelectItem value="automotive">Automotive</SelectItem>
+              <SelectItem value="energy">Energy & Utilities</SelectItem>
+              <SelectItem value="logistics">Transportation & Logistics</SelectItem>
+              <SelectItem value="agriculture">Agriculture</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Sub-Industry */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-gray-700">
+            Sub-Industry
+          </Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select sub-industry" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="saas">SaaS</SelectItem>
+              <SelectItem value="ai_ml">AI & Machine Learning</SelectItem>
+              <SelectItem value="cybersecurity">Cybersecurity</SelectItem>
+              <SelectItem value="cloud">Cloud Services</SelectItem>
+              <SelectItem value="fintech">FinTech</SelectItem>
+              <SelectItem value="biotech">Biotech</SelectItem>
+              <SelectItem value="ecommerce">E-commerce Platforms</SelectItem>
+              <SelectItem value="digital_marketing">Digital Marketing</SelectItem>
+              <SelectItem value="consulting">Management Consulting</SelectItem>
+              <SelectItem value="investment">Investment Banking</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Business Model */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-gray-700">
+            Business Model
+          </Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select business model" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="b2b">B2B</SelectItem>
+              <SelectItem value="b2c">B2C</SelectItem>
+              <SelectItem value="b2b2c">B2B2C</SelectItem>
+              <SelectItem value="d2c">D2C</SelectItem>
+              <SelectItem value="marketplace">Marketplace</SelectItem>
+              <SelectItem value="saas">SaaS</SelectItem>
+              <SelectItem value="enterprise">Enterprise</SelectItem>
+              <SelectItem value="smb">SMB</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Company Keywords */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-gray-700">
+            Company Keywords
+          </Label>
+          <Input 
+            placeholder="e.g., startup, enterprise, innovation"
+            className="w-full"
+          />
+          <p className="text-xs text-gray-500">
+            Add keywords that describe the companies you want to target
+          </p>
+        </div>
+
+        {/* Company Description Keywords */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-gray-700">
+            Company Description Keywords
+          </Label>
+          <Input 
+            placeholder="e.g., artificial intelligence, cloud computing"
+            className="w-full"
+          />
+          <p className="text-xs text-gray-500">
+            Search for specific terms in company descriptions
+          </p>
+        </div>
+
         {/* Company Size */}
         <div className="space-y-4">
           <Label className="text-sm font-medium text-gray-700">
