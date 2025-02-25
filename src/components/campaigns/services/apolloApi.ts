@@ -10,6 +10,18 @@ interface ApolloApiResponse {
   hasMore: boolean;
 }
 
+interface ApolloRequestBody {
+  api_key: string;
+  page: number;
+  per_page: number;
+  person_titles?: string[];
+  organization_names?: string;
+  organization_industries?: string;
+  person_departments?: string;
+  person_locations?: string[];
+  [key: string]: any; // Erlaubt zusätzliche Eigenschaften für zukünftige Erweiterungen
+}
+
 export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloApiResponse> => {
   try {
     console.log('Starting API request with filters:', filters);
@@ -23,7 +35,7 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
     });
 
     // Baue Request-Body entsprechend der Apollo API-Dokumentation
-    const requestBody = {
+    const requestBody: ApolloRequestBody = {
       api_key: APOLLO_API_KEY,
       page: 1,
       per_page: 25
