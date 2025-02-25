@@ -60,9 +60,12 @@ export const CreateCampaignForm = () => {
       case "targeting":
         return (
           <div className="space-y-8 transition-all duration-300 hover:translate-y-[-2px]">
-            {!isApolloConnected && (
+            {selectedDataSource === "b2b" && (
               <div className="mb-6">
-                <ApolloIntegration onConnect={handleApolloConnect} />
+                <ApolloIntegration 
+                  onConnect={handleApolloConnect} 
+                  isConnected={isApolloConnected}
+                />
               </div>
             )}
             <CompanyFields onDataSourceChange={setSelectedDataSource} />
@@ -70,7 +73,7 @@ export const CreateCampaignForm = () => {
             <JobFunctionFields />
             <SectorFields />
             <AdditionalFields />
-            {isApolloConnected && (
+            {isApolloConnected && selectedDataSource === "b2b" && (
               <>
                 <div className="border-t pt-6">
                   <h3 className="text-lg font-semibold mb-4">Erweiterte Apollo.io Filter</h3>
