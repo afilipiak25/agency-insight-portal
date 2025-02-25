@@ -6,6 +6,8 @@ export const ApolloIntegration = () => {
   const { toast } = useToast();
 
   const handleConnectApollo = () => {
+    console.log("Apollo Connect Button clicked"); // Debug-Log hinzugefügt
+    
     // Hier würde normalerweise die Apollo.io OAuth Integration stattfinden
     toast({
       title: "Apollo.io Integration",
