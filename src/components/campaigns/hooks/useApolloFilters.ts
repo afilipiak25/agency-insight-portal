@@ -54,19 +54,24 @@ export const useApolloFilters = () => {
   const [filteredLeads, setFilteredLeads] = useState<ApolloLead[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
+  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const fetchLeads = async () => {
     try {
       setIsLoading(true);
+      setError(null);
       const response = await searchApolloLeads(filters);
       setFilteredLeads(response.leads);
       setTotalResults(response.total);
     } catch (error) {
       console.error('Error fetching leads:', error);
+      setError('Fehler beim Laden der Leads');
+      setFilteredLeads([]);
+      setTotalResults(0);
       toast({
         title: "Fehler beim Laden der Leads",
-        description: "Bitte versuchen Sie es später erneut.",
+        description: "Bitte versuchen Sie es später erneut oder passen Sie Ihre Filterkriterien an.",
         variant: "destructive"
       });
     } finally {
@@ -74,7 +79,6 @@ export const useApolloFilters = () => {
     }
   };
 
-  // Debounced filter changes
   useEffect(() => {
     const timer = setTimeout(() => {
       if (Object.values(filters).some(value => value)) {
@@ -107,6 +111,7 @@ export const useApolloFilters = () => {
     filteredLeads,
     isLoading,
     totalResults,
+    error,
     handleFilterChange,
     handleIntentChange
   };

@@ -1,4 +1,3 @@
-
 import { ApolloLead } from "../types/apollo-filters";
 
 const APOLLO_API_KEY = "rtd26I4RRDz7ZMo0GqsrxQ";
@@ -13,60 +12,76 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
   try {
     console.log('Sending request with filters:', filters);
     
+    // Remove undefined and empty values from filter
+    const cleanFilters: any = {};
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined && value !== '' && value !== null) {
+        cleanFilters[key] = value;
+      }
+    });
+
     const requestBody = {
       api_key: APOLLO_API_KEY,
-      q_organization_name: filters.companyName || "",
+      q_organization_name: cleanFilters.companyName || "",
       page: 1,
       per_page: 25,
-      organization_industry_tag_ids: filters.industry,
-      organization_sub_industry: filters.subIndustry,
-      organization_keywords: filters.companyKeywords,
-      person_departments: filters.department,
-      organization_num_employees_ranges: getEmployeeRange(filters.employeesMin, filters.employeesMax),
-      organization_technologies: filters.technologies,
+      organization_industry_tag_ids: cleanFilters.industry || undefined,
+      organization_sub_industry: cleanFilters.subIndustry || undefined,
+      organization_keywords: cleanFilters.companyKeywords || undefined,
+      person_departments: cleanFilters.department || undefined,
+      organization_num_employees_ranges: getEmployeeRange(cleanFilters.employeesMin, cleanFilters.employeesMax),
+      organization_technologies: cleanFilters.technologies || undefined,
       
       // Location filters
-      q_country_codes: filters.countries,
-      q_city: filters.city,
-      q_region: filters.region,
-      q_postal_code: filters.postalCode,
+      q_country_codes: cleanFilters.countries?.length ? cleanFilters.countries : undefined,
+      q_city: cleanFilters.city || undefined,
+      q_region: cleanFilters.region || undefined,
+      q_postal_code: cleanFilters.postalCode || undefined,
 
       // Additional person filters
-      q_titles: filters.titles,
-      person_titles: filters.jobTitles,
-      person_levels: filters.seniority,
+      q_titles: cleanFilters.titles?.length ? cleanFilters.titles : undefined,
+      person_titles: cleanFilters.jobTitles?.length ? cleanFilters.jobTitles : undefined,
+      person_levels: cleanFilters.seniority?.length ? cleanFilters.seniority : undefined,
       
       // Company filters
-      organization_revenue_ranges: getRevenueRange(filters.revenueMin, filters.revenueMax),
-      organization_funding_ranges: getFundingRange(filters.fundingMin, filters.fundingMax),
-      organization_funding_raised_rounds: filters.fundingRounds,
-      organization_founded_years: getFoundedRange(filters.foundedMin, filters.foundedMax),
-      organization_sic_codes: filters.sicCodes,
-      organization_naics_codes: filters.naicsCodes,
+      organization_revenue_ranges: getRevenueRange(cleanFilters.revenueMin, cleanFilters.revenueMax),
+      organization_funding_ranges: getFundingRange(cleanFilters.fundingMin, cleanFilters.fundingMax),
+      organization_funding_raised_rounds: cleanFilters.fundingRounds || undefined,
+      organization_founded_years: getFoundedRange(cleanFilters.foundedMin, cleanFilters.foundedMax),
+      organization_sic_codes: cleanFilters.sicCodes?.length ? cleanFilters.sicCodes : undefined,
+      organization_naics_codes: cleanFilters.naicsCodes?.length ? cleanFilters.naicsCodes : undefined,
       
       // Intent filters
-      buying_intent: filters.intent.buyingIntent ? "high" : undefined,
-      recent_funding: filters.intent.recentlyFunded ? true : undefined,
-      recent_tech: filters.intent.recentTechnology ? true : undefined,
-      is_hiring: filters.intent.activelyHiring ? true : undefined,
+      buying_intent: cleanFilters.intent?.buyingIntent ? "high" : undefined,
+      recent_funding: cleanFilters.intent?.recentlyFunded || undefined,
+      recent_tech: cleanFilters.intent?.recentTechnology || undefined,
+      is_hiring: cleanFilters.intent?.activelyHiring || undefined,
       
       // Quality filters
-      q_lead_quality: filters.leadQuality,
-      contact_email_status: filters.emailStatus,
+      q_lead_quality: cleanFilters.leadQuality || undefined,
+      contact_email_status: cleanFilters.emailStatus || undefined,
       
       // Sort and pagination
-      sort_by: filters.sortBy || "relevance",
-      sort_direction: filters.sortDirection || "desc"
+      sort_by: cleanFilters.sortBy || "relevance",
+      sort_direction: cleanFilters.sortDirection || "desc"
     };
     
-    console.log('Request body:', requestBody);
+    // Remove all undefined values from request body
+    Object.keys(requestBody).forEach(key => {
+      if (requestBody[key] === undefined) {
+        delete requestBody[key];
+      }
+    });
+    
+    console.log('Cleaned request body:', requestBody);
 
     const response = await fetch('https://api.apollo.io/v1/mixed_people/search', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${APOLLO_API_KEY}`
       },
       body: JSON.stringify(requestBody)
     });
@@ -80,8 +95,7 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     }
 
     if (!data.people || !Array.isArray(data.people)) {
-      console.log('No data from API, using mock data');
-      return getMockData();
+      throw new Error('Invalid API response format');
     }
 
     return {
@@ -91,50 +105,17 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     };
   } catch (error) {
     console.error('Apollo API Error:', error);
-    return getMockData();
+    throw error;
   }
-};
-
-const getMockData = (): ApolloApiResponse => {
-  return {
-    leads: [
-      {
-        id: '1',
-        name: 'John Doe',
-        position: 'CEO',
-        company: 'Tech Corp',
-        location: 'Berlin, Germany',
-        email: 'john@techcorp.com',
-        department: 'Executive',
-        companySize: '50-100',
-        technology: ['React', 'Node.js'],
-        lastUpdated: new Date().toISOString()
-      },
-      {
-        id: '2',
-        name: 'Jane Smith',
-        position: 'CTO',
-        company: 'Innovation GmbH',
-        location: 'München, Germany',
-        email: 'jane@innovation.de',
-        department: 'Technology',
-        companySize: '100-500',
-        technology: ['Python', 'AWS'],
-        lastUpdated: new Date().toISOString()
-      }
-    ],
-    total: 2,
-    hasMore: false
-  };
 };
 
 const transformApolloLead = (apiLead: any): ApolloLead => {
   return {
     id: apiLead.id,
-    name: `${apiLead.first_name} ${apiLead.last_name}`,
+    name: `${apiLead.first_name || ''} ${apiLead.last_name || ''}`.trim(),
     position: apiLead.title || '',
     company: apiLead.organization?.name || '',
-    location: `${apiLead.city || ''}, ${apiLead.country || ''}`,
+    location: [apiLead.city, apiLead.state, apiLead.country].filter(Boolean).join(', '),
     email: apiLead.email || undefined,
     department: apiLead.department || undefined,
     companySize: apiLead.organization?.employee_count || undefined,
