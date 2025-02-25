@@ -1,7 +1,7 @@
 
 import { ApolloLead } from "../types/apollo-filters";
 
-const APOLLO_API_KEY = "YOUR_APOLLO_API_KEY"; // This should be managed securely
+const APOLLO_API_KEY = "rtd26I4RRDz7ZMo0GqsrxQ";
 
 interface ApolloApiResponse {
   leads: ApolloLead[];
