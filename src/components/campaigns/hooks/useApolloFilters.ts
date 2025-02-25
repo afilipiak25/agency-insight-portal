@@ -31,6 +31,7 @@ export const useApolloFilters = () => {
     titles: [],
     jobTitles: [],
     seniority: [],
+    excludedTitles: "", // Neu hinzugefügt
     fundingMin: "",
     fundingMax: "",
     fundingRounds: "",
