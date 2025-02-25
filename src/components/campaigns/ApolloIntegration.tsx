@@ -173,59 +173,18 @@ export const ApolloIntegration = () => {
   const [revenueInput, setRevenueInput] = useState("");
 
   return (
-    <>
-      <Dialog open={showApiDialog} onOpenChange={setShowApiDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Apollo.io API Konfiguration</DialogTitle>
-            <DialogDescription className="space-y-2">
-              <p>Bitte geben Sie Ihren Apollo.io API-Key ein, um die Integration zu aktivieren.</p>
-              <p className="text-sm text-muted-foreground">
-                Sie finden Ihren API-Key in den Apollo.io Einstellungen unter "API & Integrations".
-              </p>
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <Input
-              type="password"
-              placeholder="Apollo.io API-Key"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              disabled={isLoading}
-            />
-            <Button 
-              onClick={handleApiKeySave}
-              disabled={isLoading}
-              className="w-full"
-            >
-              {isLoading ? "Speichere..." : "API-Key speichern"}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <div className="space-y-6">
+    <div className="flex gap-6">
+      <div className="w-80 flex-shrink-0 space-y-6 border-r border-gray-200 pr-6">
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="flex items-center gap-2">
-              Unternehmen
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="w-4 h-4 text-gray-400" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Suchen Sie nach spezifischen Unternehmen</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </Label>
+            <Label className="text-sm font-medium">Unternehmen</Label>
             <div className="flex gap-2">
               <Input
                 value={companyInput}
                 onChange={(e) => setCompanyInput(e.target.value)}
                 onKeyDown={(e) => handleArrayInput(e, "companyNames", companyInput, setCompanyInput)}
-                placeholder="Unternehmensnamen eingeben..."
+                placeholder="Unternehmen hinzufügen..."
+                className="flex-1"
               />
               <Button 
                 variant="outline" 
@@ -240,44 +199,42 @@ export const ApolloIntegration = () => {
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {filters.companyNames.map((company, index) => (
-                <div
-                  key={index}
-                  className="inline-flex items-center gap-2 bg-violet-50 px-3 py-1 rounded-full text-sm text-violet-700"
-                >
-                  {company}
-                  <button
-                    onClick={() => removeFromArray("companyNames", index)}
-                    className="text-violet-500 hover:text-violet-700"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Ausgeschlossene Unternehmen</Label>
             <Input
-              placeholder="Unternehmen zum Ausschließen..."
+              placeholder="Ausgeschlossene Unternehmen..."
               value={domainInput}
               onChange={(e) => setDomainInput(e.target.value)}
               onKeyDown={(e) => handleArrayInput(e, "excludedCompanies", domainInput, setDomainInput)}
             />
           </div>
+
+          <div className="flex flex-wrap gap-2">
+            {filters.companyNames.map((company, index) => (
+              <div
+                key={index}
+                className="inline-flex items-center gap-2 bg-violet-50 px-3 py-1 rounded-full text-sm text-violet-700"
+              >
+                {company}
+                <button
+                  onClick={() => removeFromArray("companyNames", index)}
+                  className="text-violet-500 hover:text-violet-700"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>Standorte</Label>
+            <Label className="text-sm font-medium">Standorte</Label>
             <div className="flex gap-2">
               <Input
                 value={locationInput}
                 onChange={(e) => setLocationInput(e.target.value)}
                 onKeyDown={(e) => handleArrayInput(e, "locations", locationInput, setLocationInput)}
-                placeholder="Standorte hinzufügen..."
+                placeholder="Standort hinzufügen..."
+                className="flex-1"
               />
               <Button 
                 variant="outline" 
@@ -292,44 +249,42 @@ export const ApolloIntegration = () => {
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {filters.locations.map((location, index) => (
-                <div
-                  key={index}
-                  className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-gray-200"
-                >
-                  {location}
-                  <button
-                    onClick={() => removeFromArray("locations", index)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Ausgeschlossene Standorte</Label>
             <Input
-              placeholder="Standorte zum Ausschließen..."
+              placeholder="Ausgeschlossene Standorte..."
               value={domainInput}
               onChange={(e) => setDomainInput(e.target.value)}
               onKeyDown={(e) => handleArrayInput(e, "excludedLocations", domainInput, setDomainInput)}
             />
           </div>
+
+          <div className="flex flex-wrap gap-2">
+            {filters.locations.map((location, index) => (
+              <div
+                key={index}
+                className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-gray-200"
+              >
+                {location}
+                <button
+                  onClick={() => removeFromArray("locations", index)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>Job Titel</Label>
+            <Label className="text-sm font-medium">Job Titel</Label>
             <div className="flex gap-2">
               <Input
                 value={jobTitleInput}
                 onChange={(e) => setJobTitleInput(e.target.value)}
                 onKeyDown={(e) => handleArrayInput(e, "jobTitles", jobTitleInput, setJobTitleInput)}
                 placeholder="Job-Titel hinzufügen..."
+                className="flex-1"
               />
               <Button 
                 variant="outline" 
@@ -344,37 +299,34 @@ export const ApolloIntegration = () => {
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {filters.jobTitles.map((title, index) => (
-                <div
-                  key={index}
-                  className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-gray-200"
-                >
-                  {title}
-                  <button
-                    onClick={() => removeFromArray("jobTitles", index)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Ausgeschlossene Job-Titel</Label>
             <Input
-              placeholder="Job-Titel zum Ausschließen..."
+              placeholder="Ausgeschlossene Job-Titel..."
               value={domainInput}
               onChange={(e) => setDomainInput(e.target.value)}
               onKeyDown={(e) => handleArrayInput(e, "excludedJobTitles", domainInput, setDomainInput)}
             />
           </div>
+
+          <div className="flex flex-wrap gap-2">
+            {filters.jobTitles.map((title, index) => (
+              <div
+                key={index}
+                className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-gray-200"
+              >
+                {title}
+                <button
+                  onClick={() => removeFromArray("jobTitles", index)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-2">
-          <Label>Management Level</Label>
+          <Label className="text-sm font-medium">Management Level</Label>
           <Select onValueChange={(value) => handleInputChange("managementLevel", value)}>
             <SelectTrigger>
               <SelectValue placeholder="Management Level auswählen" />
@@ -391,7 +343,7 @@ export const ApolloIntegration = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>Job Funktionen</Label>
+          <Label className="text-sm font-medium">Job Funktionen</Label>
           <Select onValueChange={(value) => handleInputChange("jobFunctions", [value])}>
             <SelectTrigger>
               <SelectValue placeholder="Funktion auswählen" />
@@ -411,48 +363,42 @@ export const ApolloIntegration = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>Mitarbeiteranzahl</Label>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-sm text-gray-500">Minimum</Label>
-              <Select onValueChange={(value) => handleInputChange("employeeRange", {...filters.employeeRange, min: value})}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Min" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">1</SelectItem>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                  <SelectItem value="200">200</SelectItem>
-                  <SelectItem value="500">500</SelectItem>
-                  <SelectItem value="1000">1.000</SelectItem>
-                  <SelectItem value="5000">5.000</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-sm text-gray-500">Maximum</Label>
-              <Select onValueChange={(value) => handleInputChange("employeeRange", {...filters.employeeRange, max: value})}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Max" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                  <SelectItem value="200">200</SelectItem>
-                  <SelectItem value="500">500</SelectItem>
-                  <SelectItem value="1000">1.000</SelectItem>
-                  <SelectItem value="5000">5.000</SelectItem>
-                  <SelectItem value="10000">10.000</SelectItem>
-                  <SelectItem value="max">Unbegrenzt</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <Label className="text-sm font-medium">Mitarbeiteranzahl</Label>
+          <div className="grid grid-cols-2 gap-2">
+            <Select onValueChange={(value) => handleInputChange("employeeRange", {...filters.employeeRange, min: value})}>
+              <SelectTrigger>
+                <SelectValue placeholder="Min" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+                <SelectItem value="200">200</SelectItem>
+                <SelectItem value="500">500</SelectItem>
+                <SelectItem value="1000">1.000</SelectItem>
+                <SelectItem value="5000">5.000</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select onValueChange={(value) => handleInputChange("employeeRange", {...filters.employeeRange, max: value})}>
+              <SelectTrigger>
+                <SelectValue placeholder="Max" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+                <SelectItem value="200">200</SelectItem>
+                <SelectItem value="500">500</SelectItem>
+                <SelectItem value="1000">1.000</SelectItem>
+                <SelectItem value="5000">5.000</SelectItem>
+                <SelectItem value="10000">10.000</SelectItem>
+                <SelectItem value="max">Unbegrenzt</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label>Jahresumsatz</Label>
+          <Label className="text-sm font-medium">Jahresumsatz</Label>
           <Select onValueChange={(value) => handleInputChange("revenue", value)}>
             <SelectTrigger>
               <SelectValue placeholder="Umsatz auswählen" />
@@ -466,94 +412,38 @@ export const ApolloIntegration = () => {
             </SelectContent>
           </Select>
         </div>
+      </div>
 
-        <div className="space-y-2">
-          <Label className="flex items-center gap-2">
-            Keywords
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Info className="w-4 h-4 text-gray-400" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Suchen Sie nach spezifischen Keywords in Profilen</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </Label>
-          <div className="flex gap-2">
-            <Input
-              value={keywordInput}
-              onChange={(e) => setKeywordInput(e.target.value)}
-              onKeyDown={(e) => handleArrayInput(e, "keywords", keywordInput, setKeywordInput)}
-              placeholder="Keywords eingeben..."
-            />
-            <Button 
-              variant="outline" 
-              size="icon"
-              onClick={() => {
-                if (keywordInput.trim()) {
-                  handleInputChange("keywords", [...filters.keywords, keywordInput.trim()]);
-                  setKeywordInput("");
-                }
-              }}
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {filters.keywords.map((keyword, index) => (
-              <div
-                key={index}
-                className="inline-flex items-center gap-2 bg-violet-50 px-3 py-1 rounded-full text-sm text-violet-700"
-              >
-                {keyword}
-                <button
-                  onClick={() => removeFromArray("keywords", index)}
-                  className="text-violet-500 hover:text-violet-700"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label>Domains</Label>
-            <div className="flex gap-2">
+      <div className="flex-1">
+        <Dialog open={showApiDialog} onOpenChange={setShowApiDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Apollo.io API Konfiguration</DialogTitle>
+              <DialogDescription className="space-y-2">
+                <p>Bitte geben Sie Ihren Apollo.io API-Key ein, um die Integration zu aktivieren.</p>
+                <p className="text-sm text-muted-foreground">
+                  Sie finden Ihren API-Key in den Apollo.io Einstellungen unter "API & Integrations".
+                </p>
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
               <Input
-                value={domainInput}
-                onChange={(e) => setDomainInput(e.target.value)}
-                onKeyDown={(e) => handleArrayInput(e, "domains", domainInput, setDomainInput)}
-                placeholder="Domain hinzufügen..."
+                type="password"
+                placeholder="Apollo.io API-Key"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                disabled={isLoading}
               />
               <Button 
-                variant="outline" 
-                size="icon"
-                onClick={() => {
-                  if (domainInput.trim()) {
-                    handleInputChange("domains", [...filters.domains, domainInput.trim()]);
-                    setDomainInput("");
-                  }
-                }}
+                onClick={handleApiKeySave}
+                disabled={isLoading}
+                className="w-full"
               >
-                <Plus className="h-4 w-4" />
+                {isLoading ? "Speichere..." : "API-Key speichern"}
               </Button>
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Ausgeschlossene Domains</Label>
-            <Input
-              placeholder="Domains zum Ausschließen..."
-              value={domainInput}
-              onChange={(e) => setDomainInput(e.target.value)}
-              onKeyDown={(e) => handleArrayInput(e, "excludedDomains", domainInput, setDomainInput)}
-            />
-          </div>
-        </div>
+          </DialogContent>
+        </Dialog>
 
         <div className="space-y-4">
           <div className="flex justify-between items-center">
@@ -593,6 +483,6 @@ export const ApolloIntegration = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
