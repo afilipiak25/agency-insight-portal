@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ApolloFilters } from "../types/apollo-filters";
+import { useEffect } from "react";
 
 interface CompanyInfoFiltersProps {
   filters: ApolloFilters;
@@ -10,6 +11,21 @@ interface CompanyInfoFiltersProps {
 }
 
 export const CompanyInfoFilters = ({ filters, onFilterChange }: CompanyInfoFiltersProps) => {
+  // Auto-trigger search when companyName changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (filters.companyName) {
+        console.log("Triggering search for:", filters.companyName);
+      }
+    }, 500); // Debounce for 500ms
+
+    return () => clearTimeout(timer);
+  }, [filters.companyName]);
+
+  const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onFilterChange("companyName", e.target.value);
+  };
+
   return (
     <>
       <div className="space-y-2">
@@ -17,10 +33,18 @@ export const CompanyInfoFilters = ({ filters, onFilterChange }: CompanyInfoFilte
           Firmenname
         </Label>
         <Input 
-          placeholder="Firmennamen eingeben, durch Kommas getrennt"
+          placeholder="Firmennamen eingeben"
           className="w-full"
           value={filters.companyName}
-          onChange={(e) => onFilterChange("companyName", e.target.value)}
+          onChange={handleCompanyNameChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              if (filters.companyName) {
+                console.log("Enter pressed - searching for:", filters.companyName);
+              }
+            }
+          }}
         />
       </div>
 
