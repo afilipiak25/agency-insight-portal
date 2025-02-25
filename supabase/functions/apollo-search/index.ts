@@ -1,6 +1,6 @@
 
-import { serve } from 'https://deno.fresh.dev/server'
-import { corsHeaders } from '../_shared/cors.ts'
+import { serve } from "https://deno.fresh.dev/server";
+import { corsHeaders } from "../_shared/cors.ts";
 
 interface RequestBody {
   filters: {
@@ -9,11 +9,11 @@ interface RequestBody {
     industry?: string;
     department?: string;
     countries?: string[];
-    // ... weitere Filter
   }
 }
 
 serve(async (req) => {
+  // CORS für Preflight Requests
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -72,3 +72,4 @@ serve(async (req) => {
     })
   }
 })
+
