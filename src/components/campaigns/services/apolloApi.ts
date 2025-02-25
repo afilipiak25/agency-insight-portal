@@ -11,6 +11,7 @@ interface ApolloApiResponse {
 }
 
 interface ApolloRequestBody {
+  api_key: string;
   page: number;
   per_page: number;
   person_titles?: string[];
@@ -34,8 +35,9 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       }
     });
 
-    // Request Body ohne API Key
+    // Request Body MIT api_key - dies ist der korrekte Weg laut Apollo.io Dokumentation
     const requestBody: ApolloRequestBody = {
+      api_key: APOLLO_API_KEY, // API Key muss im Body sein
       page: 1,
       per_page: 25
     };
@@ -62,13 +64,11 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
 
     console.log('Sending Apollo API request with body:', requestBody);
 
-    // API Request mit korrekter Authentifizierung
     const response = await fetch(`${API_BASE_URL}/people/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${APOLLO_API_KEY}`
+        'Accept': 'application/json'
       },
       body: JSON.stringify(requestBody)
     });
@@ -112,4 +112,3 @@ const transformApolloLead = (apiLead: any): ApolloLead => {
     lastUpdated: apiLead.updated_at || new Date().toISOString()
   };
 };
-
