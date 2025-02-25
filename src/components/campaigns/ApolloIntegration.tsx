@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { X, Plus, Upload, Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface ApolloLead {
   id: string;
@@ -23,12 +24,23 @@ interface ApolloLead {
 }
 
 interface FilterState {
-  companySize: string;
-  industry: string;
-  revenue: string;
-  techStack: string[];
-  fundingStage: string;
-  headcount: string;
+  companyNames: string[];
+  excludedCompanies: string[];
+  locations: string[];
+  excludedLocations: string[];
+  jobTitles: string[];
+  excludedJobTitles: string[];
+  jobFunctions: string[];
+  managementLevel: string;
+  industries: string[];
+  excludedIndustries: string[];
+  employeeRange: {
+    min: string;
+    max: string;
+  };
+  keywords: string[];
+  domains: string[];
+  excludedDomains: string[];
 }
 
 export const ApolloIntegration = () => {
@@ -38,12 +50,23 @@ export const ApolloIntegration = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [leads, setLeads] = useState<ApolloLead[]>([]);
   const [filters, setFilters] = useState<FilterState>({
-    companySize: "",
-    industry: "",
-    revenue: "",
-    techStack: [],
-    fundingStage: "",
-    headcount: "",
+    companyNames: [],
+    excludedCompanies: [],
+    locations: ["United Kingdom", "United States"],
+    excludedLocations: [],
+    jobTitles: ["Vice President of Operations", "President of Operations", "Operations Manager"],
+    excludedJobTitles: [],
+    jobFunctions: [],
+    managementLevel: "",
+    industries: [],
+    excludedIndustries: [],
+    employeeRange: {
+      min: "",
+      max: ""
+    },
+    keywords: [],
+    domains: [],
+    excludedDomains: []
   });
 
   useEffect(() => {
@@ -90,7 +113,6 @@ export const ApolloIntegration = () => {
 
   const simulateLeadSearch = () => {
     setIsLoading(true);
-    // Simuliere API-Aufruf mit Verzögerung
     setTimeout(() => {
       const mockLeads = [
         {
@@ -123,10 +145,29 @@ export const ApolloIntegration = () => {
     }, 1000);
   };
 
-  const handleFilterChange = (key: keyof FilterState, value: string) => {
+  const handleInputChange = (key: keyof FilterState, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
-    simulateLeadSearch(); // Trigger neue Suche bei Filteränderung
+    simulateLeadSearch();
   };
+
+  const handleArrayInput = (e: React.KeyboardEvent<HTMLInputElement>, key: keyof FilterState, input: string, setInput: (value: string) => void) => {
+    if (e.key === 'Enter' && input.trim()) {
+      const newArray = [...(filters[key] as string[]), input.trim()];
+      handleInputChange(key, newArray);
+      setInput("");
+    }
+  };
+
+  const removeFromArray = (key: keyof FilterState, index: number) => {
+    const newArray = (filters[key] as string[]).filter((_, i) => i !== index);
+    handleInputChange(key, newArray);
+  };
+
+  const [companyInput, setCompanyInput] = useState("");
+  const [locationInput, setLocationInput] = useState("");
+  const [jobTitleInput, setJobTitleInput] = useState("");
+  const [keywordInput, setKeywordInput] = useState("");
+  const [domainInput, setDomainInput] = useState("");
 
   return (
     <>
@@ -161,76 +202,340 @@ export const ApolloIntegration = () => {
       </Dialog>
 
       <div className="space-y-6">
-        {/* Filter Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4">
           <div className="space-y-2">
-            <Label>Unternehmensgröße</Label>
-            <Select onValueChange={(value) => handleFilterChange("companySize", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Größe auswählen" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1-10">1-10 Mitarbeiter</SelectItem>
-                <SelectItem value="11-50">11-50 Mitarbeiter</SelectItem>
-                <SelectItem value="51-200">51-200 Mitarbeiter</SelectItem>
-                <SelectItem value="201-500">201-500 Mitarbeiter</SelectItem>
-                <SelectItem value="501-1000">501-1000 Mitarbeiter</SelectItem>
-                <SelectItem value="1001-5000">1001-5000 Mitarbeiter</SelectItem>
-                <SelectItem value="5001+">5001+ Mitarbeiter</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label className="flex items-center gap-2">
+              Unternehmen
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info className="w-4 h-4 text-gray-400" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Suchen Sie nach spezifischen Unternehmen</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </Label>
+            <div className="flex gap-2">
+              <Input
+                value={companyInput}
+                onChange={(e) => setCompanyInput(e.target.value)}
+                onKeyDown={(e) => handleArrayInput(e, "companyNames", companyInput, setCompanyInput)}
+                placeholder="Unternehmensnamen eingeben..."
+              />
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => {
+                  if (companyInput.trim()) {
+                    handleInputChange("companyNames", [...filters.companyNames, companyInput.trim()]);
+                    setCompanyInput("");
+                  }
+                }}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {filters.companyNames.map((company, index) => (
+                <div
+                  key={index}
+                  className="inline-flex items-center gap-2 bg-violet-50 px-3 py-1 rounded-full text-sm text-violet-700"
+                >
+                  {company}
+                  <button
+                    onClick={() => removeFromArray("companyNames", index)}
+                    className="text-violet-500 hover:text-violet-700"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="space-y-2">
-            <Label>Branche</Label>
-            <Select onValueChange={(value) => handleFilterChange("industry", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Branche auswählen" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="technology">Technologie</SelectItem>
-                <SelectItem value="finance">Finanzen</SelectItem>
-                <SelectItem value="healthcare">Gesundheitswesen</SelectItem>
-                <SelectItem value="manufacturing">Produktion</SelectItem>
-                <SelectItem value="retail">Einzelhandel</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Jahresumsatz</Label>
-            <Select onValueChange={(value) => handleFilterChange("revenue", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Umsatz auswählen" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="less_than_1m">Unter 1M €</SelectItem>
-                <SelectItem value="1m_10m">1M - 10M €</SelectItem>
-                <SelectItem value="10m_50m">10M - 50M €</SelectItem>
-                <SelectItem value="50m_100m">50M - 100M €</SelectItem>
-                <SelectItem value="more_than_100m">Über 100M €</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Funding Status</Label>
-            <Select onValueChange={(value) => handleFilterChange("fundingStage", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Status auswählen" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="seed">Seed</SelectItem>
-                <SelectItem value="series_a">Series A</SelectItem>
-                <SelectItem value="series_b">Series B</SelectItem>
-                <SelectItem value="series_c">Series C</SelectItem>
-                <SelectItem value="public">Börsennotiert</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label>Ausgeschlossene Unternehmen</Label>
+            <Input
+              placeholder="Unternehmen zum Ausschließen..."
+              value={domainInput}
+              onChange={(e) => setDomainInput(e.target.value)}
+              onKeyDown={(e) => handleArrayInput(e, "excludedCompanies", domainInput, setDomainInput)}
+            />
           </div>
         </div>
 
-        {/* Results Section */}
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label>Standorte</Label>
+            <div className="flex gap-2">
+              <Input
+                value={locationInput}
+                onChange={(e) => setLocationInput(e.target.value)}
+                onKeyDown={(e) => handleArrayInput(e, "locations", locationInput, setLocationInput)}
+                placeholder="Standorte hinzufügen..."
+              />
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => {
+                  if (locationInput.trim()) {
+                    handleInputChange("locations", [...filters.locations, locationInput.trim()]);
+                    setLocationInput("");
+                  }
+                }}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {filters.locations.map((location, index) => (
+                <div
+                  key={index}
+                  className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-gray-200"
+                >
+                  {location}
+                  <button
+                    onClick={() => removeFromArray("locations", index)}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Ausgeschlossene Standorte</Label>
+            <Input
+              placeholder="Standorte zum Ausschließen..."
+              value={domainInput}
+              onChange={(e) => setDomainInput(e.target.value)}
+              onKeyDown={(e) => handleArrayInput(e, "excludedLocations", domainInput, setDomainInput)}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label>Job Titel</Label>
+            <div className="flex gap-2">
+              <Input
+                value={jobTitleInput}
+                onChange={(e) => setJobTitleInput(e.target.value)}
+                onKeyDown={(e) => handleArrayInput(e, "jobTitles", jobTitleInput, setJobTitleInput)}
+                placeholder="Job-Titel hinzufügen..."
+              />
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => {
+                  if (jobTitleInput.trim()) {
+                    handleInputChange("jobTitles", [...filters.jobTitles, jobTitleInput.trim()]);
+                    setJobTitleInput("");
+                  }
+                }}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {filters.jobTitles.map((title, index) => (
+                <div
+                  key={index}
+                  className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-gray-200"
+                >
+                  {title}
+                  <button
+                    onClick={() => removeFromArray("jobTitles", index)}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Ausgeschlossene Job-Titel</Label>
+            <Input
+              placeholder="Job-Titel zum Ausschließen..."
+              value={domainInput}
+              onChange={(e) => setDomainInput(e.target.value)}
+              onKeyDown={(e) => handleArrayInput(e, "excludedJobTitles", domainInput, setDomainInput)}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Management Level</Label>
+          <Select onValueChange={(value) => handleInputChange("managementLevel", value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Management Level auswählen" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="c_level">C-Level</SelectItem>
+              <SelectItem value="vp">VP Level</SelectItem>
+              <SelectItem value="director">Director Level</SelectItem>
+              <SelectItem value="manager">Manager Level</SelectItem>
+              <SelectItem value="senior">Senior/Lead Level</SelectItem>
+              <SelectItem value="entry">Entry Level</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Job Funktionen</Label>
+          <Select onValueChange={(value) => handleInputChange("jobFunctions", [value])}>
+            <SelectTrigger>
+              <SelectValue placeholder="Funktion auswählen" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="operations">Operations</SelectItem>
+              <SelectItem value="sales">Sales</SelectItem>
+              <SelectItem value="marketing">Marketing</SelectItem>
+              <SelectItem value="finance">Finance</SelectItem>
+              <SelectItem value="hr">Human Resources</SelectItem>
+              <SelectItem value="engineering">Engineering</SelectItem>
+              <SelectItem value="it">IT</SelectItem>
+              <SelectItem value="product">Product</SelectItem>
+              <SelectItem value="legal">Legal</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Mitarbeiteranzahl</Label>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label className="text-sm text-gray-500">Minimum</Label>
+              <Select onValueChange={(value) => handleInputChange("employeeRange", {...filters.employeeRange, min: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Min" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="200">200</SelectItem>
+                  <SelectItem value="500">500</SelectItem>
+                  <SelectItem value="1000">1.000</SelectItem>
+                  <SelectItem value="5000">5.000</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm text-gray-500">Maximum</Label>
+              <Select onValueChange={(value) => handleInputChange("employeeRange", {...filters.employeeRange, max: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Max" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="200">200</SelectItem>
+                  <SelectItem value="500">500</SelectItem>
+                  <SelectItem value="1000">1.000</SelectItem>
+                  <SelectItem value="5000">5.000</SelectItem>
+                  <SelectItem value="10000">10.000</SelectItem>
+                  <SelectItem value="max">Unbegrenzt</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="flex items-center gap-2">
+            Keywords
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-4 h-4 text-gray-400" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Suchen Sie nach spezifischen Keywords in Profilen</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </Label>
+          <div className="flex gap-2">
+            <Input
+              value={keywordInput}
+              onChange={(e) => setKeywordInput(e.target.value)}
+              onKeyDown={(e) => handleArrayInput(e, "keywords", keywordInput, setKeywordInput)}
+              placeholder="Keywords eingeben..."
+            />
+            <Button 
+              variant="outline" 
+              size="icon"
+              onClick={() => {
+                if (keywordInput.trim()) {
+                  handleInputChange("keywords", [...filters.keywords, keywordInput.trim()]);
+                  setKeywordInput("");
+                }
+              }}
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {filters.keywords.map((keyword, index) => (
+              <div
+                key={index}
+                className="inline-flex items-center gap-2 bg-violet-50 px-3 py-1 rounded-full text-sm text-violet-700"
+              >
+                {keyword}
+                <button
+                  onClick={() => removeFromArray("keywords", index)}
+                  className="text-violet-500 hover:text-violet-700"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label>Domains</Label>
+            <div className="flex gap-2">
+              <Input
+                value={domainInput}
+                onChange={(e) => setDomainInput(e.target.value)}
+                onKeyDown={(e) => handleArrayInput(e, "domains", domainInput, setDomainInput)}
+                placeholder="Domain hinzufügen..."
+              />
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => {
+                  if (domainInput.trim()) {
+                    handleInputChange("domains", [...filters.domains, domainInput.trim()]);
+                    setDomainInput("");
+                  }
+                }}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Ausgeschlossene Domains</Label>
+            <Input
+              placeholder="Domains zum Ausschließen..."
+              value={domainInput}
+              onChange={(e) => setDomainInput(e.target.value)}
+              onKeyDown={(e) => handleArrayInput(e, "excludedDomains", domainInput, setDomainInput)}
+            />
+          </div>
+        </div>
+
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold">Gefundene Leads</h3>
