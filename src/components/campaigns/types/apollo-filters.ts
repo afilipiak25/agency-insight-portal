@@ -29,6 +29,7 @@ export interface ApolloFilters {
   titles: string[];
   jobTitles: string[];
   seniority: string[];
+  excludedTitles: string; // Neu hinzugefügt
   
   // Company details
   fundingMin: string;
