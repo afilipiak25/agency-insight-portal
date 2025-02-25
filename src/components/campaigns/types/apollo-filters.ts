@@ -18,10 +18,39 @@ export interface ApolloFilters {
   growthRate: string;
   hiringStatus: string;
   department: string;
+  
+  // Location filters
+  countries: string[];
+  city: string;
+  region: string;
+  postalCode: string;
+  
+  // Job title filters
+  titles: string[];
+  jobTitles: string[];
+  seniority: string[];
+  
+  // Company details
+  fundingMin: string;
+  fundingMax: string;
+  fundingRounds: string;
+  foundedMin: string;
+  foundedMax: string;
+  sicCodes: string[];
+  naicsCodes: string[];
+  
+  // Quality and sorting
+  leadQuality: string;
+  emailStatus: string;
+  sortBy: string;
+  sortDirection: 'asc' | 'desc';
+  
   intent: {
     activelyHiring: boolean;
     highGrowth: boolean;
     recentlyFunded: boolean;
+    buyingIntent: boolean;
+    recentTechnology: boolean;
   }
 }
 
