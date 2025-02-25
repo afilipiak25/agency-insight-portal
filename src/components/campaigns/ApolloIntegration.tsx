@@ -17,7 +17,7 @@ export const ApolloIntegration = () => {
       toast({
         title: "Erfolgreich verbunden",
         description: "Die Verbindung zu Apollo.io wurde hergestellt.",
-        variant: "success",
+        variant: "default", // Geändert von "success" zu "default"
       });
     }, 2000);
   };
