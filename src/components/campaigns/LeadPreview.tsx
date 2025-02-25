@@ -41,7 +41,7 @@ export const LeadPreview = ({
           </p>
         </div>
         
-        <ScrollArea className="h-[600px] pr-4">
+        <div className="space-y-3">
           {isLoading ? (
             <div className="flex items-center justify-center h-32">
               <Loader2 className="w-6 h-6 text-violet-600 animate-spin" />
@@ -79,7 +79,7 @@ export const LeadPreview = ({
               ))}
             </div>
           )}
-        </ScrollArea>
+        </div>
       </div>
 
       {selectedLead && (
