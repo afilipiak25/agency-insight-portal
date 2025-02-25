@@ -13,12 +13,50 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
   try {
     console.log('Sending request with filters:', filters);
     
-    // Vereinfachte Anfrage für ersten Test
     const requestBody = {
       api_key: APOLLO_API_KEY,
       q_organization_name: filters.companyName || "",
       page: 1,
-      per_page: 25
+      per_page: 25,
+      organization_industry_tag_ids: filters.industry,
+      organization_sub_industry: filters.subIndustry,
+      organization_keywords: filters.companyKeywords,
+      person_departments: filters.department,
+      organization_num_employees_ranges: getEmployeeRange(filters.employeesMin, filters.employeesMax),
+      organization_technologies: filters.technologies,
+      
+      // Location filters
+      q_country_codes: filters.countries,
+      q_city: filters.city,
+      q_region: filters.region,
+      q_postal_code: filters.postalCode,
+
+      // Additional person filters
+      q_titles: filters.titles,
+      person_titles: filters.jobTitles,
+      person_levels: filters.seniority,
+      
+      // Company filters
+      organization_revenue_ranges: getRevenueRange(filters.revenueMin, filters.revenueMax),
+      organization_funding_ranges: getFundingRange(filters.fundingMin, filters.fundingMax),
+      organization_funding_raised_rounds: filters.fundingRounds,
+      organization_founded_years: getFoundedRange(filters.foundedMin, filters.foundedMax),
+      organization_sic_codes: filters.sicCodes,
+      organization_naics_codes: filters.naicsCodes,
+      
+      // Intent filters
+      buying_intent: filters.intent.buyingIntent ? "high" : undefined,
+      recent_funding: filters.intent.recentlyFunded ? true : undefined,
+      recent_tech: filters.intent.recentTechnology ? true : undefined,
+      is_hiring: filters.intent.activelyHiring ? true : undefined,
+      
+      // Quality filters
+      q_lead_quality: filters.leadQuality,
+      contact_email_status: filters.emailStatus,
+      
+      // Sort and pagination
+      sort_by: filters.sortBy || "relevance",
+      sort_direction: filters.sortDirection || "desc"
     };
     
     console.log('Request body:', requestBody);
@@ -41,7 +79,7 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
       throw new Error(`Apollo API request failed: ${JSON.stringify(data)}`);
     }
 
-    if (!data.people || !Array.isArray(data.people) || data.people.length === 0) {
+    if (!data.people || !Array.isArray(data.people)) {
       console.log('No data from API, using mock data');
       return getMockData();
     }
@@ -103,60 +141,6 @@ const transformApolloLead = (apiLead: any): ApolloLead => {
     technology: apiLead.organization?.technologies || [],
     lastUpdated: apiLead.updated_at
   };
-};
-
-const transformFilters = (filters: any) => {
-  const transformedFilters: any = {
-    q_organization_name: filters.companyName,
-    organization_industry_tag_ids: filters.industry,
-    organization_sub_industry: filters.subIndustry,
-    organization_keywords: filters.companyKeywords,
-    person_departments: filters.department,
-    organization_num_employees_ranges: getEmployeeRange(filters.employeesMin, filters.employeesMax),
-    organization_technologies: filters.technologies,
-    
-    // Location filters
-    q_country_codes: filters.countries,
-    q_city: filters.city,
-    q_region: filters.region,
-    q_postal_code: filters.postalCode,
-
-    // Additional person filters
-    q_titles: filters.titles,
-    person_titles: filters.jobTitles,
-    person_levels: filters.seniority,
-    
-    // Company filters
-    organization_revenue_ranges: getRevenueRange(filters.revenueMin, filters.revenueMax),
-    organization_funding_ranges: getFundingRange(filters.fundingMin, filters.fundingMax),
-    organization_funding_raised_rounds: filters.fundingRounds,
-    organization_founded_years: getFoundedRange(filters.foundedMin, filters.foundedMax),
-    organization_sic_codes: filters.sicCodes,
-    organization_naics_codes: filters.naicsCodes,
-    
-    // Intent filters
-    buying_intent: filters.intent.buyingIntent ? "high" : undefined,
-    recent_funding: filters.intent.recentlyFunded ? true : undefined,
-    recent_tech: filters.intent.recentTechnology ? true : undefined,
-    is_hiring: filters.intent.activelyHiring ? true : undefined,
-    
-    // Quality filters
-    q_lead_quality: filters.leadQuality,
-    contact_email_status: filters.emailStatus,
-    
-    // Sort and pagination
-    sort_by: filters.sortBy || "relevance",
-    sort_direction: filters.sortDirection || "desc"
-  };
-
-  // Remove undefined values
-  Object.keys(transformedFilters).forEach(key => {
-    if (transformedFilters[key] === undefined) {
-      delete transformedFilters[key];
-    }
-  });
-
-  return transformedFilters;
 };
 
 const getEmployeeRange = (min?: string, max?: string) => {
