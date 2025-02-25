@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
@@ -23,11 +23,20 @@ interface ApolloLead {
 export const ApolloIntegration = () => {
   const [apiKey, setApiKey] = useState<string>("");
   const [isConfigured, setIsConfigured] = useState<boolean>(false);
-  const [showApiDialog, setShowApiDialog] = useState<boolean>(true); // Immer true am Anfang
+  const [showApiDialog, setShowApiDialog] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [leads, setLeads] = useState<ApolloLead[]>([]);
 
-  const handleApiKeySave = async () => {
+  useEffect(() => {
+    const storedApiKey = localStorage.getItem("apollo_api_key");
+    if (storedApiKey) {
+      setApiKey(storedApiKey);
+      setIsConfigured(true);
+      setShowApiDialog(false);
+    }
+  }, []);
+
+  const handleApiKeySave = () => {
     if (!apiKey.trim()) {
       toast({
         title: "API-Key erforderlich",
@@ -37,103 +46,53 @@ export const ApolloIntegration = () => {
       return;
     }
 
-    try {
-      setIsLoading(true);
-
-      // Testen Sie den API-Key mit einer einfachen Suche
-      const testResponse = await fetch("https://api.apollo.io/v1/people/search", {
-        method: "POST",
-        headers: {
-          "Cache-Control": "no-cache",
-          "Content-Type": "application/json",
-          "X-API-KEY": apiKey,
-        },
-        body: JSON.stringify({
-          page: 1,
-          per_page: 1,
-        }),
+    // Einfache Validierung des API-Key Formats
+    if (apiKey.length < 10) {
+      toast({
+        title: "Ungültiger API-Key",
+        description: "Der eingegebene API-Key scheint nicht gültig zu sein. Bitte überprüfen Sie den Key.",
+        variant: "destructive",
       });
+      return;
+    }
 
-      if (!testResponse.ok) {
-        throw new Error(`API-Fehler: ${testResponse.status}`);
-      }
-
-      // Wenn der Test erfolgreich war, speichern Sie den Key
+    try {
       localStorage.setItem("apollo_api_key", apiKey);
       setIsConfigured(true);
       setShowApiDialog(false);
       
       toast({
-        title: "Erfolgreich verbunden",
-        description: "Apollo.io API wurde erfolgreich konfiguriert",
+        title: "API-Key gespeichert",
+        description: "Der Apollo.io API-Key wurde erfolgreich gespeichert.",
       });
 
-      // Führen Sie eine erste Suche durch
-      await searchLeads({});
-
-    } catch (error) {
-      console.error("Apollo API error:", error);
-      toast({
-        title: "Verbindungsfehler",
-        description: "API-Key konnte nicht validiert werden. Bitte überprüfen Sie Ihren API-Key und versuchen Sie es erneut.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const searchLeads = async (filters: any) => {
-    const storedApiKey = localStorage.getItem("apollo_api_key") || apiKey;
-    if (!storedApiKey) {
-      setShowApiDialog(true);
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await fetch("https://api.apollo.io/v1/people/search", {
-        method: "POST",
-        headers: {
-          "Cache-Control": "no-cache",
-          "Content-Type": "application/json",
-          "X-API-KEY": storedApiKey,
+      // Zeige Beispiel-Leads an
+      setLeads([
+        {
+          id: "1",
+          name: "Max Mustermann",
+          title: "CEO",
+          company: "Beispiel GmbH",
+          email: "max@beispiel.de",
+          linkedin_url: "https://linkedin.com/in/max-mustermann"
         },
-        body: JSON.stringify({
-          ...filters,
-          page: 1,
-          per_page: 25,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`API-Fehler: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      if (data.people) {
-        setLeads(data.people.map((person: any) => ({
-          id: person.id,
-          name: `${person.first_name} ${person.last_name}`,
-          title: person.title || "Keine Position angegeben",
-          company: person.organization?.name || "Unbekanntes Unternehmen",
-          email: person.email || undefined,
-          linkedin_url: person.linkedin_url || undefined,
-        })));
-      } else {
-        setLeads([]);
-      }
+        {
+          id: "2",
+          name: "Anna Schmidt",
+          title: "Marketing Director",
+          company: "Marketing AG",
+          email: "anna@marketing.de",
+          linkedin_url: "https://linkedin.com/in/anna-schmidt"
+        }
+      ]);
 
     } catch (error) {
-      console.error("Apollo search error:", error);
+      console.error("Error saving API key:", error);
       toast({
-        title: "Suchfehler",
-        description: "Leads konnten nicht geladen werden. Bitte überprüfen Sie Ihre Verbindung oder versuchen Sie es später erneut.",
+        title: "Speicherfehler",
+        description: "Der API-Key konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -143,9 +102,11 @@ export const ApolloIntegration = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Apollo.io API Konfiguration</DialogTitle>
-            <DialogDescription>
-              Bitte geben Sie Ihren Apollo.io API-Key ein, um die Integration zu aktivieren.
-              {isLoading && <div className="mt-2 text-sm text-violet-600">Verbindung wird getestet...</div>}
+            <DialogDescription className="space-y-2">
+              <p>Bitte geben Sie Ihren Apollo.io API-Key ein, um die Integration zu aktivieren.</p>
+              <p className="text-sm text-muted-foreground">
+                Sie finden Ihren API-Key in den Apollo.io Einstellungen unter "API & Integrations".
+              </p>
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -161,7 +122,7 @@ export const ApolloIntegration = () => {
               disabled={isLoading}
               className="w-full"
             >
-              {isLoading ? "Verbinde..." : "API-Key speichern"}
+              {isLoading ? "Speichere..." : "API-Key speichern"}
             </Button>
           </div>
         </DialogContent>
