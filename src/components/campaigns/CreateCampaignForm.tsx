@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { AudienceHeader } from "./AudienceHeader";
 import { JobTitleFields } from "./JobTitleFields";
@@ -18,15 +17,25 @@ import { useToast } from "@/hooks/use-toast";
 import { PublishCampaignDialog } from "./PublishCampaignDialog";
 import { CampaignStepsNavigation } from "./CampaignStepsNavigation";
 import { LeadPreview } from "./LeadPreview";
+import { ApolloIntegration } from "./ApolloIntegration";
 
 export const CreateCampaignForm = () => {
   const [activeSection, setActiveSection] = useState<string>("targeting");
   const [showPublishDialog, setShowPublishDialog] = useState(false);
   const [campaignName, setCampaignName] = useState("");
   const [selectedDataSource, setSelectedDataSource] = useState<string>("");
+  const [isApolloConnected, setIsApolloConnected] = useState(false);
 
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const handleApolloConnect = () => {
+    setIsApolloConnected(true);
+    toast({
+      title: "Apollo.io verbunden",
+      description: "Alle Filter sind nun verfügbar",
+    });
+  };
 
   const handlePublish = () => {
     if (!campaignName.trim()) {
@@ -50,12 +59,24 @@ export const CreateCampaignForm = () => {
       case "targeting":
         return (
           <div className="space-y-8 transition-all duration-300 hover:translate-y-[-2px]">
+            {!isApolloConnected && (
+              <div className="mb-6">
+                <ApolloIntegration onConnect={handleApolloConnect} />
+              </div>
+            )}
             <CompanyFields onDataSourceChange={setSelectedDataSource} />
             <JobTitleFields />
             <JobFunctionFields />
             <SectorFields />
             <AdditionalFields />
-            <AdvancedTargeting />
+            {isApolloConnected && (
+              <>
+                <div className="border-t pt-6">
+                  <h3 className="text-lg font-semibold mb-4">Erweiterte Apollo.io Filter</h3>
+                  <AdvancedTargeting />
+                </div>
+              </>
+            )}
           </div>
         );
       case "workflow":

@@ -2,25 +2,31 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
-export const ApolloIntegration = () => {
+interface ApolloIntegrationProps {
+  onConnect?: () => void;
+}
+
+export const ApolloIntegration = ({ onConnect }: ApolloIntegrationProps) => {
   const { toast } = useToast();
 
   const handleConnectApollo = () => {
-    console.log("Apollo Connect Button clicked"); // Debug-Log hinzugefügt
+    console.log("Apollo Connect Button clicked");
     
-    // Hier würde normalerweise die Apollo.io OAuth Integration stattfinden
     toast({
       title: "Apollo.io Integration",
       description: "Verbindung zu Apollo.io wird hergestellt...",
     });
     
-    // Simuliere eine erfolgreiche Verbindung nach 2 Sekunden
     setTimeout(() => {
       toast({
         title: "Erfolgreich verbunden",
         description: "Die Verbindung zu Apollo.io wurde hergestellt.",
-        variant: "default", // Geändert von "success" zu "default"
+        variant: "default",
       });
+      
+      if (onConnect) {
+        onConnect();
+      }
     }, 2000);
   };
 
@@ -29,7 +35,7 @@ export const ApolloIntegration = () => {
       <div className="bg-white rounded-lg border p-4">
         <h3 className="text-lg font-semibold mb-4">Apollo.io Integration</h3>
         <p className="text-sm text-gray-600 mb-4">
-          Connect your Apollo.io account to access your saved searches and leads.
+          Verbinden Sie Ihr Apollo.io-Konto, um auf zusätzliche Filter und Funktionen zuzugreifen.
         </p>
         <Button 
           variant="outline" 
