@@ -15,7 +15,7 @@ import { WorkflowPreview } from "./WorkflowPreview";
 import { SettingsSection } from "./SettingsSection";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { PublishCampaignDialog } from "./PublishCampaignDialog";
 import { CampaignStepsNavigation } from "./CampaignStepsNavigation";
 import { LeadPreview } from "./LeadPreview";
@@ -25,6 +25,7 @@ export const CreateCampaignForm = () => {
   const [showPublishDialog, setShowPublishDialog] = useState(false);
   const [campaignName, setCampaignName] = useState("");
   const [selectedDataSource, setSelectedDataSource] = useState<string>("");
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -37,8 +38,6 @@ export const CreateCampaignForm = () => {
       });
       return;
     }
-
-    // Hier würde die Logik zum Speichern der Kampagne implementiert werden
 
     toast({
       title: "Kampagne erstellt",
@@ -93,12 +92,11 @@ export const CreateCampaignForm = () => {
           <div className="space-y-6 flex-1 w-full">
             {renderContent()}
           </div>
-
-          <div className="space-y-6 w-full md:w-96 sticky top-8">
-            <AudienceHeader />
+          <div className="w-full md:w-96">
             <LeadPreview 
               showEmailPreview={activeSection === "workflow"} 
               selectedDataSource={selectedDataSource}
+              position="left"
             />
           </div>
         </div>
