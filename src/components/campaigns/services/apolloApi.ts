@@ -15,8 +15,13 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${APOLLO_API_KEY}`
+        'Authorization': `Bearer ${APOLLO_API_KEY}`,
+        'Accept': 'application/json',
+        'Cache-Control': 'no-cache',
+        'Origin': window.location.origin
       },
+      mode: 'cors',
+      credentials: 'omit',
       body: JSON.stringify({
         api_key: APOLLO_API_KEY,
         page: 1,
@@ -26,14 +31,21 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     });
 
     if (!response.ok) {
-      throw new Error('Apollo API request failed');
+      const errorData = await response.json();
+      throw new Error(`Apollo API request failed: ${JSON.stringify(errorData)}`);
     }
 
     const data = await response.json();
+    console.log('Apollo API Response:', data); // Debug log
+
+    if (!data.people || !Array.isArray(data.people)) {
+      throw new Error('Invalid response format from Apollo API');
+    }
+
     return {
       leads: data.people.map(transformApolloLead),
-      total: data.pagination.total_entries,
-      hasMore: data.pagination.has_next_page
+      total: data.pagination?.total_entries || 0,
+      hasMore: data.pagination?.has_next_page || false
     };
   } catch (error) {
     console.error('Apollo API Error:', error);
