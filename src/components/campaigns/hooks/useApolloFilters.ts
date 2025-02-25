@@ -31,7 +31,7 @@ export const useApolloFilters = () => {
     titles: [],
     jobTitles: [],
     seniority: [],
-    excludedTitles: "", // Neu hinzugefügt
+    excludedTitles: "",
     fundingMin: "",
     fundingMax: "",
     fundingRounds: "",
@@ -59,6 +59,12 @@ export const useApolloFilters = () => {
   const { toast } = useToast();
 
   const fetchLeads = async () => {
+    if (!hasActiveFilters(filters)) {
+      setFilteredLeads([]);
+      setTotalResults(0);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -80,11 +86,22 @@ export const useApolloFilters = () => {
     }
   };
 
+  // Prüft, ob aktive Filter vorhanden sind
+  const hasActiveFilters = (filters: ApolloFilters): boolean => {
+    return Object.entries(filters).some(([key, value]) => {
+      if (key === 'intent') {
+        return Object.values(value).some(v => v === true);
+      }
+      if (Array.isArray(value)) {
+        return value.length > 0;
+      }
+      return value !== '' && value !== null && value !== undefined;
+    });
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (Object.values(filters).some(value => value)) {
-        fetchLeads();
-      }
+      fetchLeads();
     }, 500);
 
     return () => clearTimeout(timer);

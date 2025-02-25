@@ -1,4 +1,5 @@
-import { ApolloLead } from "../types/apollo-filters";
+
+import { ApolloFilters, ApolloLead } from "../types/apollo-filters";
 
 const APOLLO_API_KEY = "rtd26I4RRDz7ZMo0GqsrxQ";
 const API_BASE_URL = "https://api.apollo.io/v1";
@@ -9,7 +10,7 @@ interface ApolloApiResponse {
   hasMore: boolean;
 }
 
-export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse> => {
+export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloApiResponse> => {
   try {
     console.log('Sending request with filters:', filters);
     
@@ -17,6 +18,7 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     const cleanFilters: any = {};
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== '' && value !== null) {
+        if (Array.isArray(value) && value.length === 0) return;
         cleanFilters[key] = value;
       }
     });
@@ -24,7 +26,7 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     const requestBody = {
       api_key: APOLLO_API_KEY,
       page: 1,
-      per_page: 10,
+      per_page: 25,
       
       // Job title filters
       q_titles: cleanFilters.titles?.length ? cleanFilters.titles.join(' OR ') : undefined,
@@ -53,7 +55,11 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
       // Standort
       q_country_codes: cleanFilters.countries?.length ? cleanFilters.countries : undefined,
       q_city: cleanFilters.city || undefined,
-      q_region: cleanFilters.region || undefined
+      q_region: cleanFilters.region || undefined,
+
+      // Sortierung
+      sort_by_field: cleanFilters.sortBy || "contact_updated_at",
+      sort_ascending: cleanFilters.sortDirection === "asc"
     };
 
     // Entferne undefined Werte
@@ -76,17 +82,15 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     });
 
     if (!response.ok) {
-      // Wenn die Antwort nicht OK ist, geben wir Mock-Daten zurück
-      console.warn('API request failed, using mock data');
-      return getMockData();
+      console.error('Apollo API Error:', await response.text());
+      throw new Error(`Apollo API error: ${response.status}`);
     }
 
     const data = await response.json();
     console.log('Apollo API Response:', data);
 
     if (!data.people || !Array.isArray(data.people)) {
-      console.warn('Invalid API response format, using mock data');
-      return getMockData();
+      throw new Error('Invalid API response format');
     }
 
     return {
@@ -96,54 +100,8 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     };
   } catch (error) {
     console.error('Apollo API Error:', error);
-    // Bei Fehlern geben wir Mock-Daten zurück
-    return getMockData();
+    throw error; // Werfe den Fehler weiter, anstatt Mock-Daten zurückzugeben
   }
-};
-
-const getMockData = (): ApolloApiResponse => {
-  return {
-    leads: [
-      {
-        id: '1',
-        name: 'Max Mustermann',
-        position: 'CEO',
-        company: 'Beispiel GmbH',
-        location: 'Berlin, Deutschland',
-        email: 'max@beispiel.de',
-        department: 'Geschäftsführung',
-        companySize: '50-100',
-        technology: ['SAP', 'Microsoft'],
-        lastUpdated: new Date().toISOString()
-      },
-      {
-        id: '2',
-        name: 'Anna Schmidt',
-        position: 'CTO',
-        company: 'Tech AG',
-        location: 'München, Deutschland',
-        email: 'anna@tech.de',
-        department: 'IT',
-        companySize: '100-500',
-        technology: ['AWS', 'Azure'],
-        lastUpdated: new Date().toISOString()
-      },
-      {
-        id: '3',
-        name: 'Thomas Weber',
-        position: 'Sales Director',
-        company: 'Vertrieb GmbH',
-        location: 'Hamburg, Deutschland',
-        email: 'thomas@vertrieb.de',
-        department: 'Vertrieb',
-        companySize: '10-50',
-        technology: ['Salesforce', 'HubSpot'],
-        lastUpdated: new Date().toISOString()
-      }
-    ],
-    total: 3,
-    hasMore: false
-  };
 };
 
 const transformApolloLead = (apiLead: any): ApolloLead => {
@@ -153,9 +111,9 @@ const transformApolloLead = (apiLead: any): ApolloLead => {
     position: apiLead.title || '',
     company: apiLead.organization?.name || '',
     location: [apiLead.city, apiLead.state, apiLead.country].filter(Boolean).join(', '),
-    email: apiLead.email || undefined,
-    department: apiLead.department || undefined,
-    companySize: apiLead.organization?.employee_count || undefined,
+    email: apiLead.email || '',
+    department: apiLead.department || '',
+    companySize: apiLead.organization?.employee_count || '',
     technology: apiLead.organization?.technologies || [],
     lastUpdated: apiLead.updated_at
   };
@@ -169,17 +127,4 @@ const getEmployeeRange = (min?: string, max?: string) => {
 const getRevenueRange = (min?: string, max?: string) => {
   if (!min && !max) return null;
   return `${min || '*'}-${max || '*'}`;
-};
-
-const getFundingRange = (min?: string, max?: string) => {
-  if (!min && !max) return null;
-  return `${min || '*'}-${max || '*'}`;
-};
-
-const getFoundedRange = (min?: string, max?: string) => {
-  if (!min && !max) return null;
-  const currentYear = new Date().getFullYear();
-  const minYear = min ? currentYear - parseInt(min) : '*';
-  const maxYear = max ? currentYear - parseInt(max) : '*';
-  return `${minYear}-${maxYear}`;
 };
