@@ -3,28 +3,51 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ApolloFilters } from "../types/apollo-filters";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Building2, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CompanyInfoFiltersProps {
   filters: ApolloFilters;
   onFilterChange: (key: keyof ApolloFilters, value: any) => void;
 }
 
+const mockCompanies = [
+  { value: "apple", label: "Apple Inc." },
+  { value: "microsoft", label: "Microsoft Corporation" },
+  { value: "google", label: "Google LLC" },
+  { value: "amazon", label: "Amazon.com Inc." },
+  { value: "meta", label: "Meta Platforms Inc." },
+  { value: "tesla", label: "Tesla Inc." },
+  { value: "nvidia", label: "NVIDIA Corporation" },
+  { value: "samsung", label: "Samsung Electronics" },
+  { value: "intel", label: "Intel Corporation" },
+  { value: "ibm", label: "IBM Corporation" }
+];
+
 export const CompanyInfoFilters = ({ filters, onFilterChange }: CompanyInfoFiltersProps) => {
+  const [open, setOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState(mockCompanies);
+
   // Auto-trigger search when companyName changes
   useEffect(() => {
     const timer = setTimeout(() => {
       if (filters.companyName) {
         console.log("Triggering search for:", filters.companyName);
+        // Filter suggestions based on input
+        const filtered = mockCompanies.filter(company => 
+          company.label.toLowerCase().includes(filters.companyName.toLowerCase())
+        );
+        setSuggestions(filtered);
+      } else {
+        setSuggestions(mockCompanies);
       }
-    }, 500); // Debounce for 500ms
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [filters.companyName]);
-
-  const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onFilterChange("companyName", e.target.value);
-  };
 
   return (
     <>
@@ -32,20 +55,46 @@ export const CompanyInfoFilters = ({ filters, onFilterChange }: CompanyInfoFilte
         <Label className="text-sm font-medium text-gray-700">
           Firmenname
         </Label>
-        <Input 
-          placeholder="Firmennamen eingeben"
-          className="w-full"
-          value={filters.companyName}
-          onChange={handleCompanyNameChange}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              if (filters.companyName) {
-                console.log("Enter pressed - searching for:", filters.companyName);
-              }
-            }
-          }}
-        />
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <div className="relative">
+              <Input 
+                placeholder="Firmennamen eingeben"
+                className="w-full"
+                value={filters.companyName}
+                onChange={(e) => onFilterChange("companyName", e.target.value)}
+                onClick={() => setOpen(true)}
+              />
+              <Building2 className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent className="w-[400px] p-0" align="start">
+            <Command>
+              <CommandInput placeholder="Suchen Sie nach Unternehmen..." />
+              <CommandEmpty>Keine Firmen gefunden.</CommandEmpty>
+              <CommandGroup heading="Vorgeschlagene Unternehmen">
+                {suggestions.map((company) => (
+                  <CommandItem
+                    key={company.value}
+                    onSelect={() => {
+                      onFilterChange("companyName", company.label);
+                      setOpen(false);
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        filters.companyName === company.label ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {company.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div className="space-y-2">
