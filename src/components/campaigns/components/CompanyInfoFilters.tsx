@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ApolloFilters } from "../types/apollo-filters";
 import { useEffect, useState } from "react";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Building2, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -29,25 +29,16 @@ const mockCompanies = [
 
 export const CompanyInfoFilters = ({ filters, onFilterChange }: CompanyInfoFiltersProps) => {
   const [open, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const [suggestions, setSuggestions] = useState(mockCompanies);
 
-  // Auto-trigger search when companyName changes
+  // Update suggestions when search value changes
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (filters.companyName) {
-        console.log("Triggering search for:", filters.companyName);
-        // Filter suggestions based on input
-        const filtered = mockCompanies.filter(company => 
-          company.label.toLowerCase().includes(filters.companyName.toLowerCase())
-        );
-        setSuggestions(filtered);
-      } else {
-        setSuggestions(mockCompanies);
-      }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [filters.companyName]);
+    const filtered = mockCompanies.filter(company => 
+      company.label.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setSuggestions(filtered);
+  }, [searchValue]);
 
   return (
     <>
@@ -69,29 +60,36 @@ export const CompanyInfoFilters = ({ filters, onFilterChange }: CompanyInfoFilte
             </div>
           </PopoverTrigger>
           <PopoverContent className="w-[400px] p-0" align="start">
-            <Command>
-              <CommandInput placeholder="Suchen Sie nach Unternehmen..." />
-              <CommandEmpty>Keine Firmen gefunden.</CommandEmpty>
-              <CommandGroup heading="Vorgeschlagene Unternehmen">
-                {suggestions.map((company) => (
-                  <CommandItem
-                    key={company.value}
-                    onSelect={() => {
-                      onFilterChange("companyName", company.label);
-                      setOpen(false);
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        filters.companyName === company.label ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    {company.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+            <Command shouldFilter={false}>
+              <CommandInput 
+                placeholder="Suchen Sie nach Unternehmen..." 
+                value={searchValue}
+                onValueChange={setSearchValue}
+              />
+              <CommandList>
+                <CommandEmpty>Keine Firmen gefunden.</CommandEmpty>
+                <CommandGroup heading="Vorgeschlagene Unternehmen">
+                  {suggestions.map((company) => (
+                    <CommandItem
+                      key={company.value}
+                      onSelect={() => {
+                        onFilterChange("companyName", company.label);
+                        setSearchValue("");
+                        setOpen(false);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          filters.companyName === company.label ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {company.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
             </Command>
           </PopoverContent>
         </Popover>
