@@ -4,6 +4,7 @@ import { CreateCampaignForm } from "@/components/campaigns/CreateCampaignForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const CreateCampaign = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </Layout>
   );
 };
