@@ -71,42 +71,50 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
 
     console.log('Cleaned request body:', requestBody);
 
+    // Modifizierte Headers und CORS-Handling
     const response = await fetch(`${API_BASE_URL}/mixed_people/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'User-Agent': 'Apollo-Client/1.0',
+        'Origin': window.location.origin
       },
+      mode: 'cors', // Explizit CORS-Mode setzen
+      credentials: 'omit', // Keine Cookies senden
       body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
-      console.error('Apollo API Error:', await response.text());
-      throw new Error(`Apollo API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error('Apollo API Error Response:', errorText);
+      throw new Error(`Apollo API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
     console.log('Apollo API Response:', data);
 
-    if (!data.people || !Array.isArray(data.people)) {
-      throw new Error('Invalid API response format');
+    // Verbesserte Fehlerbehandlung
+    if (!data.people) {
+      console.error('Invalid API response:', data);
+      throw new Error('Ungültiges API-Antwortformat');
     }
 
     return {
-      leads: data.people.map(transformApolloLead),
+      leads: Array.isArray(data.people) ? data.people.map(transformApolloLead) : [],
       total: data.pagination?.total_entries || 0,
       hasMore: data.pagination?.has_next_page || false
     };
   } catch (error) {
     console.error('Apollo API Error:', error);
-    throw error; // Werfe den Fehler weiter, anstatt Mock-Daten zurückzugeben
+    throw error;
   }
 };
 
 const transformApolloLead = (apiLead: any): ApolloLead => {
   return {
-    id: apiLead.id,
+    id: apiLead.id || '',
     name: `${apiLead.first_name || ''} ${apiLead.last_name || ''}`.trim(),
     position: apiLead.title || '',
     company: apiLead.organization?.name || '',
@@ -114,8 +122,8 @@ const transformApolloLead = (apiLead: any): ApolloLead => {
     email: apiLead.email || '',
     department: apiLead.department || '',
     companySize: apiLead.organization?.employee_count || '',
-    technology: apiLead.organization?.technologies || [],
-    lastUpdated: apiLead.updated_at
+    technology: Array.isArray(apiLead.organization?.technologies) ? apiLead.organization.technologies : [],
+    lastUpdated: apiLead.updated_at || new Date().toISOString()
   };
 };
 
