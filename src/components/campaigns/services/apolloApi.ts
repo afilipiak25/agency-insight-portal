@@ -14,46 +14,6 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
   try {
     console.log('Starting API request with filters:', filters);
     
-    // Mock-Daten für Entwicklungszwecke
-    const mockData = {
-      leads: [
-        {
-          id: '1',
-          name: 'John Doe',
-          position: 'CEO',
-          company: 'Tech Corp',
-          location: 'San Francisco, CA, USA',
-          email: 'john@techcorp.com',
-          department: 'Executive',
-          companySize: '50-100',
-          technology: ['React', 'Node.js'],
-          lastUpdated: new Date().toISOString()
-        },
-        {
-          id: '2',
-          name: 'Jane Smith',
-          position: 'CTO',
-          company: 'Innovation Labs',
-          location: 'New York, NY, USA',
-          email: 'jane@innovationlabs.com',
-          department: 'Technology',
-          companySize: '100-500',
-          technology: ['Python', 'AWS'],
-          lastUpdated: new Date().toISOString()
-        }
-      ],
-      total: 2,
-      hasMore: false
-    };
-
-    // Simuliere API-Verzögerung
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Gebe Mock-Daten zurück
-    console.log('Returning mock data:', mockData);
-    return mockData;
-
-    /* Auskommentierter Original-API-Code für spätere Verwendung
     const cleanFilters: any = {};
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== '' && value !== null) {
@@ -62,57 +22,64 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       }
     });
 
+    // Baue Request-Body entsprechend der Apollo API-Dokumentation
     const requestBody = {
       api_key: APOLLO_API_KEY,
       page: 1,
-      per_page: 25,
-      q_keywords: cleanFilters.titles?.length ? cleanFilters.titles.join(' OR ') : undefined,
-      person_titles: cleanFilters.titles?.length ? cleanFilters.titles : undefined,
-      person_departments: cleanFilters.department || undefined,
-      person_locations: cleanFilters.countries?.length ? cleanFilters.countries : undefined,
-      organization_names: cleanFilters.companyName || undefined,
-      organization_industries: cleanFilters.industry || undefined,
-      technologies: cleanFilters.technologies || undefined,
-      person_seniorities: cleanFilters.seniority?.length ? cleanFilters.seniority : undefined,
-      organization_num_employees_ranges: getEmployeeRange(cleanFilters.employeesMin, cleanFilters.employeesMax),
-      organization_revenue_ranges: getRevenueRange(cleanFilters.revenueMin, cleanFilters.revenueMax),
-      buying_intent: cleanFilters.intent?.buyingIntent ? "high" : undefined,
-      is_hiring: cleanFilters.intent?.activelyHiring || undefined,
-      sort_by: cleanFilters.sortBy || "recently_updated",
-      sort_ascending: cleanFilters.sortDirection === "asc"
+      per_page: 25
     };
 
-    Object.keys(requestBody).forEach(key => {
-      if (requestBody[key] === undefined) {
-        delete requestBody[key];
-      }
-    });
+    // Füge nur die relevanten Filter hinzu, wenn sie vorhanden sind
+    if (cleanFilters.titles?.length) {
+      requestBody.person_titles = cleanFilters.titles;
+    }
 
-    console.log('Would send request with body:', requestBody);
+    if (cleanFilters.companyName) {
+      requestBody.organization_names = cleanFilters.companyName;
+    }
+
+    if (cleanFilters.industry) {
+      requestBody.organization_industries = cleanFilters.industry;
+    }
+
+    if (cleanFilters.department) {
+      requestBody.person_departments = cleanFilters.department;
+    }
+
+    if (cleanFilters.countries?.length) {
+      requestBody.person_locations = cleanFilters.countries;
+    }
+
+    console.log('Sending Apollo API request with body:', requestBody);
 
     const response = await fetch(`${API_BASE_URL}/people/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache'
       },
       body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Apollo API Error Response:', errorText);
+      console.error('Apollo API Error Response:', {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorText
+      });
       throw new Error(`Apollo API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
     console.log('Apollo API Response:', data);
 
+    // Transformiere die API-Antwort in unser Format
     return {
       leads: Array.isArray(data.people) ? data.people.map(transformApolloLead) : [],
       total: data.pagination?.total_entries || 0,
       hasMore: data.pagination?.has_next_page || false
     };
-    */
 
   } catch (error) {
     console.error('Apollo API Error:', error);
