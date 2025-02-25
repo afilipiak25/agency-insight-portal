@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { AudienceHeader } from "./AudienceHeader";
-import { LocationFields } from "./LocationFields";
 import { JobTitleFields } from "./JobTitleFields";
 import { CompanyFields } from "./CompanyFields";
 import { JobFunctionFields } from "./JobFunctionFields";
@@ -52,7 +51,6 @@ export const CreateCampaignForm = () => {
         return (
           <div className="space-y-8 transition-all duration-300 hover:translate-y-[-2px]">
             <CompanyFields onDataSourceChange={setSelectedDataSource} />
-            <LocationFields />
             <JobTitleFields />
             <JobFunctionFields />
             <SectorFields />
