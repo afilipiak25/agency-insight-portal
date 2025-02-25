@@ -37,7 +37,7 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
 
     // Request Body MIT api_key - dies ist der korrekte Weg laut Apollo.io Dokumentation
     const requestBody: ApolloRequestBody = {
-      api_key: APOLLO_API_KEY, // API Key muss im Body sein
+      api_key: APOLLO_API_KEY,
       page: 1,
       per_page: 25
     };
@@ -64,12 +64,18 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
 
     console.log('Sending Apollo API request with body:', requestBody);
 
-    const response = await fetch(`${API_BASE_URL}/people/search`, {
+    // Füge Proxy-URL hinzu, um CORS zu umgehen
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const targetUrl = `${API_BASE_URL}/people/search`;
+    
+    const response = await fetch(proxyUrl + targetUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
       },
+      mode: 'cors',
       body: JSON.stringify(requestBody)
     });
 
