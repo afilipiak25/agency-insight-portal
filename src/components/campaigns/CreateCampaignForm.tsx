@@ -78,7 +78,10 @@ export const CreateCampaignForm = () => {
               </div>
             )}
             <CompanyFields onDataSourceChange={setSelectedDataSource} />
-            <JobTitleFields />
+            <JobTitleFields 
+              filters={filters}
+              onFilterChange={handleFilterChange}
+            />
             <JobFunctionFields />
             <SectorFields />
             <AdditionalFields />

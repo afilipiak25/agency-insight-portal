@@ -6,18 +6,19 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useState } from "react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ApolloFilters } from "./types/apollo-filters";
 
-export const JobTitleFields = () => {
-  const [selectedTitles, setSelectedTitles] = useState<string[]>([
-    "Vice President of Operations",
-    "President of Operations",
-    "Operations Manager",
-    "Sales Operations Manager"
-  ]);
+interface JobTitleFieldsProps {
+  filters?: ApolloFilters;
+  onFilterChange?: (key: keyof ApolloFilters, value: any) => void;
+}
+
+export const JobTitleFields = ({ filters, onFilterChange }: JobTitleFieldsProps) => {
+  const [selectedTitles, setSelectedTitles] = useState<string[]>(filters?.titles || []);
   const [customTitle, setCustomTitle] = useState("");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [titleToExclude, setTitleToExclude] = useState(filters?.excludedTitles || "");
 
-  // Sample job title suggestions (in reality, this would be a much larger dataset)
   const jobTitleSuggestions = [
     {
       category: "Operations",
@@ -25,54 +26,41 @@ export const JobTitleFields = () => {
         "Chief Operations Officer",
         "Head of Operations",
         "Operations Director",
-        "Operations Coordinator",
-        "Operations Specialist",
-        "Operations Analyst",
-        "Regional Operations Manager"
-      ]
-    },
-    {
-      category: "Sales",
-      titles: [
-        "Sales Director",
-        "Head of Sales",
-        "Sales Manager",
-        "Account Executive",
-        "Sales Representative",
-        "Business Development Manager",
+        "Operations Manager",
+        "Vice President of Operations",
+        "President of Operations",
         "Sales Operations Manager"
-      ]
-    },
-    {
-      category: "Marketing",
-      titles: [
-        "Chief Marketing Officer",
-        "Marketing Director",
-        "Marketing Manager",
-        "Digital Marketing Manager",
-        "Content Marketing Manager",
-        "Marketing Specialist",
-        "Brand Manager"
       ]
     }
   ];
 
   const handleAddTitle = (title: string) => {
     if (!selectedTitles.includes(title)) {
-      setSelectedTitles([...selectedTitles, title]);
+      const newTitles = [...selectedTitles, title];
+      setSelectedTitles(newTitles);
+      onFilterChange?.('titles', newTitles);
     }
     setIsPopoverOpen(false);
   };
 
   const handleRemoveTitle = (titleToRemove: string) => {
-    setSelectedTitles(selectedTitles.filter(title => title !== titleToRemove));
+    const newTitles = selectedTitles.filter(title => title !== titleToRemove);
+    setSelectedTitles(newTitles);
+    onFilterChange?.('titles', newTitles);
   };
 
   const handleAddCustomTitle = () => {
     if (customTitle.trim() && !selectedTitles.includes(customTitle)) {
-      setSelectedTitles([...selectedTitles, customTitle.trim()]);
+      const newTitles = [...selectedTitles, customTitle.trim()];
+      setSelectedTitles(newTitles);
+      onFilterChange?.('titles', newTitles);
       setCustomTitle("");
     }
+  };
+
+  const handleTitleExcludeChange = (value: string) => {
+    setTitleToExclude(value);
+    onFilterChange?.('excludedTitles', value);
   };
 
   return (
@@ -178,6 +166,8 @@ export const JobTitleFields = () => {
         <Input 
           placeholder="Enter job titles to exclude..."
           className="w-full"
+          value={titleToExclude}
+          onChange={(e) => handleTitleExcludeChange(e.target.value)}
         />
       </div>
     </>

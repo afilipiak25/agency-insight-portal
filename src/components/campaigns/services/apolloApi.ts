@@ -1,7 +1,5 @@
-
 import { ApolloLead } from "../types/apollo-filters";
 
-// API Key Definition
 const APOLLO_API_KEY = "rtd26I4RRDz7ZMo0GqsrxQ";
 const API_BASE_URL = "https://api.apollo.io/v1";
 
@@ -24,12 +22,14 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
     });
 
     const requestBody = {
-      // API Key als separaten Parameter
       api_key: APOLLO_API_KEY,
-      
-      // Basis-Suchparameter
       page: 1,
-      per_page: 10, // Reduziert auf 10 für schnellere Antworten
+      per_page: 10,
+      
+      // Job title filters
+      q_titles: cleanFilters.titles?.length ? cleanFilters.titles.join(' OR ') : undefined,
+      person_titles: cleanFilters.titles?.length ? cleanFilters.titles : undefined,
+      exclude_person_titles: cleanFilters.excludedTitles ? cleanFilters.excludedTitles.split(',').map(t => t.trim()) : undefined,
       
       // Unternehmensfilter
       q_organization_name: cleanFilters.companyName || undefined,
@@ -39,8 +39,6 @@ export const searchApolloLeads = async (filters: any): Promise<ApolloApiResponse
       
       // Position und Abteilung
       person_departments: cleanFilters.department || undefined,
-      q_titles: cleanFilters.titles?.length ? cleanFilters.titles : undefined,
-      person_titles: cleanFilters.jobTitles?.length ? cleanFilters.jobTitles : undefined,
       person_levels: cleanFilters.seniority?.length ? cleanFilters.seniority : undefined,
       
       // Unternehmensgrößen und Metriken
