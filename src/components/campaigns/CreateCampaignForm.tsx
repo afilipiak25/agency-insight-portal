@@ -19,6 +19,7 @@ import { PublishCampaignDialog } from "./PublishCampaignDialog";
 import { CampaignStepsNavigation } from "./CampaignStepsNavigation";
 import { LeadPreview } from "./LeadPreview";
 import { ApolloIntegration } from "./ApolloIntegration";
+import { useApolloFilters } from "./hooks/useApolloFilters";
 
 export const CreateCampaignForm = () => {
   const [activeSection, setActiveSection] = useState<string>("targeting");
@@ -26,9 +27,17 @@ export const CreateCampaignForm = () => {
   const [campaignName, setCampaignName] = useState("");
   const [selectedDataSource, setSelectedDataSource] = useState<string>("");
   const [isApolloConnected, setIsApolloConnected] = useState(false);
-
-  const navigate = useNavigate();
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const {
+    filters,
+    filteredLeads,
+    isLoading,
+    totalResults,
+    handleFilterChange,
+    handleIntentChange
+  } = useApolloFilters();
 
   const handleApolloConnect = () => {
     setIsApolloConnected(true);
@@ -77,7 +86,11 @@ export const CreateCampaignForm = () => {
               <>
                 <div className="border-t pt-6">
                   <h3 className="text-lg font-semibold mb-4">Erweiterte Apollo.io Filter</h3>
-                  <AdvancedTargeting />
+                  <AdvancedTargeting 
+                    filters={filters}
+                    onFilterChange={handleFilterChange}
+                    onIntentChange={handleIntentChange}
+                  />
                 </div>
               </>
             )}
@@ -122,6 +135,9 @@ export const CreateCampaignForm = () => {
               selectedDataSource={selectedDataSource}
               position="right"
               isApolloConnected={isApolloConnected}
+              leads={filteredLeads}
+              isLoading={isLoading}
+              totalResults={totalResults}
             />
           </div>
         </div>

@@ -5,23 +5,27 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { ApolloLead } from "./types/apollo-filters";
-import { useApolloFilters } from "./hooks/useApolloFilters";
 
 interface LeadPreviewProps {
   showEmailPreview?: boolean;
   selectedDataSource?: string;
   position?: "left" | "right";
   isApolloConnected?: boolean;
+  leads: ApolloLead[];
+  isLoading: boolean;
+  totalResults: number;
 }
 
 export const LeadPreview = ({ 
   showEmailPreview = false, 
   selectedDataSource = "",
   position = "right",
-  isApolloConnected = false
+  isApolloConnected = false,
+  leads,
+  isLoading,
+  totalResults
 }: LeadPreviewProps) => {
   const [selectedLead, setSelectedLead] = useState<ApolloLead | null>(null);
-  const { filteredLeads, isLoading, totalResults } = useApolloFilters();
 
   if (showEmailPreview) {
     return <PreviewSection />;
@@ -44,7 +48,7 @@ export const LeadPreview = ({
             </div>
           ) : (
             <div className="space-y-3">
-              {filteredLeads.map((lead) => (
+              {leads.map((lead) => (
                 <div
                   key={lead.id}
                   className="p-3 bg-gray-50 rounded-lg border border-gray-100 cursor-pointer hover:border-violet-500 transition-colors"

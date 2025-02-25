@@ -5,9 +5,17 @@ import { CompanyMetricsFilters } from "./components/CompanyMetricsFilters";
 import { IntentSignalsFilters } from "./components/IntentSignalsFilters";
 import { useApolloFilters } from "./hooks/useApolloFilters";
 
-export const AdvancedTargeting = () => {
-  const { filters, handleFilterChange, handleIntentChange } = useApolloFilters();
+interface AdvancedTargetingProps {
+  filters: any;
+  onFilterChange: (key: string, value: any) => void;
+  onIntentChange: (key: string) => void;
+}
 
+export const AdvancedTargeting = ({
+  filters,
+  onFilterChange,
+  onIntentChange
+}: AdvancedTargetingProps) => {
   return (
     <div className="space-y-4 border rounded-lg p-4">
       <div className="flex items-center justify-between mb-4">
@@ -18,17 +26,17 @@ export const AdvancedTargeting = () => {
       <div className="space-y-6">
         <CompanyInfoFilters 
           filters={filters} 
-          onFilterChange={handleFilterChange} 
+          onFilterChange={onFilterChange} 
         />
         
         <CompanyMetricsFilters 
           filters={filters} 
-          onFilterChange={handleFilterChange} 
+          onFilterChange={onFilterChange} 
         />
         
         <IntentSignalsFilters 
           filters={filters} 
-          onIntentChange={handleIntentChange} 
+          onIntentChange={onIntentChange} 
         />
       </div>
     </div>
