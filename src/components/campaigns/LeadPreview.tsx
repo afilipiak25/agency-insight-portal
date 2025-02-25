@@ -1,7 +1,7 @@
 
 import { PreviewSection } from "./PreviewSection";
 import { LeadDeepResearchDialog } from "./LeadDeepResearchDialog";
-import { ApolloIntegration } from "./ApolloIntegration";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 
 interface Lead {
@@ -15,12 +15,14 @@ interface LeadPreviewProps {
   showEmailPreview?: boolean;
   selectedDataSource?: string;
   position?: "left" | "right";
+  isApolloConnected?: boolean;
 }
 
 export const LeadPreview = ({ 
   showEmailPreview = false, 
   selectedDataSource = "",
-  position = "right"
+  position = "right",
+  isApolloConnected = false
 }: LeadPreviewProps) => {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
@@ -28,56 +30,51 @@ export const LeadPreview = ({
     return <PreviewSection />;
   }
 
-  if (selectedDataSource === "b2b") {
-    return <ApolloIntegration />;
-  }
+  // Generate 1000 example leads
+  const generateLeads = (): Lead[] => {
+    const companies = ["Acme GmbH", "TechCorp", "Digital Solutions", "Innovation AG", "Future Systems"];
+    const positions = ["CEO", "Marketing Director", "Head of Sales", "CTO", "Product Manager"];
+    const cities = ["Berlin", "Munich", "Hamburg", "Frankfurt", "Cologne"];
+    
+    return Array.from({ length: 1000 }, (_, i) => ({
+      name: `Lead ${i + 1}`,
+      position: positions[Math.floor(Math.random() * positions.length)],
+      company: companies[Math.floor(Math.random() * companies.length)],
+      location: `${cities[Math.floor(Math.random() * cities.length)]}, Germany`,
+    }));
+  };
 
-  const leads: Lead[] = [
-    {
-      name: "Marc Nagel",
-      position: "CEO",
-      company: "Acme GmbH",
-      location: "Berlin, Germany",
-    },
-    {
-      name: "Sarah Weber",
-      position: "Marketing Director",
-      company: "TechCorp",
-      location: "Munich, Germany",
-    },
-    {
-      name: "Thomas Müller",
-      position: "Head of Sales",
-      company: "Digital Solutions",
-      location: "Hamburg, Germany",
-    },
-  ];
+  const leads = generateLeads();
 
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-lg border p-4 space-y-4">
         <div className="space-y-1">
           <h2 className="font-semibold text-lg">Preview Leads</h2>
-          <p className="text-sm text-violet-600 font-medium">54,632 leads total</p>
+          <p className="text-sm text-violet-600 font-medium">
+            {isApolloConnected ? "1,000 leads gefunden" : "54,632 leads total"}
+          </p>
         </div>
         
-        <div className="space-y-3">
-          {leads.map((lead) => (
-            <div
-              key={lead.name}
-              className="p-3 bg-gray-50 rounded-lg border border-gray-100 cursor-pointer hover:border-violet-500 transition-colors"
-              onClick={() => setSelectedLead(lead)}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{lead.name}</span>
-                <span className="text-xs text-gray-500">{lead.position}</span>
+        <ScrollArea className="h-[600px] pr-4">
+          <div className="space-y-3">
+            {leads.map((lead, index) => (
+              <div
+                key={`${lead.name}-${index}`}
+                className="p-3 bg-gray-50 rounded-lg border border-gray-100 cursor-pointer hover:border-violet-500 transition-colors"
+                onClick={() => setSelectedLead(lead)}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">{lead.name}</span>
+                  <span className="text-xs text-gray-500">{lead.position}</span>
+                </div>
+                <div className="text-xs text-gray-500">
+                  {lead.company} • {lead.location}
+                </div>
               </div>
-              <div className="text-xs text-gray-500">
-                {lead.company} • {lead.location}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
 
       {selectedLead && (
