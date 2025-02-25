@@ -41,6 +41,7 @@ interface FilterState {
   keywords: string[];
   domains: string[];
   excludedDomains: string[];
+  revenue: string;
 }
 
 export const ApolloIntegration = () => {
@@ -66,7 +67,8 @@ export const ApolloIntegration = () => {
     },
     keywords: [],
     domains: [],
-    excludedDomains: []
+    excludedDomains: [],
+    revenue: ""
   });
 
   useEffect(() => {
@@ -168,6 +170,7 @@ export const ApolloIntegration = () => {
   const [jobTitleInput, setJobTitleInput] = useState("");
   const [keywordInput, setKeywordInput] = useState("");
   const [domainInput, setDomainInput] = useState("");
+  const [revenueInput, setRevenueInput] = useState("");
 
   return (
     <>
@@ -446,6 +449,22 @@ export const ApolloIntegration = () => {
               </Select>
             </div>
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Jahresumsatz</Label>
+          <Select onValueChange={(value) => handleInputChange("revenue", value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Umsatz auswählen" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="less_than_1m">Unter 1M €</SelectItem>
+              <SelectItem value="1m_10m">1M - 10M €</SelectItem>
+              <SelectItem value="10m_50m">10M - 50M €</SelectItem>
+              <SelectItem value="50m_100m">50M - 100M €</SelectItem>
+              <SelectItem value="more_than_100m">Über 100M €</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
