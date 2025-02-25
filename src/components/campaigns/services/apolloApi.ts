@@ -1,7 +1,7 @@
 
 import { ApolloFilters, ApolloLead } from "../types/apollo-filters";
 
-const SUPABASE_PROJECT_URL = 'https://YOUR_PROJECT_URL.supabase.co';
+const SUPABASE_PROJECT_URL = 'https://xqnomvfmulzltjkusrlv.supabase.co';
 
 interface ApolloApiResponse {
   leads: ApolloLead[];
