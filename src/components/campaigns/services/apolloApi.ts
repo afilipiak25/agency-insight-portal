@@ -19,7 +19,7 @@ interface ApolloRequestBody {
   organization_industries?: string;
   person_departments?: string;
   person_locations?: string[];
-  [key: string]: any; // Erlaubt zusätzliche Eigenschaften für zukünftige Erweiterungen
+  [key: string]: any;
 }
 
 export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloApiResponse> => {
@@ -34,7 +34,6 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       }
     });
 
-    // Baue Request-Body entsprechend der Apollo API-Dokumentation
     const requestBody: ApolloRequestBody = {
       api_key: APOLLO_API_KEY,
       page: 1,
@@ -68,8 +67,13 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'no-cache',
+        'Accept': 'application/json',
+        'Origin': window.location.origin,
+        'Authorization': `Bearer ${APOLLO_API_KEY}`
       },
+      mode: 'cors',
+      credentials: 'omit',
       body: JSON.stringify(requestBody)
     });
 
@@ -86,7 +90,6 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
     const data = await response.json();
     console.log('Apollo API Response:', data);
 
-    // Transformiere die API-Antwort in unser Format
     return {
       leads: Array.isArray(data.people) ? data.people.map(transformApolloLead) : [],
       total: data.pagination?.total_entries || 0,
