@@ -11,7 +11,6 @@ interface ApolloApiResponse {
 }
 
 interface ApolloRequestBody {
-  api_key: string;
   page: number;
   per_page: number;
   person_titles?: string[];
@@ -26,6 +25,7 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
   try {
     console.log('Starting API request with filters:', filters);
     
+    // Filter leere oder undefinierte Werte
     const cleanFilters: any = {};
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== '' && value !== null) {
@@ -34,13 +34,12 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       }
     });
 
+    // Request Body ohne API Key
     const requestBody: ApolloRequestBody = {
-      api_key: APOLLO_API_KEY,
       page: 1,
       per_page: 25
     };
 
-    // Füge nur die relevanten Filter hinzu, wenn sie vorhanden sind
     if (cleanFilters.titles?.length) {
       requestBody.person_titles = cleanFilters.titles;
     }
@@ -63,17 +62,14 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
 
     console.log('Sending Apollo API request with body:', requestBody);
 
+    // API Request mit korrekter Authentifizierung
     const response = await fetch(`${API_BASE_URL}/people/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
         'Accept': 'application/json',
-        'Origin': window.location.origin,
         'Authorization': `Bearer ${APOLLO_API_KEY}`
       },
-      mode: 'cors',
-      credentials: 'omit',
       body: JSON.stringify(requestBody)
     });
 
@@ -117,12 +113,3 @@ const transformApolloLead = (apiLead: any): ApolloLead => {
   };
 };
 
-const getEmployeeRange = (min?: string, max?: string) => {
-  if (!min && !max) return null;
-  return `${min || '*'}-${max || '*'}`;
-};
-
-const getRevenueRange = (min?: string, max?: string) => {
-  if (!min && !max) return null;
-  return `${min || '*'}-${max || '*'}`;
-};
