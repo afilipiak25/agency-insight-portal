@@ -117,11 +117,18 @@ export const CreateCampaignForm = () => {
           </div>
           
           <div className="sticky top-4 h-fit">
-            <LeadPreview 
-              showEmailPreview={activeSection === "workflow"} 
-              selectedDataSource={selectedDataSource}
-              position="right"
-            />
+            {(!isApolloConnected && selectedDataSource === "b2b") ? (
+              <ApolloIntegration 
+                onConnect={handleApolloConnect}
+                isConnected={isApolloConnected}
+              />
+            ) : (
+              <LeadPreview 
+                showEmailPreview={activeSection === "workflow"} 
+                selectedDataSource={selectedDataSource}
+                position="right"
+              />
+            )}
           </div>
         </div>
 
