@@ -24,41 +24,39 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
     });
 
     const requestBody = {
+      // API Key in Body wie in Apollo Dokumentation empfohlen
       api_key: APOLLO_API_KEY,
+      
+      // Paginierung
       page: 1,
       per_page: 25,
       
-      // Job title filters
-      q_titles: cleanFilters.titles?.length ? cleanFilters.titles.join(' OR ') : undefined,
+      // Suchparameter
+      q_keywords: cleanFilters.titles?.length ? cleanFilters.titles.join(' OR ') : undefined,
+      
+      // Personen Filter
       person_titles: cleanFilters.titles?.length ? cleanFilters.titles : undefined,
-      exclude_person_titles: cleanFilters.excludedTitles ? cleanFilters.excludedTitles.split(',').map(t => t.trim()) : undefined,
-      
-      // Unternehmensfilter
-      q_organization_name: cleanFilters.companyName || undefined,
-      organization_industry_tag_ids: cleanFilters.industry || undefined,
-      organization_sub_industry: cleanFilters.subIndustry || undefined,
-      organization_keywords: cleanFilters.companyKeywords || undefined,
-      
-      // Position und Abteilung
       person_departments: cleanFilters.department || undefined,
-      person_levels: cleanFilters.seniority?.length ? cleanFilters.seniority : undefined,
+      person_locations: cleanFilters.countries?.length ? cleanFilters.countries : undefined,
       
-      // Unternehmensgrößen und Metriken
+      // Organisations Filter
+      organization_names: cleanFilters.companyName || undefined,
+      organization_industries: cleanFilters.industry || undefined,
+      technologies: cleanFilters.technologies || undefined,
+      
+      // Seniority
+      person_seniorities: cleanFilters.seniority?.length ? cleanFilters.seniority : undefined,
+      
+      // Mitarbeiter und Umsatz
       organization_num_employees_ranges: getEmployeeRange(cleanFilters.employeesMin, cleanFilters.employeesMax),
       organization_revenue_ranges: getRevenueRange(cleanFilters.revenueMin, cleanFilters.revenueMax),
       
-      // Technologie und Intent
-      organization_technologies: cleanFilters.technologies || undefined,
+      // Intent Signale
       buying_intent: cleanFilters.intent?.buyingIntent ? "high" : undefined,
-      is_hiring: cleanFilters.intent?.activelyHiring ? true : undefined,
+      is_hiring: cleanFilters.intent?.activelyHiring || undefined,
       
-      // Standort
-      q_country_codes: cleanFilters.countries?.length ? cleanFilters.countries : undefined,
-      q_city: cleanFilters.city || undefined,
-      q_region: cleanFilters.region || undefined,
-
       // Sortierung
-      sort_by_field: cleanFilters.sortBy || "contact_updated_at",
+      sort_by: cleanFilters.sortBy || "recently_updated",
       sort_ascending: cleanFilters.sortDirection === "asc"
     };
 
@@ -69,14 +67,12 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
       }
     });
 
-    console.log('Cleaned request body:', requestBody);
+    console.log('Sending request with body:', requestBody);
 
-    // Verwenden Sie den Apollo Search Endpoint und setzen Sie die erforderlichen Headers
     const response = await fetch(`${API_BASE_URL}/people/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${APOLLO_API_KEY}`
       },
       body: JSON.stringify(requestBody)
     });
@@ -90,7 +86,6 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
     const data = await response.json();
     console.log('Apollo API Response:', data);
 
-    // Verbesserte Fehlerbehandlung
     if (!data.people) {
       console.error('Invalid API response:', data);
       throw new Error('Ungültiges API-Antwortformat');
