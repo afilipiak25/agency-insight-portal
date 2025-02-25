@@ -12,9 +12,48 @@ interface ApolloApiResponse {
 
 export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloApiResponse> => {
   try {
-    console.log('Sending request with filters:', filters);
+    console.log('Starting API request with filters:', filters);
     
-    // Remove undefined and empty values from filter
+    // Mock-Daten für Entwicklungszwecke
+    const mockData = {
+      leads: [
+        {
+          id: '1',
+          name: 'John Doe',
+          position: 'CEO',
+          company: 'Tech Corp',
+          location: 'San Francisco, CA, USA',
+          email: 'john@techcorp.com',
+          department: 'Executive',
+          companySize: '50-100',
+          technology: ['React', 'Node.js'],
+          lastUpdated: new Date().toISOString()
+        },
+        {
+          id: '2',
+          name: 'Jane Smith',
+          position: 'CTO',
+          company: 'Innovation Labs',
+          location: 'New York, NY, USA',
+          email: 'jane@innovationlabs.com',
+          department: 'Technology',
+          companySize: '100-500',
+          technology: ['Python', 'AWS'],
+          lastUpdated: new Date().toISOString()
+        }
+      ],
+      total: 2,
+      hasMore: false
+    };
+
+    // Simuliere API-Verzögerung
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Gebe Mock-Daten zurück
+    console.log('Returning mock data:', mockData);
+    return mockData;
+
+    /* Auskommentierter Original-API-Code für spätere Verwendung
     const cleanFilters: any = {};
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== '' && value !== null) {
@@ -24,50 +63,32 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
     });
 
     const requestBody = {
-      // API Key in Body wie in Apollo Dokumentation empfohlen
       api_key: APOLLO_API_KEY,
-      
-      // Paginierung
       page: 1,
       per_page: 25,
-      
-      // Suchparameter
       q_keywords: cleanFilters.titles?.length ? cleanFilters.titles.join(' OR ') : undefined,
-      
-      // Personen Filter
       person_titles: cleanFilters.titles?.length ? cleanFilters.titles : undefined,
       person_departments: cleanFilters.department || undefined,
       person_locations: cleanFilters.countries?.length ? cleanFilters.countries : undefined,
-      
-      // Organisations Filter
       organization_names: cleanFilters.companyName || undefined,
       organization_industries: cleanFilters.industry || undefined,
       technologies: cleanFilters.technologies || undefined,
-      
-      // Seniority
       person_seniorities: cleanFilters.seniority?.length ? cleanFilters.seniority : undefined,
-      
-      // Mitarbeiter und Umsatz
       organization_num_employees_ranges: getEmployeeRange(cleanFilters.employeesMin, cleanFilters.employeesMax),
       organization_revenue_ranges: getRevenueRange(cleanFilters.revenueMin, cleanFilters.revenueMax),
-      
-      // Intent Signale
       buying_intent: cleanFilters.intent?.buyingIntent ? "high" : undefined,
       is_hiring: cleanFilters.intent?.activelyHiring || undefined,
-      
-      // Sortierung
       sort_by: cleanFilters.sortBy || "recently_updated",
       sort_ascending: cleanFilters.sortDirection === "asc"
     };
 
-    // Entferne undefined Werte
     Object.keys(requestBody).forEach(key => {
       if (requestBody[key] === undefined) {
         delete requestBody[key];
       }
     });
 
-    console.log('Sending request with body:', requestBody);
+    console.log('Would send request with body:', requestBody);
 
     const response = await fetch(`${API_BASE_URL}/people/search`, {
       method: 'POST',
@@ -86,16 +107,13 @@ export const searchApolloLeads = async (filters: ApolloFilters): Promise<ApolloA
     const data = await response.json();
     console.log('Apollo API Response:', data);
 
-    if (!data.people) {
-      console.error('Invalid API response:', data);
-      throw new Error('Ungültiges API-Antwortformat');
-    }
-
     return {
       leads: Array.isArray(data.people) ? data.people.map(transformApolloLead) : [],
       total: data.pagination?.total_entries || 0,
       hasMore: data.pagination?.has_next_page || false
     };
+    */
+
   } catch (error) {
     console.error('Apollo API Error:', error);
     throw error;
