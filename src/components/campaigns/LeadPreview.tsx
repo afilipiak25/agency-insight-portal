@@ -103,11 +103,11 @@ interface Lead {
 
 interface LeadPreviewProps {
   showEmailPreview?: boolean;
+  selectedDataSource?: string;
 }
 
-export const LeadPreview = ({ showEmailPreview = false }: LeadPreviewProps) => {
+export const LeadPreview = ({ showEmailPreview = false, selectedDataSource = "" }: LeadPreviewProps) => {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
-  const [selectedDataSource, setSelectedDataSource] = useState<string>("");
 
   if (showEmailPreview) {
     return <PreviewSection />;

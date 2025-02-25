@@ -24,6 +24,7 @@ export const CreateCampaignForm = () => {
   const [activeSection, setActiveSection] = useState<string>("targeting");
   const [showPublishDialog, setShowPublishDialog] = useState(false);
   const [campaignName, setCampaignName] = useState("");
+  const [selectedDataSource, setSelectedDataSource] = useState<string>("");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -51,7 +52,7 @@ export const CreateCampaignForm = () => {
       case "targeting":
         return (
           <div className="space-y-8 transition-all duration-300 hover:translate-y-[-2px]">
-            <CompanyFields />
+            <CompanyFields onDataSourceChange={setSelectedDataSource} />
             <LocationFields />
             <JobTitleFields />
             <JobFunctionFields />
@@ -95,7 +96,10 @@ export const CreateCampaignForm = () => {
 
           <div className="space-y-6 w-full md:w-96 sticky top-8">
             <AudienceHeader />
-            <LeadPreview showEmailPreview={activeSection === "workflow"} />
+            <LeadPreview 
+              showEmailPreview={activeSection === "workflow"} 
+              selectedDataSource={selectedDataSource}
+            />
           </div>
         </div>
 
