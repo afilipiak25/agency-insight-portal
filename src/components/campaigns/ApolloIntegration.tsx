@@ -69,7 +69,7 @@ export const ApolloIntegration = ({ onConnect, isConnected }: ApolloIntegrationP
           Verbinden Sie Ihr Apollo.io-Konto, um auf zusätzliche Filter und Funktionen zuzugreifen.
         </p>
         <Button 
-          variant="outline" 
+          variant="default" 
           className="w-full gap-2"
           onClick={handleConnectApollo}
         >

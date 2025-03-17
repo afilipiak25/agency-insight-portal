@@ -44,7 +44,7 @@ export const PublishCampaignDialog = ({
           </Button>
           <Button
             onClick={onPublish}
-            className="bg-violet-600 hover:bg-violet-700 text-white"
+            variant="default"
           >
             Veröffentlichen
           </Button>
