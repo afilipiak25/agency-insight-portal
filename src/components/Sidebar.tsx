@@ -80,7 +80,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               isCollapsed ? "opacity-0 w-0" : "opacity-100"
             )}>
               <img 
-                src="/lovable-uploads/bbaf6a02-7eee-4dc4-9df8-a980e5495698.png" 
+                src="/lovable-uploads/6177f868-263c-4fc7-96fe-e7d0117d9d63.png" 
                 alt="Amplifa" 
                 className="h-8"
               />
@@ -91,9 +91,9 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               aria-label={isCollapsed ? "Sidebar ausklappen" : "Sidebar einklappen"}
             >
               {isCollapsed ? (
-                <ChevronRight className="w-5 h-5 text-gray-600" />
+                <ChevronRight className="w-5 h-5 text-amplifa-blue" />
               ) : (
-                <ChevronLeft className="w-5 h-5 text-gray-600" />
+                <ChevronLeft className="w-5 h-5 text-amplifa-blue" />
               )}
             </button>
           </div>
@@ -115,7 +115,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
             </div>
             <Link 
               to="/clients/create"
-              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-amplifa-blue to-amplifa-purple rounded-lg hover:opacity-90 transition-opacity"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-amplifa rounded-lg hover:opacity-90 transition-opacity"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Neuer Kunde</span>
@@ -132,7 +132,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-all duration-200",
                   selectedClient === client.id
-                    ? "bg-gradient-to-r from-amplifa-blue to-amplifa-purple text-white"
+                    ? "bg-gradient-amplifa text-white"
                     : "hover:bg-gray-50 text-gray-600"
                 )}
               >
@@ -169,12 +169,15 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors relative",
                   item.disabled ? "opacity-60 cursor-not-allowed" : "",
                   location.pathname === item.path 
-                    ? "bg-gradient-to-r from-amplifa-blue/10 to-amplifa-purple/10 text-amplifa-purple"
+                    ? "bg-gradient-to-r from-amplifa-orange/10 to-amplifa-pink/10 text-amplifa-pink"
                     : "text-gray-600 hover:bg-gray-50"
                 )}
                 onClick={e => item.disabled && e.preventDefault()}
               >
-                <item.icon className="w-5 h-5 flex-shrink-0" />
+                <item.icon className={cn(
+                  "w-5 h-5 flex-shrink-0",
+                  location.pathname === item.path ? "text-amplifa-pink" : ""
+                )} />
                 <span className={cn(
                   "font-medium text-sm transition-opacity duration-300",
                   isCollapsed ? "opacity-0 w-0" : "opacity-100"
@@ -182,7 +185,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                   {item.label}
                 </span>
                 {item.tag && !isCollapsed && (
-                  <span className="absolute right-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-amplifa-purple/10 text-amplifa-purple text-xs rounded-full">
+                  <span className="absolute right-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-amplifa-pink/10 text-amplifa-pink text-xs rounded-full">
                     {item.tag}
                   </span>
                 )}
