@@ -14,7 +14,7 @@ export const KPICard = ({ title, value, change, icon }: KPICardProps) => {
       <div className="flex items-start justify-between">
         <div className="space-y-2">
           <p className="text-sm font-medium text-gray-500">{title}</p>
-          <p className="text-2xl font-semibold text-amplifa-blue">{value}</p>
+          <p className="text-2xl font-semibold text-gray-900">{value}</p>
           {change !== undefined && (
             <div className={cn(
               "flex items-center text-sm",

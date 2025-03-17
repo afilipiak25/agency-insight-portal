@@ -16,13 +16,13 @@ const CreateCampaign = () => {
           <div className="mb-8 animate-fade-in">
             <Button
               variant="ghost"
-              className="mb-4 hover:bg-amplifa-blue/10 transition-colors"
+              className="mb-4 hover:bg-amplifa-purple/10 transition-colors"
               onClick={() => navigate("/campaigns")}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Campaigns
             </Button>
-            <h1 className="text-4xl font-bold text-amplifa-blue">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-amplifa-blue to-amplifa-pink bg-clip-text text-transparent">
               Create New Campaign
             </h1>
             <p className="text-gray-600 mt-2">
@@ -30,7 +30,7 @@ const CreateCampaign = () => {
             </p>
           </div>
           
-          <div className="bg-white rounded-2xl shadow-lg border border-amplifa-blue/10 animate-fade-in animation-delay-150">
+          <div className="bg-white rounded-2xl shadow-lg border border-amplifa-purple/10 animate-fade-in animation-delay-150">
             <CreateCampaignForm />
           </div>
         </div>
