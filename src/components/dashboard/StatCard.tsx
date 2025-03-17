@@ -14,8 +14,8 @@ export const StatCard = ({ title, value, change, Icon }: StatCardProps) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium text-gray-500">{title}</CardTitle>
-        <Icon className="h-4 w-4 text-gray-500" />
+        <CardTitle className="text-sm font-medium text-amplifa-blue">{title}</CardTitle>
+        <Icon className="h-4 w-4 text-amplifa-blue" />
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold text-gray-900">{value}</div>

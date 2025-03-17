@@ -13,7 +13,7 @@ export const DashboardHeader = ({ title, subtitle }: DashboardHeaderProps) => {
   return (
     <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+        <h1 className="text-2xl font-bold text-amplifa-blue">{title}</h1>
         <p className="text-gray-600">{subtitle}</p>
       </div>
       <div className="flex gap-2 w-full sm:w-auto">
