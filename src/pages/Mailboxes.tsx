@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Mail, Search, Settings, Globe, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
+import { Mail, Search, Settings, Globe, AlertTriangle, CheckCircle, XCircle, Plus } from "lucide-react";
 import { ProgressBar } from "@/components/stats/ProgressBar";
 
 interface MailProvider {
