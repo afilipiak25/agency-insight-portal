@@ -130,7 +130,7 @@ const Integrations = () => {
             <h1 className="text-2xl font-semibold mb-2">Integrationen</h1>
             <p className="text-gray-600">Verbinden Sie Ihre Werkzeuge und Dienste</p>
           </div>
-          <Button className="gap-2 bg-gradient-to-r from-amplifa-blue to-amplifa-purple hover:opacity-90 transition-opacity">
+          <Button variant="default" className="gap-2">
             <PlusCircle className="w-4 h-4" />
             Neue Integration
           </Button>

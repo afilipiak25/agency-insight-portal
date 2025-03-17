@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { ClientCard } from '@/components/clients/ClientCard';
@@ -52,7 +51,8 @@ const AllClients = () => {
               </div>
               <Button
                 onClick={() => navigate('/clients/create')}
-                className="gap-2 bg-gradient-to-r from-amplifa-blue to-amplifa-purple hover:opacity-90"
+                variant="default"
+                className="gap-2"
               >
                 <UserPlus className="w-4 h-4" />
                 Neuer Kunde

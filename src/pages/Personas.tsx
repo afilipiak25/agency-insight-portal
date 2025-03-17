@@ -52,7 +52,7 @@ const Personas = () => {
               Erstellen und verwalten Sie Ihre KI-Personas für verschiedene Kommunikationszwecke. Jede Persona verfügt über einen einzigartigen Kommunikationsstil und Expertise.
             </p>
           </div>
-          <Button className="bg-[#7E69AB] hover:bg-[#6A5A91] gap-2">
+          <Button variant="secondary" className="gap-2">
             <Plus className="w-4 h-4" />
             Neue Persona
           </Button>

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { ClientStats } from '@/components/ClientStats';
@@ -61,7 +60,7 @@ const Index = () => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input placeholder="Search..." className="pl-10" />
               </div>
-              <Button className="bg-amplifa-orange hover:bg-amplifa-orange/90 gap-2">
+              <Button variant="orange" className="gap-2">
                 <ArrowUpRight className="h-4 w-4" /> Actions
               </Button>
             </div>

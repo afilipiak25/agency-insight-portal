@@ -132,7 +132,7 @@ const Inbox = () => {
                   <Calendar className="w-4 h-4" />
                   Schedule
                 </Button>
-                <Button size="sm" className="bg-[#7E69AB] hover:bg-[#6A5A91]">
+                <Button variant="secondary" size="sm">
                   Mark as Qualified
                 </Button>
                 <DropdownMenu>
@@ -182,7 +182,7 @@ const Inbox = () => {
                 className="flex-1 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amplifa-purple/30"
               />
               <Button variant="outline">AI Compose</Button>
-              <Button className="bg-[#7E69AB] hover:bg-[#6A5A91]">
+              <Button variant="secondary">
                 Send message
               </Button>
             </div>

@@ -84,7 +84,8 @@ const Campaigns = () => {
             </div>
             <Button
               onClick={() => navigate('/campaigns/create')}
-              className="bg-dashboard-primary hover:bg-dashboard-hover text-white px-4 py-2 rounded-lg flex items-center gap-2"
+              variant="default"
+              className="gap-2"
             >
               Neue Kampagne erstellen
               <ChevronDown className="w-4 h-4" />

@@ -104,7 +104,7 @@ const CalendarPage = () => {
               </SelectContent>
             </Select>
           </div>
-          <Button className="bg-gradient-amplifa hover:opacity-90 gap-2">
+          <Button variant="default" className="gap-2">
             <Plus className="w-4 h-4" />
             Neuer Termin
           </Button>

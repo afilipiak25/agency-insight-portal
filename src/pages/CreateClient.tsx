@@ -126,7 +126,8 @@ const CreateClient = () => {
             </Button>
             <Button 
               type="submit"
-              className="gap-2 bg-gradient-to-r from-amplifa-blue to-amplifa-purple hover:opacity-90"
+              variant="default"
+              className="gap-2"
             >
               <UserPlus className="w-4 h-4" />
               Kunde anlegen
