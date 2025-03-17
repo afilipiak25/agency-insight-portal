@@ -41,7 +41,7 @@ const Index = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return 'bg-amber-100 text-amber-800 border-amber-200';
-      case 'in-progress': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'in-progress': return 'bg-amplifa-blue-light/20 text-amplifa-blue border-amplifa-blue/20';
       case 'completed': return 'bg-green-100 text-green-800 border-green-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
@@ -61,7 +61,7 @@ const Index = () => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input placeholder="Search..." className="pl-10" />
               </div>
-              <Button className="bg-dashboard-primary hover:bg-dashboard-hover gap-2">
+              <Button className="bg-amplifa-orange hover:bg-amplifa-orange/90 gap-2">
                 <ArrowUpRight className="h-4 w-4" /> Actions
               </Button>
             </div>
@@ -146,29 +146,29 @@ const Index = () => {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Emails Sent</span>
-                      <span className="text-sm font-medium text-dashboard-primary">{stats.emailsSent.value}</span>
+                      <span className="text-sm font-medium text-amplifa-orange">{stats.emailsSent.value}</span>
                     </div>
-                    <ProgressBar value={100} total={100} color="bg-gradient-to-r from-dashboard-primary to-dashboard-secondary" />
+                    <ProgressBar value={100} total={100} color="bg-gradient-to-r from-amplifa-orange to-amplifa-pink" />
                   </div>
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Response Rate</span>
-                      <span className="text-sm font-medium text-dashboard-primary">{stats.responseRate.value}%</span>
+                      <span className="text-sm font-medium text-amplifa-orange">{stats.responseRate.value}%</span>
                     </div>
-                    <ProgressBar value={stats.responseRate.value} total={stats.responseRate.total} color="bg-gradient-to-r from-dashboard-primary to-dashboard-secondary" />
+                    <ProgressBar value={stats.responseRate.value} total={stats.responseRate.total} color="bg-gradient-to-r from-amplifa-orange to-amplifa-pink" />
                   </div>
                   <div className="flex gap-4 flex-wrap pt-3">
-                    <div className="bg-dashboard-light rounded-lg p-3 flex-1 min-w-[180px]">
+                    <div className="bg-amplifa-orange/10 rounded-lg p-3 flex-1 min-w-[180px]">
                       <div className="flex items-center gap-2 mb-2">
-                        <MessageSquare className="h-4 w-4 text-dashboard-primary" />
+                        <MessageSquare className="h-4 w-4 text-amplifa-orange" />
                         <span className="text-sm font-medium">Open Rate</span>
                       </div>
                       <p className="text-2xl font-semibold">65.8%</p>
                       <p className="text-xs text-green-600">↑ 3.2% vs last month</p>
                     </div>
-                    <div className="bg-dashboard-light rounded-lg p-3 flex-1 min-w-[180px]">
+                    <div className="bg-amplifa-pink/10 rounded-lg p-3 flex-1 min-w-[180px]">
                       <div className="flex items-center gap-2 mb-2">
-                        <Mail className="h-4 w-4 text-dashboard-primary" />
+                        <Mail className="h-4 w-4 text-amplifa-pink" />
                         <span className="text-sm font-medium">Click Rate</span>
                       </div>
                       <p className="text-2xl font-semibold">28.4%</p>
@@ -187,10 +187,10 @@ const Index = () => {
               <CardContent>
                 <div className="space-y-4">
                   {stats.notifications.map(notification => (
-                    <div key={notification.id} className="bg-dashboard-light rounded-lg p-3">
+                    <div key={notification.id} className="bg-amplifa-purple/10 rounded-lg p-3">
                       <div className="flex items-start gap-3">
                         <div className="bg-white rounded-full p-1 mt-0.5">
-                          <BellRing className="h-4 w-4 text-dashboard-primary" />
+                          <BellRing className="h-4 w-4 text-amplifa-purple" />
                         </div>
                         <div>
                           <p className="text-sm font-medium">{notification.message}</p>
@@ -216,8 +216,8 @@ const Index = () => {
                   {stats.tasks.map(task => (
                     <div key={task.id} className="bg-white rounded-lg border border-gray-100 p-3 flex items-center justify-between hover:shadow-sm transition-shadow">
                       <div className="flex items-center gap-3">
-                        <div className="bg-dashboard-light rounded-full p-2">
-                          <Activity className="h-4 w-4 text-dashboard-primary" />
+                        <div className="bg-amplifa-blue-light/10 rounded-full p-2">
+                          <Activity className="h-4 w-4 text-amplifa-blue" />
                         </div>
                         <div>
                           <p className="text-sm font-medium">{task.title}</p>
@@ -241,9 +241,9 @@ const Index = () => {
               <CardContent>
                 <div className="space-y-4">
                   {stats.upcomingEvents.map(event => (
-                    <div key={event.id} className="flex items-start gap-3 p-3 bg-dashboard-light rounded-lg">
+                    <div key={event.id} className="flex items-start gap-3 p-3 bg-amplifa-blue/10 rounded-lg">
                       <div className="rounded-lg bg-white p-2 flex flex-col items-center min-w-[40px]">
-                        <span className="text-xs font-bold text-dashboard-primary">{event.date.split('-')[2]}</span>
+                        <span className="text-xs font-bold text-amplifa-blue">{event.date.split('-')[2]}</span>
                         <span className="text-xs text-gray-600">{new Date(event.date).toLocaleString('default', { month: 'short' })}</span>
                       </div>
                       <div>

@@ -5,7 +5,11 @@ interface ProgressBarProps {
   color?: string;
 }
 
-export const ProgressBar = ({ value, total, color = "bg-gradient-dashboard" }: ProgressBarProps) => (
+export const ProgressBar = ({ 
+  value, 
+  total, 
+  color = "bg-gradient-amplifa" // Updated to use the new gradient
+}: ProgressBarProps) => (
   <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
     <div 
       className={color}
