@@ -80,7 +80,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               isCollapsed ? "opacity-0 w-0" : "opacity-100"
             )}>
               <img 
-                src="/lovable-uploads/6177f868-263c-4fc7-96fe-e7d0117d9d63.png" 
+                src="/lovable-uploads/d4665375-6d3a-4f1e-9de8-abc24145fe9c.png" 
                 alt="Amplifa" 
                 className="h-8"
               />
