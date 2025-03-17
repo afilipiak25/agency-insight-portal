@@ -104,32 +104,32 @@ const CalendarPage = () => {
               </SelectContent>
             </Select>
           </div>
-          <Button className="bg-[#7E69AB] hover:bg-[#6A5A91] gap-2">
+          <Button className="bg-gradient-amplifa hover:opacity-90 gap-2">
             <Plus className="w-4 h-4" />
             Neuer Termin
           </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-[#F8F7FC] p-6 rounded-lg">
+          <div className="bg-amplifa-blue/5 p-6 rounded-lg">
             <div className="flex items-center gap-3 mb-4">
-              <CalendarIcon className="w-5 h-5 text-[#7E69AB]" />
+              <CalendarIcon className="w-5 h-5 text-amplifa-blue" />
               <h2 className="font-medium">Heute</h2>
             </div>
             <div className="text-3xl font-semibold mb-1">4 Termine</div>
           </div>
 
-          <div className="bg-[#F0F7FF] p-6 rounded-lg">
+          <div className="bg-amplifa-purple/5 p-6 rounded-lg">
             <div className="flex items-center gap-3 mb-4">
-              <Clock className="w-5 h-5 text-blue-500" />
+              <Clock className="w-5 h-5 text-amplifa-purple" />
               <h2 className="font-medium">Diese Woche</h2>
             </div>
             <div className="text-3xl font-semibold mb-1">12 Termine</div>
           </div>
 
-          <div className="bg-[#FFF5F5] p-6 rounded-lg">
+          <div className="bg-amplifa-pink/5 p-6 rounded-lg">
             <div className="flex items-center gap-3 mb-4">
-              <Users className="w-5 h-5 text-pink-500" />
+              <Users className="w-5 h-5 text-amplifa-pink" />
               <h2 className="font-medium">Team-Mitglieder</h2>
             </div>
             <div className="text-3xl font-semibold mb-1">3</div>

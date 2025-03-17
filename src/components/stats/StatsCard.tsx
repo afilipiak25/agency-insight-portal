@@ -12,7 +12,7 @@ export const StatsCard = ({
   title, 
   value, 
   change, 
-  color = "text-amplifa-orange", // Updated to new orange color
+  color = "text-amplifa-orange", // Default to Amplifa orange
   prefix,
   suffix 
 }: StatsCardProps) => (
