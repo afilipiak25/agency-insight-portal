@@ -12,7 +12,7 @@ export const StatsCard = ({
   title, 
   value, 
   change, 
-  color = "text-amplifa-orange", // Default to Amplifa orange
+  color = "text-amplifa-blue", // Changed from amplifa-orange to amplifa-blue
   prefix,
   suffix 
 }: StatsCardProps) => (
@@ -23,7 +23,7 @@ export const StatsCard = ({
         {prefix}{value.toLocaleString()}{suffix}
       </span>
     </div>
-    <div className={`text-sm ${change >= 0 ? 'text-amplifa-orange' : 'text-red-500'} flex items-center gap-1`}>
+    <div className={`text-sm ${change >= 0 ? 'text-amplifa-blue' : 'text-red-500'} flex items-center gap-1`}>
       {change >= 0 ? '↑' : '↓'} {Math.abs(change)}% vom letzten Monat
     </div>
   </div>
