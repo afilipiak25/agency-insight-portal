@@ -1,41 +1,26 @@
 
-import { useState } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import React, { useState } from "react";
 import { 
-  ChevronDown, 
-  Search, 
-  CheckCircle2, 
-  XCircle, 
-  ExternalLink, 
-  AlertCircle,
-  Filter,
-  Plus
+  Check, X, ChevronDown, Download, Filter, Plus, 
+  Mail, Link as LinkIcon, Search, MoreHorizontal 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { 
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ApolloLead } from "./types/apollo-filters";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { 
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
-import { ApolloLead } from "./types/apollo-filters";
 
 interface LeadTableViewProps {
   leads: ApolloLead[];
   isLoading: boolean;
 }
 
-export const LeadTableView: React.FC<LeadTableViewProps> = ({ 
-  leads,
-  isLoading
-}) => {
+export const LeadTableView = ({ leads, isLoading }: LeadTableViewProps) => {
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
 
   const toggleSelectAll = () => {
@@ -46,7 +31,7 @@ export const LeadTableView: React.FC<LeadTableViewProps> = ({
     }
   };
 
-  const toggleLeadSelection = (id: string) => {
+  const toggleSelectLead = (id: string) => {
     if (selectedLeads.includes(id)) {
       setSelectedLeads(selectedLeads.filter(leadId => leadId !== id));
     } else {
@@ -54,262 +39,194 @@ export const LeadTableView: React.FC<LeadTableViewProps> = ({
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "success":
-        return <CheckCircle2 className="h-4 w-4 text-green-500" />;
-      case "error":
-        return <XCircle className="h-4 w-4 text-red-500" />;
-      case "pending":
-        return <AlertCircle className="h-4 w-4 text-amber-500" />;
-      default:
-        return null;
-    }
-  };
-
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="w-full flex items-center justify-center h-64">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg border shadow-sm">
-      {/* Table Header - Controls */}
-      <div className="flex items-center justify-between p-4 border-b">
+    <div className="space-y-4">
+      <div className="table-topbar flex items-center justify-between gap-4 mb-2">
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="text-sm font-medium">
-            <span className="mr-1">Default View</span>
-            <ChevronDown className="h-4 w-4" />
+          <Button 
+            className="bg-gradient-amplifa text-white"
+          >
+            <Plus className="w-4 h-4 mr-1" /> Add Enrichment
           </Button>
-          <div className="text-sm text-gray-500 flex items-center gap-2">
-            <span>62/71 columns</span>
-            <span>•</span>
-            <span>1.778/1.778 rows</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center">
-            <Button variant="outline" size="sm" className="text-sm font-medium flex items-center gap-1">
-              <Filter className="h-3.5 w-3.5" />
-              <span>No filters</span>
-            </Button>
-          </div>
-          <div className="flex items-center">
-            <Button variant="outline" size="sm" className="text-sm font-medium">
-              <span>Sort</span>
-            </Button>
-          </div>
-          <div className="relative">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search"
-              className="pl-10 pr-4 py-2 h-9 w-[200px] border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500/30"
-            />
-          </div>
+          
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="text-sm font-medium">
-                Actions <ChevronDown className="h-4 w-4 ml-1" />
+              <Button variant="outline" className="bg-white">
+                Actions <ChevronDown className="w-4 h-4 ml-1" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem>Export as CSV</DropdownMenuItem>
-              <DropdownMenuItem>Bulk edit</DropdownMenuItem>
-              <DropdownMenuItem>Delete selected</DropdownMenuItem>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <Download className="w-4 h-4 mr-2" /> Export as CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Filter className="w-4 h-4 mr-2" /> Apply Filters
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Mail className="w-4 h-4 mr-2" /> Enrich with Email
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button className="bg-gradient-amplifa text-white font-medium">
-            <Plus className="h-4 w-4 mr-1" />
-            Add enrichment
+          
+          <Button variant="outline" className="bg-white">
+            <Filter className="w-4 h-4 mr-1" /> No filters
           </Button>
+        </div>
+        
+        <div className="text-sm text-gray-600">
+          <span className="font-medium">Apollo Database</span>
+          <span className="mx-2">•</span>
+          <span>Default View</span>
+          <span className="mx-2">•</span>
+          <span>{leads.length} rows</span>
         </div>
       </div>
 
-      {/* Credits Warning */}
-      <div className="px-4 py-2 bg-amber-50 border-b text-amber-700 text-sm flex items-center">
-        <span>Running low on credits</span>
-      </div>
-
-      {/* Table Content */}
-      <ScrollArea className="h-[calc(100vh-320px)] overflow-x-auto">
-        <div className="min-w-[2000px]">
-          <table className="w-full border-collapse">
-            <thead className="bg-gray-50 sticky top-0 z-10">
+      <div id="leadTableContainer" className="overflow-x-auto border rounded-lg shadow-sm">
+        <table className="lead-table min-w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-50 border-b">
+              <th className="px-4 py-3 text-left">
+                <input 
+                  type="checkbox" 
+                  className="rounded border-gray-300"
+                  checked={selectedLeads.length === leads.length && leads.length > 0}
+                  onChange={toggleSelectAll}
+                />
+              </th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Name</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Position</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Company</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Location</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Industry</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Company Domain</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Email Status</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">LinkedIn</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Technologies</th>
+              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leads.length === 0 ? (
               <tr>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-10">
-                  <input 
-                    type="checkbox" 
-                    className="rounded border-gray-300"
-                    checked={selectedLeads.length === leads.length && leads.length > 0}
-                    onChange={toggleSelectAll}
-                  />
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <Search className="h-4 w-4" />
-                    <span>Find people</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-36 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>First Name</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-36 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>Last Name</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>Full Name</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>Job Title</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>Location</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <ExternalLink className="h-4 w-4" />
-                    <span>Company Domain</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <ExternalLink className="h-4 w-4" />
-                    <span>LinkedIn Profile</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>Scrape Website</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>Find Work Email (1)</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>Find Work Email (2)</span>
-                  </div>
-                </th>
-                <th className="px-3 py-3 border-b border-r border-gray-200 w-48 text-left">
-                  <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-                    <span>Find Work Email (3)</span>
-                  </div>
-                </th>
+                <td colSpan={11} className="px-4 py-8 text-center text-gray-500">
+                  No leads found. Try adjusting your filters.
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {leads.map((lead, index) => (
-                <tr key={lead.id} className="hover:bg-gray-50">
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
+            ) : (
+              leads.map(lead => (
+                <tr key={lead.id} className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3">
                     <input 
                       type="checkbox" 
                       className="rounded border-gray-300"
                       checked={selectedLeads.includes(lead.id)}
-                      onChange={() => toggleLeadSelection(lead.id)}
+                      onChange={() => toggleSelectLead(lead.id)}
                     />
                   </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm">{lead.name}</span>
+                  <td className="px-4 py-3 font-medium">{lead.name}</td>
+                  <td className="px-4 py-3 text-gray-600">{lead.position}</td>
+                  <td className="px-4 py-3">{lead.company}</td>
+                  <td className="px-4 py-3 text-gray-600">{lead.location}</td>
+                  <td className="px-4 py-3 text-gray-600">
+                    {lead.industry || "Unknown"}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center">
+                      {lead.company} 
+                      {lead.companyDomain ? (
+                        <span className="ml-1 text-blue-600">{lead.companyDomain}</span>
+                      ) : (
+                        <span className="ml-1 text-red-500">No domain</span>
+                      )}
                     </div>
                   </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <span className="text-sm">{lead.firstName || lead.name.split(' ')[0]}</span>
-                  </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <span className="text-sm">{lead.lastName || lead.name.split(' ').slice(1).join(' ')}</span>
-                  </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <span className="text-sm">{lead.name}</span>
-                  </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <span className="text-sm">{lead.position}</span>
-                  </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <span className="text-sm">{lead.location}</span>
-                  </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <a href={`https://${lead.website || lead.company?.toLowerCase().replace(/\s+/g, '')}.com`} 
-                            target="_blank" 
-                            className="text-sm text-blue-600 hover:underline flex items-center gap-1">
-                            {lead.website || `${lead.company?.toLowerCase().replace(/\s+/g, '')}.com`}
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Open website</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <a href="#" className="text-sm text-blue-600 hover:underline flex items-center gap-1">
-                            {`https://linkedin.com/in/${lead.name.toLowerCase().replace(/\s+/g, '-')}`}
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Open LinkedIn profile</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <div className="flex items-center gap-2">
-                      {getStatusIcon("success")}
-                      <span className="text-sm">{lead.website || `${lead.company?.toLowerCase().replace(/\s+/g, '')}.com`}</span>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center">
+                      {lead.email ? (
+                        <span className="flex items-center text-green-600">
+                          <Check className="w-4 h-4 mr-1" /> Found
+                        </span>
+                      ) : (
+                        <Button size="sm" variant="outline" className="text-xs py-1 h-7">
+                          <Search className="w-3 h-3 mr-1" /> Find Email
+                        </Button>
+                      )}
                     </div>
                   </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    {index % 5 === 3 ? (
-                      <div className="flex items-center">
-                        <XCircle className="h-4 w-4 text-red-500 mr-1" />
-                        <span className="text-sm text-red-500">No email found</span>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center">
+                      {lead.linkedin ? (
+                        <a href={lead.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline flex items-center">
+                          <LinkIcon className="w-3 h-3 mr-1" /> Profile
+                        </a>
+                      ) : (
+                        <span className="text-red-500 flex items-center">
+                          <X className="w-3 h-3 mr-1" /> Not found
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    {lead.technology && lead.technology.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        {lead.technology.slice(0, 2).map((tech, i) => (
+                          <span key={i} className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-xs">
+                            {tech}
+                          </span>
+                        ))}
+                        {lead.technology.length > 2 && (
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <button className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">
+                                +{lead.technology.length - 2}
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-48">
+                              <div className="text-sm font-medium mb-2">All Technologies</div>
+                              <div className="flex flex-wrap gap-1">
+                                {lead.technology.map((tech, i) => (
+                                  <span key={i} className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-xs">
+                                    {tech}
+                                  </span>
+                                ))}
+                              </div>
+                            </PopoverContent>
+                          </Popover>
+                        )}
                       </div>
                     ) : (
-                      <div className="flex items-center">
-                        <span className="text-sm italic text-gray-500">Run condition not met</span>
-                      </div>
+                      <span className="text-gray-400 text-xs">No data</span>
                     )}
                   </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <div className="flex items-center">
-                      <span className="text-sm italic text-gray-500">Run condition not met</span>
-                    </div>
-                  </td>
-                  <td className="px-3 py-3 border-b border-r border-gray-200">
-                    <div className="flex items-center">
-                      <span className="text-sm italic text-gray-500">Run condition not met</span>
-                    </div>
+                  <td className="px-4 py-3">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem>Add to Campaign</DropdownMenuItem>
+                        <DropdownMenuItem>Edit Lead</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </ScrollArea>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

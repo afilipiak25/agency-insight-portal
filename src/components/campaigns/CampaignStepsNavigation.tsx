@@ -18,7 +18,7 @@ export const CampaignStepsNavigation = ({
     return (
       <div className="h-1 bg-violet-100 rounded-full w-full mb-8">
         <div 
-          className="h-full bg-violet-600 rounded-full transition-all duration-500"
+          className="h-full bg-gradient-amplifa rounded-full transition-all duration-500"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -36,31 +36,31 @@ export const CampaignStepsNavigation = ({
         <TabsList className="w-full justify-center mb-8 bg-transparent p-0 h-auto">
           <TabsTrigger
             value="targeting"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+            className="data-[state=active]:bg-gradient-amplifa data-[state=active]:text-white rounded-md px-8 py-4 transition-all data-[state=active]:shadow-md hover:bg-violet-50"
           >
             1. Targeting
           </TabsTrigger>
           <TabsTrigger
             value="workflow"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+            className="data-[state=active]:bg-gradient-amplifa data-[state=active]:text-white rounded-md px-8 py-4 transition-all data-[state=active]:shadow-md hover:bg-violet-50"
           >
             2. Workflow
           </TabsTrigger>
           <TabsTrigger
             value="resources"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+            className="data-[state=active]:bg-gradient-amplifa data-[state=active]:text-white rounded-md px-8 py-4 transition-all data-[state=active]:shadow-md hover:bg-violet-50"
           >
             3. Resources
           </TabsTrigger>
           <TabsTrigger
             value="preview"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+            className="data-[state=active]:bg-gradient-amplifa data-[state=active]:text-white rounded-md px-8 py-4 transition-all data-[state=active]:shadow-md hover:bg-violet-50"
           >
             4. Preview
           </TabsTrigger>
           <TabsTrigger
             value="settings"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-violet-600 rounded-none px-8 py-4 transition-all hover:bg-violet-50"
+            className="data-[state=active]:bg-gradient-amplifa data-[state=active]:text-white rounded-md px-8 py-4 transition-all data-[state=active]:shadow-md hover:bg-violet-50"
           >
             5. Settings
           </TabsTrigger>
