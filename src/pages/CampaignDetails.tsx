@@ -43,10 +43,25 @@ const CampaignDetails = () => {
           <CampaignMetrics campaign={campaign} />
 
           <Tabs defaultValue="workflow" className="mt-8">
-            <TabsList className="grid w-full max-w-md grid-cols-3 mb-8">
-              <TabsTrigger value="workflow">Workflow</TabsTrigger>
-              <TabsTrigger value="leads">Leads</TabsTrigger>
-              <TabsTrigger value="performance">Performance</TabsTrigger>
+            <TabsList className="mb-8 border-b border-gray-200 w-full justify-start gap-8 rounded-none bg-transparent h-auto pb-1">
+              <TabsTrigger 
+                value="workflow" 
+                className="data-[state=active]:border-b-0 data-[state=active]:shadow-none border-b-2 border-transparent data-[state=active]:border-gray-300 bg-transparent text-gray-600 data-[state=active]:text-gray-800 px-2 py-2 rounded-none h-auto"
+              >
+                Workflow
+              </TabsTrigger>
+              <TabsTrigger 
+                value="leads" 
+                className="data-[state=active]:border-b-0 data-[state=active]:shadow-none border-b-2 border-transparent data-[state=active]:border-gray-300 bg-transparent text-gray-600 data-[state=active]:text-gray-800 px-2 py-2 rounded-none h-auto"
+              >
+                Leads
+              </TabsTrigger>
+              <TabsTrigger 
+                value="performance" 
+                className="data-[state=active]:border-b-0 data-[state=active]:shadow-none border-b-2 border-transparent data-[state=active]:border-gray-300 bg-transparent text-gray-600 data-[state=active]:text-gray-800 px-2 py-2 rounded-none h-auto data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-400 data-[state=active]:to-rose-400 data-[state=active]:text-white data-[state=active]:rounded-t-lg data-[state=active]:px-6 data-[state=active]:py-1.5"
+              >
+                Performance
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="workflow" className="space-y-6">
