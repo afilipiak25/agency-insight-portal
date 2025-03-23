@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { WorkflowStep, DEFAULT_PROMPT_TEMPLATES } from "../types/workflow";
-import { ApolloLead } from "../types/apollo-filters";
-import { LeadInfo } from "./promptDialog/LeadInfo";
-import { PromptTabs } from "./promptDialog/PromptTabs";
-import { StepIcon } from "./promptDialog/StepIcon";
-import { AIConfigSelector } from "./promptDialog/AIConfigSelector";
+import { WorkflowStep, DEFAULT_PROMPT_TEMPLATES } from "../../types/workflow";
+import { ApolloLead } from "../../types/apollo-filters";
+import { LeadInfo } from "./LeadInfo";
+import { PromptTabs } from "./PromptTabs";
+import { StepIcon } from "./StepIcon";
+import { AIConfigSelector } from "./AIConfigSelector";
 
 interface PromptDialogProps {
   open: boolean;
