@@ -4,6 +4,60 @@ import { ApolloFilters, ApolloLead } from "../types/apollo-filters";
 import { searchApolloLeads } from "../services/apolloApi";
 import { useToast } from "@/hooks/use-toast";
 
+// Generate mock lead data for the initial state
+const generateMockLeads = (): ApolloLead[] => {
+  const companies = [
+    "TechSolutions GmbH", "Digital Dynamics AG", "Cloudsoft Systems", "InnovateTech", 
+    "WebWorks Group", "DataDrive Solutions", "NextGen Software", "SmartTech Inc.",
+    "GlobalTech Partners", "Cyber Innovations"
+  ];
+  
+  const positions = [
+    "Head of Marketing", "CTO", "CEO", "Software Engineer", "Marketing Manager", 
+    "Sales Director", "Product Manager", "CFO", "COO", "IT Director"
+  ];
+  
+  const locations = [
+    "Berlin", "Munich", "Hamburg", "Frankfurt", "Cologne", "Stuttgart", 
+    "Düsseldorf", "Leipzig", "Dresden", "Nuremberg"
+  ];
+
+  const firstNames = [
+    "Alexander", "Sophia", "Max", "Emma", "Paul", "Laura", "Thomas", "Julia", 
+    "Michael", "Anna"
+  ];
+  
+  const lastNames = [
+    "Schmidt", "Müller", "Schneider", "Fischer", "Weber", "Schulz", "Wagner", 
+    "Becker", "Hoffmann", "Koch"
+  ];
+
+  return Array.from({ length: 50 }, (_, i) => {
+    const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+    const company = companies[Math.floor(Math.random() * companies.length)];
+    const position = positions[Math.floor(Math.random() * positions.length)];
+    const location = locations[Math.floor(Math.random() * locations.length)];
+
+    return {
+      id: `lead-${i + 1}`,
+      name: `${firstName} ${lastName}`,
+      firstName,
+      lastName,
+      position,
+      company,
+      location,
+      email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${company.toLowerCase().replace(/\s+/g, '')}.com`,
+      companySize: `${Math.floor(Math.random() * 1000) + 1}-${Math.floor(Math.random() * 5000) + 1000}`,
+      department: ["Marketing", "Engineering", "Sales", "Product", "HR"][Math.floor(Math.random() * 5)],
+      technology: ["React", "Angular", "Vue", "Node.js", "Python"].filter(() => Math.random() > 0.5),
+      industry: ["Software", "Finance", "Healthcare", "Manufacturing", "Retail"][Math.floor(Math.random() * 5)]
+    };
+  });
+};
+
+const mockLeads = generateMockLeads();
+
 export const useApolloFilters = () => {
   const [filters, setFilters] = useState<ApolloFilters>({
     companyName: "",
@@ -52,16 +106,17 @@ export const useApolloFilters = () => {
     }
   });
 
-  const [filteredLeads, setFilteredLeads] = useState<ApolloLead[]>([]);
+  const [filteredLeads, setFilteredLeads] = useState<ApolloLead[]>(mockLeads);
   const [isLoading, setIsLoading] = useState(false);
-  const [totalResults, setTotalResults] = useState(0);
+  const [totalResults, setTotalResults] = useState(mockLeads.length);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const fetchLeads = async () => {
+    // Always show mock data initially, regardless of filter state
     if (!hasActiveFilters(filters)) {
-      setFilteredLeads([]);
-      setTotalResults(0);
+      setFilteredLeads(mockLeads);
+      setTotalResults(mockLeads.length);
       return;
     }
 
@@ -69,16 +124,17 @@ export const useApolloFilters = () => {
       setIsLoading(true);
       setError(null);
       const response = await searchApolloLeads(filters);
-      setFilteredLeads(response.leads);
-      setTotalResults(response.total);
+      setFilteredLeads(response.leads.length > 0 ? response.leads : mockLeads);
+      setTotalResults(response.total > 0 ? response.total : mockLeads.length);
     } catch (error) {
       console.error('Error fetching leads:', error);
       setError('Fehler beim Laden der Leads');
-      setFilteredLeads([]);
-      setTotalResults(0);
+      // Fall back to mock data on error
+      setFilteredLeads(mockLeads);
+      setTotalResults(mockLeads.length);
       toast({
         title: "Fehler beim Laden der Leads",
-        description: "Bitte versuchen Sie es später erneut oder passen Sie Ihre Filterkriterien an.",
+        description: "Mock-Daten werden angezeigt. In einer Produktionsumgebung würden echte Leads geladen werden.",
         variant: "destructive"
       });
     } finally {

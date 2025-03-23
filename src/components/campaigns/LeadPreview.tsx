@@ -9,100 +9,6 @@ import { LeadTableView } from "./LeadTableView";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-// Generate 50 mock leads
-const generateMockLeads = (): ApolloLead[] => {
-  const companies = [
-    "TechSolutions GmbH", "Digital Dynamics AG", "Cloudsoft Systems", "InnovateTech", 
-    "WebWorks Group", "DataDrive Solutions", "NextGen Software", "SmartTech Inc.",
-    "GlobalTech Partners", "Cyber Innovations", "MediaMaster", "FutureSoft GmbH",
-    "EuroTech Solutions", "Alpine Systems AG", "Deutsche Digital", "Berlin Bytes",
-    "Munich Mobile", "Hamburg Tech Hub", "Frankfurt FinTech", "Bavarian Software"
-  ];
-  
-  const positions = [
-    "Head of Marketing", "CTO", "CEO", "Software Engineer", "Marketing Manager", 
-    "Sales Director", "Product Manager", "CFO", "COO", "IT Director", 
-    "VP of Sales", "UX Designer", "Data Analyst", "HR Director", "Operations Manager"
-  ];
-  
-  const technologies = [
-    "React", "Angular", "Vue.js", "Node.js", "Python", "Java", "AWS", "Azure", 
-    "Google Cloud", "Docker", "Kubernetes", "MongoDB", "PostgreSQL", "MySQL", 
-    "GraphQL", "PHP", "Ruby", "Swift", "Kotlin", ".NET", "Salesforce", "SAP"
-  ];
-  
-  const industries = [
-    "Software", "Finance", "Healthcare", "Manufacturing", "Retail", "Education",
-    "Transportation", "Energy", "Media", "Telecom", "Insurance", "Real Estate"
-  ];
-  
-  const cities = [
-    "Berlin", "Munich", "Hamburg", "Frankfurt", "Cologne", "Stuttgart", 
-    "Düsseldorf", "Leipzig", "Dresden", "Nuremberg", "Vienna", "Zurich"
-  ];
-  
-  const companySizes = [
-    "1-10", "11-50", "51-200", "201-500", "501-1000", "1001-5000", "5001-10000", "10000+"
-  ];
-  
-  const departments = [
-    "Marketing", "Engineering", "Sales", "HR", "Finance", "Operations", 
-    "Product", "Design", "Customer Support", "IT", "R&D", "Legal"
-  ];
-  
-  const firstNames = [
-    "Alexander", "Sophia", "Max", "Emma", "Paul", "Laura", "Thomas", "Julia", 
-    "Michael", "Anna", "Daniel", "Lisa", "Felix", "Sarah", "David", "Marie", 
-    "Christian", "Nina", "Patrick", "Lena", "Andreas", "Hannah", "Stefan", "Katharina"
-  ];
-  
-  const lastNames = [
-    "Schmidt", "Müller", "Schneider", "Fischer", "Weber", "Schulz", "Wagner", 
-    "Becker", "Hoffmann", "Koch", "Richter", "Wolf", "Bauer", "Klein", "Schröder", 
-    "Neumann", "Schwarz", "Zimmermann", "Braun", "Krüger", "Hofmann", "Hartmann"
-  ];
-
-  return Array.from({ length: 50 }, (_, i) => {
-    const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-    const company = companies[Math.floor(Math.random() * companies.length)];
-    const position = positions[Math.floor(Math.random() * positions.length)];
-    const industry = industries[Math.floor(Math.random() * industries.length)];
-    const city = cities[Math.floor(Math.random() * cities.length)];
-    const companySize = companySizes[Math.floor(Math.random() * companySizes.length)];
-    const department = departments[Math.floor(Math.random() * departments.length)];
-    
-    // Random selection of 1-3 technologies
-    const techCount = Math.floor(Math.random() * 3) + 1;
-    const techSet = new Set<string>();
-    for (let j = 0; j < techCount; j++) {
-      techSet.add(technologies[Math.floor(Math.random() * technologies.length)]);
-    }
-    const tech = Array.from(techSet);
-
-    return {
-      id: `lead-${i + 1}`,
-      name: `${firstName} ${lastName}`,
-      firstName,
-      lastName,
-      company,
-      position,
-      industry,
-      location: city,
-      email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${company.toLowerCase().replace(/\s+/g, '')}.com`,
-      phone: `+49 ${Math.floor(Math.random() * 900) + 100} ${Math.floor(Math.random() * 9000000) + 1000000}`,
-      companySize,
-      department,
-      technology: tech,
-      linkedin: `https://linkedin.com/in/${firstName.toLowerCase()}-${lastName.toLowerCase()}-${Math.floor(Math.random() * 10000)}`,
-      companyDomain: `${company.toLowerCase().replace(/\s+/g, '')}.com`,
-      score: Math.floor(Math.random() * 100) + 1,
-    };
-  });
-};
-
-const mockLeads = generateMockLeads();
-
 interface LeadPreviewProps {
   showEmailPreview?: boolean;
   selectedDataSource?: string;
@@ -119,7 +25,7 @@ export const LeadPreview = ({
   selectedDataSource = "",
   position = "right",
   isApolloConnected = false,
-  leads = mockLeads,
+  leads = [],
   isLoading = false,
   totalResults = 54632,
   showTableView = false
@@ -218,7 +124,7 @@ export const LeadPreview = ({
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-1">
                             <span className="text-sm font-medium truncate">{lead.name}</span>
-                            <span className="text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full">{lead.score}</span>
+                            <span className="text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full">{lead.score || Math.floor(Math.random() * 100)}</span>
                           </div>
                           <div className="text-xs text-gray-600 font-medium mb-1 truncate">{lead.position}</div>
                           <div className="flex flex-wrap gap-1 text-xs text-gray-500">
@@ -245,7 +151,7 @@ export const LeadPreview = ({
                           
                           {lead.technology && lead.technology.length > 0 && (
                             <div className="flex gap-1 flex-wrap mt-2">
-                              {lead.technology.map((tech, i) => (
+                              {lead.technology.slice(0, 2).map((tech, i) => (
                                 <span 
                                   key={i} 
                                   className="bg-pink-500/10 text-pink-600 px-1.5 py-0.5 rounded-full text-[10px] flex items-center"
@@ -254,6 +160,11 @@ export const LeadPreview = ({
                                   {tech}
                                 </span>
                               ))}
+                              {lead.technology.length > 2 && (
+                                <span className="bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full text-[10px]">
+                                  +{lead.technology.length - 2}
+                                </span>
+                              )}
                             </div>
                           )}
                         </div>
