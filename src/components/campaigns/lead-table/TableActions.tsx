@@ -94,7 +94,7 @@ export const TableActions: React.FC<TableActionsProps> = ({ totalLeads }) => {
                 : `${activeFilters.length} filter${activeFilters.length > 1 ? 's' : ''}`}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[300px] p-4" align="start">
+          <PopoverContent className="w-[300px] p-4 bg-white" align="start">
             <div className="space-y-4">
               <h3 className="font-medium">Filter Options</h3>
               <div className="space-y-2">
