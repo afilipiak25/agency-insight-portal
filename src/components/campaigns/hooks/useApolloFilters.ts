@@ -90,7 +90,7 @@ export const useApolloFilters = () => {
   const hasActiveFilters = (filters: ApolloFilters): boolean => {
     return Object.entries(filters).some(([key, value]) => {
       if (key === 'intent') {
-        return Object.values(value).some(v => v === true);
+        return Object.values(value as any).some((v: any) => v === true);
       }
       if (Array.isArray(value)) {
         return value.length > 0;
@@ -118,8 +118,8 @@ export const useApolloFilters = () => {
     setFilters(prev => ({
       ...prev,
       intent: {
-        ...prev.intent,
-        [key]: !prev.intent[key]
+        ...prev.intent!,
+        [key]: !prev.intent![key]
       }
     }));
   };
