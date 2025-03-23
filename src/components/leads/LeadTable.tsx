@@ -46,7 +46,7 @@ export const LeadTable = () => {
       <LeadTableHeader />
       
       <div className="rounded-lg border border-gray-200 bg-white">
-        <ScrollArea className="w-full" orientation="horizontal">
+        <ScrollArea className="w-full">
           <div className="min-w-[2200px]">
             <table className="w-full">
               <thead>
