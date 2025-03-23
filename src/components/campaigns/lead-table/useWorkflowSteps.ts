@@ -1,7 +1,7 @@
 
-import { useState } from "react";
+import { useState, ReactElement } from "react";
 import { WorkflowStep, DEFAULT_PROMPT_TEMPLATES } from "../types/workflow";
-import { Mail, LinkedinIcon, Eye, Instagram } from "lucide-react";
+import { Mail, Linkedin, Eye, Instagram } from "lucide-react";
 
 export const useWorkflowSteps = () => {
   const [workflowSteps, setWorkflowSteps] = useState<WorkflowStep[]>([
@@ -9,7 +9,7 @@ export const useWorkflowSteps = () => {
       id: 1,
       sequenceNum: 1,
       type: 'email',
-      icon: <Mail className="w-4 h-4 text-purple-600" />,
+      icon: <Mail className="w-4 h-4 text-purple-600" /> as ReactElement,
       title: 'First Mail',
       content: '<p>Personalized first outreach email</p>',
       waitDays: 2,
@@ -20,7 +20,7 @@ export const useWorkflowSteps = () => {
       id: 2,
       sequenceNum: 2,
       type: 'linkedin',
-      icon: <LinkedinIcon className="w-4 h-4 text-blue-600" />,
+      icon: <Linkedin className="w-4 h-4 text-blue-600" /> as ReactElement,
       title: 'LinkedIn Message',
       content: '<p>LinkedIn connection message</p>',
       waitDays: 2,
@@ -31,7 +31,7 @@ export const useWorkflowSteps = () => {
       id: 3,
       sequenceNum: 3,
       type: 'profile-visit',
-      icon: <Eye className="w-4 h-4 text-gray-600" />,
+      icon: <Eye className="w-4 h-4 text-gray-600" /> as ReactElement,
       title: 'Profile Visit',
       content: '<p>Visit LinkedIn profile</p>',
       waitDays: 1,
@@ -42,7 +42,7 @@ export const useWorkflowSteps = () => {
       id: 4,
       sequenceNum: 4,
       type: 'instagram',
-      icon: <Instagram className="w-4 h-4 text-pink-600" />,
+      icon: <Instagram className="w-4 h-4 text-pink-600" /> as ReactElement,
       title: 'Instagram DM',
       content: '<p>Instagram direct message</p>',
       waitDays: 2,
@@ -53,7 +53,7 @@ export const useWorkflowSteps = () => {
       id: 5,
       sequenceNum: 5,
       type: 'email',
-      icon: <Mail className="w-4 h-4 text-purple-600" />,
+      icon: <Mail className="w-4 h-4 text-purple-600" /> as ReactElement,
       title: 'Follow-up Email',
       content: '<p>Follow-up email</p>',
       waitDays: 0,
