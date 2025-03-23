@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   Check, X, ChevronDown, Download, Filter, Plus, 
@@ -703,19 +702,10 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
 
       {selectedStepId && (
         <StepEditDialog 
-          open={!!selectedStepId}
-          onOpenChange={() => setSelectedStepId(null)}
-          step={workflowSteps.find(step => step.id === selectedStepId) || null}
-          onUpdateStep={(updatedStep) => {
-            if (updatedStep) {
-              updateSteps(
-                workflowSteps.map(step => 
-                  step.id === updatedStep.id ? updatedStep : step
-                )
-              );
-            }
-          }}
-          onUpdateWaitDays={(stepId, increment) => updateWaitDays(stepId, increment)}
+          selectedStepId={selectedStepId}
+          steps={workflowSteps}
+          updateSteps={updateSteps}
+          updateWaitDays={updateWaitDays}
         />
       )}
 
