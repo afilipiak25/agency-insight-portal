@@ -19,7 +19,8 @@ import {
   SidebarTrigger,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarInput
+  SidebarInput,
+  SidebarMenuBadge
 } from "@/components/ui/sidebar";
 
 interface Client {
@@ -153,34 +154,37 @@ export const AppSidebar = ({ onClientSelect }: { onClientSelect: (clientId: numb
           <SidebarMenu>
             {navItems.map((item, index) => (
               <SidebarMenuItem key={index}>
-                <SidebarMenuButton
-                  asChild={!item.disabled}
-                  isActive={location.pathname === item.path}
-                  tooltip={item.label}
-                  className={item.disabled ? "opacity-60 cursor-not-allowed" : ""}
-                >
-                  {item.disabled ? (
-                    <div className="flex items-center gap-3 relative">
-                      <item.icon className="w-5 h-5 flex-shrink-0" />
-                      <span>{item.label}</span>
-                      {item.tag && (
-                        <span className="absolute right-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-amplifa-pink/10 text-amplifa-pink text-xs rounded-full">
-                          {item.tag}
-                        </span>
-                      )}
-                    </div>
-                  ) : (
+                {item.disabled ? (
+                  <SidebarMenuButton
+                    isActive={location.pathname === item.path}
+                    tooltip={item.label}
+                    className="opacity-60 cursor-not-allowed"
+                  >
+                    <item.icon className="w-5 h-5 flex-shrink-0" />
+                    <span>{item.label}</span>
+                    {item.tag && (
+                      <SidebarMenuBadge className="bg-amplifa-pink/10 text-amplifa-pink">
+                        {item.tag}
+                      </SidebarMenuBadge>
+                    )}
+                  </SidebarMenuButton>
+                ) : (
+                  <SidebarMenuButton
+                    asChild
+                    isActive={location.pathname === item.path}
+                    tooltip={item.label}
+                  >
                     <Link to={item.path} className="flex items-center gap-3 relative w-full">
                       <item.icon className="w-5 h-5 flex-shrink-0" />
                       <span>{item.label}</span>
                       {item.tag && (
-                        <span className="absolute right-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-amplifa-pink/10 text-amplifa-pink text-xs rounded-full">
+                        <SidebarMenuBadge className="bg-amplifa-pink/10 text-amplifa-pink">
                           {item.tag}
-                        </span>
+                        </SidebarMenuBadge>
                       )}
                     </Link>
-                  )}
-                </SidebarMenuButton>
+                  </SidebarMenuButton>
+                )}
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
