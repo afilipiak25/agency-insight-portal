@@ -25,19 +25,19 @@ const IntegrationCard = ({
   iconBgColor = "bg-amplifa-purple/10",
   onConnect
 }: IntegrationCardProps) => (
-  <div className="group relative border border-dashed border-gray-200 hover:border-solid hover:border-amplifa-purple/30 rounded-lg p-6 flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:shadow-amplifa-purple/5">
+  <div className="group relative border border-dashed border-gray-200 hover:border-solid hover:border-orange-300 rounded-lg p-6 flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:shadow-orange-200/20 card-lift glow-effect">
     <div className={cn(
-      "mb-4 p-4 rounded-full transition-all duration-300 group-hover:scale-110",
+      "mb-4 p-4 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:animate-pulse",
       iconBgColor
     )}>
       {icon}
     </div>
-    <h3 className="text-lg font-semibold mb-2 transition-colors duration-300 group-hover:text-amplifa-purple">{title}</h3>
+    <h3 className="text-lg font-semibold mb-2 transition-colors duration-300 group-hover:text-orange-500 gradient-text">{title}</h3>
     <p className="text-gray-600 mb-6 text-sm">{description}</p>
     <Button
-      variant="outline"
+      variant="integration"
       className={cn(
-        "gap-2 transition-all duration-300 group-hover:translate-y-1",
+        "gap-2 transition-all duration-300 group-hover:translate-y-1 shine-effect",
         buttonColor
       )}
       onClick={onConnect}
@@ -59,11 +59,11 @@ const ActiveIntegration = ({
   isConnected: boolean;
   icon: React.ComponentType<{ className?: string }>;
 }) => (
-  <div className="group flex items-center justify-between py-4 px-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
+  <div className="group flex items-center justify-between py-4 px-4 border-b border-gray-100 hover:bg-gradient-to-r hover:from-orange-50/20 hover:to-pink-50/20 transition-colors duration-200 rounded-md">
     <div className="flex items-center gap-4">
       <div className={cn(
         "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
-        isConnected ? "bg-green-50 text-green-500" : "bg-gray-50 text-gray-400"
+        isConnected ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white" : "bg-gray-100 text-gray-400"
       )}>
         <Icon className="w-5 h-5" />
       </div>
@@ -84,10 +84,11 @@ const ActiveIntegration = ({
       </div>
     </div>
     <Button 
-      variant={isConnected ? "default" : "outline"} 
+      variant={isConnected ? "gradient" : "outline"} 
+      size="sm"
       className={cn(
         "ml-4 transition-all duration-300",
-        isConnected ? "bg-green-500 hover:bg-green-600" : "hover:border-gray-400"
+        isConnected ? "" : "hover:border-gray-400"
       )}
     >
       {isConnected ? "Verbunden" : "Nicht verbunden"}
@@ -127,10 +128,10 @@ const Integrations = () => {
       <div className="p-8 max-w-6xl mx-auto animate-fade-in">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-2xl font-semibold mb-2">Integrationen</h1>
+            <h1 className="text-2xl font-semibold mb-2 gradient-text">Integrationen</h1>
             <p className="text-gray-600">Verbinden Sie Ihre Werkzeuge und Dienste</p>
           </div>
-          <Button variant="default" className="gap-2">
+          <Button variant="integration" className="gap-2 shine-effect">
             <PlusCircle className="w-4 h-4" />
             Neue Integration
           </Button>
@@ -174,12 +175,12 @@ const Integrations = () => {
 
         <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold">Aktive Integrationen</h2>
-            <Button variant="outline" className="text-gray-600">
+            <h2 className="text-xl font-semibold gradient-text">Aktive Integrationen</h2>
+            <Button variant="outline" className="text-gray-600 hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50 hover:border-orange-200 transition-all">
               Alle anzeigen
             </Button>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-100">
+          <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-100 shadow-sm">
             <ActiveIntegration
               name="LinkedIn Sales Navigator"
               lastSync="Vor 5 Minuten"

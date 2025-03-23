@@ -37,7 +37,7 @@ export const ApolloIntegration = ({ onConnect, isConnected }: ApolloIntegrationP
   if (isConnected) {
     return (
       <div className="space-y-4">
-        <div className="bg-white rounded-lg border p-4 gradient-hover">
+        <div className="bg-white rounded-lg border p-4 gradient-hover shadow-md hover:shadow-lg transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold gradient-text">Apollo.io Integration</h3>
             <span className="text-sm text-green-600 flex items-center gap-2">
@@ -50,7 +50,7 @@ export const ApolloIntegration = ({ onConnect, isConnected }: ApolloIntegrationP
           </p>
           <Button 
             variant="outline" 
-            className="w-full gap-2 text-green-600 border-green-600/20 bg-green-50 hover:bg-green-100"
+            className="w-full gap-2 text-green-600 border-green-600/20 bg-green-50 hover:bg-green-100 transition-all"
             disabled
           >
             <CheckCircle2 className="w-4 h-4" />
@@ -63,14 +63,14 @@ export const ApolloIntegration = ({ onConnect, isConnected }: ApolloIntegrationP
 
   return (
     <div className="space-y-4">
-      <div className="bg-white rounded-lg border p-4 gradient-hover">
+      <div className="bg-white rounded-lg border p-4 gradient-hover shadow-sm hover:shadow-lg transition-all duration-300">
         <h3 className="text-lg font-semibold mb-4 gradient-text">Apollo.io Integration</h3>
         <p className="text-sm text-gray-600 mb-4">
           Verbinden Sie Ihr Apollo.io-Konto, um auf zusätzliche Filter und Funktionen zuzugreifen.
         </p>
         <Button 
-          variant="default" 
-          className="w-full gap-2"
+          variant="integration" 
+          className="w-full gap-2 shine-effect"
           onClick={handleConnectApollo}
         >
           <Link2 className="w-4 h-4" />
