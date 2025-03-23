@@ -90,6 +90,9 @@ const transformApolloLead = (apiLead: any): ApolloLead => {
     department: apiLead.department || '',
     companySize: apiLead.organization?.employee_count || '',
     technology: Array.isArray(apiLead.organization?.technologies) ? apiLead.organization.technologies : [],
-    lastUpdated: apiLead.updated_at || new Date().toISOString()
+    lastUpdated: apiLead.updated_at || new Date().toISOString(),
+    industry: apiLead.organization?.industry || '',
+    companyDomain: apiLead.organization?.website_url || '',
+    linkedin: apiLead.linkedin_url || ''
   };
 };

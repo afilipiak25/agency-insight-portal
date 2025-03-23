@@ -66,4 +66,7 @@ export interface ApolloLead {
   companySize?: string;
   technology?: string[];
   lastUpdated?: string;
+  industry?: string;           // Added missing field
+  companyDomain?: string;      // Added missing field
+  linkedin?: string;           // Added missing field
 }
