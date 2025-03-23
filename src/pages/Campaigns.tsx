@@ -5,7 +5,7 @@ import { Search, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-interface CampaignRow {
+export interface CampaignRow {
   id: number;
   name: string;
   status: 'active' | 'inactive';
@@ -16,7 +16,7 @@ interface CampaignRow {
   replied?: string;
 }
 
-const mockCampaigns: CampaignRow[] = [
+export const mockCampaigns: CampaignRow[] = [
   {
     id: 1,
     name: "Anthony's campaign (1)",
@@ -62,6 +62,10 @@ const mockCampaigns: CampaignRow[] = [
 const Campaigns = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
+  const handleCampaignClick = (campaignId: number) => {
+    navigate(`/campaigns/${campaignId}`);
+  };
 
   return (
     <Layout>
@@ -138,8 +142,12 @@ const Campaigns = () => {
               </thead>
               <tbody>
                 {mockCampaigns.map((campaign) => (
-                  <tr key={campaign.id} className="border-b border-gray-200 hover:bg-gray-50">
-                    <td className="p-4">
+                  <tr 
+                    key={campaign.id} 
+                    className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+                    onClick={() => handleCampaignClick(campaign.id)}
+                  >
+                    <td className="p-4" onClick={(e) => e.stopPropagation()}>
                       <input type="checkbox" className="rounded border-gray-300" />
                     </td>
                     <td className="p-4">
@@ -153,7 +161,7 @@ const Campaigns = () => {
                     <td className="p-4">{campaign.activated || '-'}</td>
                     <td className="p-4">{campaign.opened || '-'}</td>
                     <td className="p-4">{campaign.replied || '-'}</td>
-                    <td className="p-4">
+                    <td className="p-4" onClick={(e) => e.stopPropagation()}>
                       <button className="text-gray-400 hover:text-gray-600">
                         •••
                       </button>
