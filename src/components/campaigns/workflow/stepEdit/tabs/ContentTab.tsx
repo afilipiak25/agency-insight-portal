@@ -2,6 +2,8 @@
 import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { AlertCircle } from "lucide-react";
 
 interface ContentTabProps {
   localTitle: string;
@@ -34,15 +36,29 @@ export const ContentTab = ({
         <label className="text-sm font-medium mb-2 block">
           Prompt Template
         </label>
+        <div className="flex items-center text-amber-600 text-sm bg-amber-50 p-2 rounded mb-2">
+          <AlertCircle className="h-4 w-4 mr-2" />
+          <p>Use variables like #FirstName#, #CompanyName#, etc. in your template.</p>
+        </div>
         <Textarea
           value={localPromptTemplate}
           onChange={(e) => setLocalPromptTemplate(e.target.value)}
           placeholder="Enter prompt template..."
-          className="min-h-[200px] font-mono text-sm"
+          className="min-h-[250px] font-mono text-sm"
         />
-        <p className="text-xs text-gray-500 mt-1">
-          Use variables like #FirstName#, #CompanyName#, etc.
-        </p>
+        <div className="flex justify-end mt-3">
+          <Button 
+            variant="secondary" 
+            size="sm"
+            className="text-xs"
+            onClick={() => {
+              const defaultTemplate = "Hey #FirstName#,\n\nI noticed you work at #CompanyName# as a #JobTitle#.\n\nWould you be interested in discussing how we might be able to help with your #Industry# challenges?";
+              setLocalPromptTemplate(defaultTemplate);
+            }}
+          >
+            Insert Example Template
+          </Button>
+        </div>
       </div>
     </div>
   );

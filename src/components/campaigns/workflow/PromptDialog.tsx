@@ -62,7 +62,7 @@ export const PromptDialog = ({
 
   const handleGenerate = () => {
     // This would normally call an API to generate text based on the prompt and lead data
-    // For now, we'll just create a simple simulation
+    // For now, we'll create a simple simulation
     let result = promptTemplate;
     
     if (lead) {
@@ -106,7 +106,7 @@ export const PromptDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl">
+      <DialogContent className="max-w-4xl w-[90vw] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {getStepIcon()}
@@ -159,7 +159,7 @@ export const PromptDialog = ({
                 </div>
                 
                 <Textarea 
-                  className="min-h-[300px] font-mono text-sm"
+                  className="min-h-[350px] font-mono text-sm"
                   value={promptTemplate}
                   onChange={(e) => setPromptTemplate(e.target.value)}
                 />
@@ -177,7 +177,7 @@ export const PromptDialog = ({
               <TabsContent value="preview" className="space-y-4">
                 {generated ? (
                   <>
-                    <div className="border rounded p-4 min-h-[300px] bg-white whitespace-pre-wrap">
+                    <div className="border rounded p-4 min-h-[350px] bg-white whitespace-pre-wrap">
                       {generated}
                     </div>
                     
@@ -199,7 +199,7 @@ export const PromptDialog = ({
                     </div>
                   </>
                 ) : (
-                  <div className="flex flex-col items-center justify-center min-h-[300px] text-gray-500">
+                  <div className="flex flex-col items-center justify-center min-h-[350px] text-gray-500">
                     <p>Generate a preview to see the result</p>
                     <Button 
                       variant="outline" 
