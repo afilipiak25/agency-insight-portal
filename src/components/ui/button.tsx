@@ -1,4 +1,3 @@
-
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -10,16 +9,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-amplifa text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-md hover:-translate-y-0.5",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:shadow-sm hover:-translate-y-0.5",
-        secondary:
-          "bg-amplifa-purple text-white hover:bg-amplifa-purple/90 hover:shadow-md hover:-translate-y-0.5",
-        ghost: "hover:bg-amplifa-purple/10 hover:text-amplifa-purple hover:-translate-y-0.5",
-        link: "text-amplifa-blue underline-offset-4 hover:underline hover:text-amplifa-blue/80",
-        orange: "bg-gradient-to-r from-amplifa-orange to-amplifa-pink text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
+        default: "bg-primary text-white hover:bg-primary/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0",
+        destructive: "bg-red-500 text-white hover:bg-red-500/90 hover:shadow-md hover:-translate-y-0.5",
+        outline: "border border-gray-200 bg-background hover:bg-gray-50 hover:text-primary hover:shadow-sm hover:-translate-y-0.5",
+        secondary: "bg-primary/10 text-primary hover:bg-primary/20 hover:shadow-md hover:-translate-y-0.5",
+        ghost: "hover:bg-primary/5 hover:text-primary hover:-translate-y-0.5",
+        link: "text-primary underline-offset-4 hover:underline hover:text-primary/80",
+        orange: "bg-gradient-to-r from-amplifa-orange to-amplifa-pink text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5",
         pink: "bg-amplifa-pink text-white hover:bg-amplifa-pink/90 hover:shadow-md hover:-translate-y-0.5",
         blue: "bg-amplifa-blue text-white hover:bg-amplifa-blue/90 hover:shadow-md hover:-translate-y-0.5",
         gradient: "bg-gradient-to-r from-amplifa-orange to-amplifa-pink text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95 transition-all duration-300",
