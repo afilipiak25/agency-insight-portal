@@ -6,6 +6,12 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Search, Filter, MoreHorizontal, EyeIcon, Mail, Clock, CheckCircle, XCircle } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface CampaignLeadsTableProps {
   campaignId: number;
@@ -68,6 +74,21 @@ export const CampaignLeadsTable = ({ campaignId }: CampaignLeadsTableProps) => {
       default:
         return null;
     }
+  };
+
+  const handleViewDetails = (leadId: string) => {
+    console.log(`View details for lead ${leadId}`);
+    // Add functionality to view lead details
+  };
+
+  const handleAddToCampaign = (leadId: string) => {
+    console.log(`Add lead ${leadId} to campaign`);
+    // Add functionality to add lead to campaign
+  };
+
+  const handleEditLead = (leadId: string) => {
+    console.log(`Edit lead ${leadId}`);
+    // Add functionality to edit lead
   };
 
   return (
@@ -145,12 +166,41 @@ export const CampaignLeadsTable = ({ campaignId }: CampaignLeadsTableProps) => {
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex justify-end">
-                        <Button variant="ghost" size="icon" className="h-7 w-7">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-7 w-7"
+                          onClick={() => handleViewDetails(lead.id)}
+                        >
                           <EyeIcon className="w-4 h-4 text-gray-500" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-7 w-7">
-                          <MoreHorizontal className="w-4 h-4 text-gray-500" />
-                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-7 w-7">
+                              <MoreHorizontal className="w-4 h-4 text-gray-500" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="bg-white shadow-md border border-gray-200 rounded-md w-48 z-50">
+                            <DropdownMenuItem 
+                              className="cursor-pointer hover:bg-gray-100 text-sm text-gray-700 py-2 px-3"
+                              onClick={() => handleViewDetails(lead.id)}
+                            >
+                              View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              className="cursor-pointer hover:bg-gray-100 text-sm text-gray-700 py-2 px-3"
+                              onClick={() => handleAddToCampaign(lead.id)}
+                            >
+                              Add to Campaign
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              className="cursor-pointer hover:bg-gray-100 text-sm text-gray-700 py-2 px-3"
+                              onClick={() => handleEditLead(lead.id)}
+                            >
+                              Edit Lead
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </td>
                   </tr>
