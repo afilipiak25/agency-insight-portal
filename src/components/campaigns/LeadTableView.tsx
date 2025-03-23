@@ -1,10 +1,9 @@
-
 import React, { useState } from "react";
 import { 
   Check, X, ChevronDown, Download, Filter, Plus, 
   Mail, Link as LinkIcon, Search, MoreHorizontal,
   RefreshCw, Globe, Zap, FileText, User, Instagram,
-  LinkedinIcon, Eye, MessageSquare
+  LinkedinIcon, Eye, MessageSquare, SplitSquareVertical
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -21,6 +20,14 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { StepEditDialog } from "./workflow/StepEditDialog";
 import { WorkflowStep, DEFAULT_PROMPT_TEMPLATES } from "./types/workflow";
 import { PromptDialog } from "./workflow/PromptDialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface LeadTableViewProps {
   leads: ApolloLead[];
@@ -428,253 +435,296 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
         </div>
       </div>
 
-      <div id="leadTableContainer" className="overflow-x-auto border rounded-lg shadow-sm">
-        <table className="lead-table min-w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-50 border-b">
-              <th className="px-4 py-3 text-left sticky left-0 bg-gray-50 z-10">
-                <input 
-                  type="checkbox" 
-                  className="rounded border-gray-300"
-                  checked={selectedLeads.length === displayLeads.length && displayLeads.length > 0}
-                  onChange={toggleSelectAll}
-                />
-              </th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">First Name</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Last Name</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Full Name</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Job Title</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Location</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Company Domain</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">LinkedIn Profile</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Scrape Website</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Enrich Person</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Find Email</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (1)</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (2)</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (3)</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (4)</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (5)</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Connections</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Followers</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Industry</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Company Size</th>
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Technologies</th>
-              
-              {workflowSteps.map((step) => (
-                <th 
-                  key={step.id} 
-                  className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleStepClick(step.id)}
-                >
-                  <div className="flex items-center gap-1">
-                    {step.icon}
-                    {step.title}
-                  </div>
-                </th>
-              ))}
-              
-              <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayLeads.length === 0 ? (
-              <tr>
-                <td colSpan={27} className="px-4 py-8 text-center text-gray-500">
-                  No leads found. Try adjusting your filters.
-                </td>
-              </tr>
-            ) : (
-              displayLeads.map(lead => {
-                const firstName = lead.name.split(' ')[0];
-                const lastName = lead.name.split(' ').slice(1).join(' ');
-                const hasEmail = !!lead.email;
-                
-                return (
-                  <tr 
-                    key={lead.id} 
-                    className="border-b hover:bg-gray-50 cursor-pointer"
-                    onClick={() => setSelectedLead(lead)}
-                  >
-                    <td 
-                      className="px-4 py-3 sticky left-0 bg-white z-10"
-                      onClick={e => {
-                        e.stopPropagation();
-                        toggleSelectLead(lead.id);
-                      }}
+      <div className="flex flex-col gap-4">
+        {/* First table for lead information up to Technologies */}
+        <div id="leadTableContainer-info" className="overflow-x-auto border rounded-lg shadow-sm">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50">
+                <TableHead className="sticky left-0 bg-gray-50 z-10 w-10">
+                  <input 
+                    type="checkbox" 
+                    className="rounded border-gray-300"
+                    checked={selectedLeads.length === displayLeads.length && displayLeads.length > 0}
+                    onChange={toggleSelectAll}
+                  />
+                </TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">First Name</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Last Name</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Full Name</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Job Title</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Location</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Company Domain</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">LinkedIn Profile</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Scrape Website</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Enrich Person</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Find Email</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (1)</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (2)</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (3)</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (4)</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Find Work Email (5)</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Connections</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Followers</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Industry</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Company Size</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Technologies</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {displayLeads.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={21} className="text-center text-gray-500">
+                    No leads found. Try adjusting your filters.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                displayLeads.map(lead => {
+                  const firstName = lead.name.split(' ')[0];
+                  const lastName = lead.name.split(' ').slice(1).join(' ');
+                  const hasEmail = !!lead.email;
+                  
+                  return (
+                    <TableRow 
+                      key={`info-${lead.id}`} 
+                      className="border-b hover:bg-gray-50 cursor-pointer"
+                      onClick={() => setSelectedLead(lead)}
                     >
-                      <input 
-                        type="checkbox" 
-                        className="rounded border-gray-300"
-                        checked={selectedLeads.includes(lead.id)}
-                        onChange={(e) => {
+                      <TableCell className="sticky left-0 bg-white z-10"
+                        onClick={e => {
                           e.stopPropagation();
                           toggleSelectLead(lead.id);
                         }}
-                      />
-                    </td>
-                    
-                    <td className="px-4 py-3 whitespace-nowrap">{firstName}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">{lastName}</td>
-                    <td className="px-4 py-3 font-medium whitespace-nowrap">{lead.name}</td>
-                    <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{lead.position}</td>
-                    <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{lead.location}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      {lead.companyDomain ? (
-                        <a href={`https://${lead.companyDomain}`} target="_blank" rel="noopener noreferrer" 
-                           className="text-blue-600 hover:underline flex items-center" 
-                           onClick={(e) => e.stopPropagation()}>
-                          <Globe className="w-3 h-3 mr-1" /> {lead.companyDomain}
-                        </a>
-                      ) : (
-                        <span className="text-red-500">Missing input</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      {lead.linkedin ? (
-                        <a href={lead.linkedin} target="_blank" rel="noopener noreferrer" 
-                           className="text-blue-600 hover:underline flex items-center"
-                           onClick={(e) => e.stopPropagation()}>
-                          <LinkIcon className="w-3 h-3 mr-1" /> Profile
-                        </a>
-                      ) : (
-                        <span className="text-red-500 flex items-center">
-                          <X className="w-3 h-3 mr-1" /> Not found
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <Button size="sm" variant="outline" className="text-xs py-1 h-7"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}>
-                        <Globe className="w-3 h-3 mr-1" /> Scrape
-                      </Button>
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <Button size="sm" variant="outline" className="text-xs py-1 h-7"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}>
-                        <User className="w-3 h-3 mr-1" /> Enrich
-                      </Button>
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      {hasEmail ? (
-                        <span className="flex items-center text-green-600">
-                          <Check className="w-4 h-4 mr-1" /> {lead.email}
-                        </span>
-                      ) : (
-                        <Button 
-                          size="sm" 
-                          variant="outline" 
-                          className="text-xs py-1 h-7"
-                          onClick={(e) => {
+                      >
+                        <input 
+                          type="checkbox" 
+                          className="rounded border-gray-300"
+                          checked={selectedLeads.includes(lead.id)}
+                          onChange={(e) => {
                             e.stopPropagation();
-                            handleOpenEmailFinder(lead);
+                            toggleSelectLead(lead.id);
                           }}
-                        >
-                          <Search className="w-3 h-3 mr-1" /> Find Email
+                        />
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">{firstName}</TableCell>
+                      <TableCell className="whitespace-nowrap">{lastName}</TableCell>
+                      <TableCell className="font-medium whitespace-nowrap">{lead.name}</TableCell>
+                      <TableCell className="text-gray-600 whitespace-nowrap">{lead.position}</TableCell>
+                      <TableCell className="text-gray-600 whitespace-nowrap">{lead.location}</TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {lead.companyDomain ? (
+                          <a href={`https://${lead.companyDomain}`} target="_blank" rel="noopener noreferrer" 
+                             className="text-blue-600 hover:underline flex items-center" 
+                             onClick={(e) => e.stopPropagation()}>
+                            <Globe className="w-3 h-3 mr-1" /> {lead.companyDomain}
+                          </a>
+                        ) : (
+                          <span className="text-red-500">Missing input</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {lead.linkedin ? (
+                          <a href={lead.linkedin} target="_blank" rel="noopener noreferrer" 
+                             className="text-blue-600 hover:underline flex items-center"
+                             onClick={(e) => e.stopPropagation()}>
+                            <LinkIcon className="w-3 h-3 mr-1" /> Profile
+                          </a>
+                        ) : (
+                          <span className="text-red-500 flex items-center">
+                            <X className="w-3 h-3 mr-1" /> Not found
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        <Button size="sm" variant="outline" className="text-xs py-1 h-7"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}>
+                          <Globe className="w-3 h-3 mr-1" /> Scrape
                         </Button>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-gray-500 text-sm whitespace-nowrap">
-                      {hasEmail ? (
-                        <span className="flex items-center text-green-600">
-                          <Check className="w-4 h-4 mr-1" /> {lead.email}
-                        </span>
-                      ) : (
-                        <span className="text-gray-500 text-sm">Run condition not met</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-gray-500 text-sm whitespace-nowrap">
-                      {hasEmail ? (
-                        <span className="flex items-center text-green-600">
-                          <Check className="w-4 h-4 mr-1" /> {lead.email}
-                        </span>
-                      ) : (
-                        <span className="text-gray-500 text-sm">Run condition not met</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-gray-500 text-sm whitespace-nowrap">
-                      {hasEmail ? (
-                        <span className="flex items-center text-green-600">
-                          <Check className="w-4 h-4 mr-1" /> {lead.email}
-                        </span>
-                      ) : (
-                        <span className="text-gray-500 text-sm">Run condition not met</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-gray-500 text-sm whitespace-nowrap">
-                      {hasEmail ? (
-                        <span className="flex items-center text-green-600">
-                          <Check className="w-4 h-4 mr-1" /> {lead.email}
-                        </span>
-                      ) : (
-                        <span className="text-gray-500 text-sm">Run condition not met</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-gray-500 text-sm whitespace-nowrap">
-                      {hasEmail ? (
-                        <span className="flex items-center text-green-600">
-                          <Check className="w-4 h-4 mr-1" /> {lead.email}
-                        </span>
-                      ) : (
-                        <span className="text-gray-500 text-sm">Run condition not met</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
-                      {Math.floor(Math.random() * 10000)}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
-                      {Math.floor(Math.random() * 10000)}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
-                      {lead.industry || "Unknown"}
-                    </td>
-                    <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
-                      {lead.companySize || "Unknown"}
-                    </td>
-                    <td className="px-4 py-3 min-w-[200px]">
-                      {lead.technology && lead.technology.length > 0 ? (
-                        <div className="flex flex-wrap gap-1">
-                          {lead.technology.slice(0, 2).map((tech, i) => (
-                            <span key={i} className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-xs">
-                              {tech}
-                            </span>
-                          ))}
-                          {lead.technology.length > 2 && (
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <button 
-                                  className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  +{lead.technology.length - 2}
-                                </button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-48" onClick={(e) => e.stopPropagation()}>
-                                <div className="text-sm font-medium mb-2">All Technologies</div>
-                                <div className="flex flex-wrap gap-1">
-                                  {lead.technology.map((tech, i) => (
-                                    <span key={i} className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-xs">
-                                      {tech}
-                                    </span>
-                                  ))}
-                                </div>
-                              </PopoverContent>
-                            </Popover>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="text-gray-400 text-xs">No data</span>
-                      )}
-                    </td>
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        <Button size="sm" variant="outline" className="text-xs py-1 h-7"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}>
+                          <User className="w-3 h-3 mr-1" /> Enrich
+                        </Button>
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {hasEmail ? (
+                          <span className="flex items-center text-green-600">
+                            <Check className="w-4 h-4 mr-1" /> {lead.email}
+                          </span>
+                        ) : (
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="text-xs py-1 h-7"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleOpenEmailFinder(lead);
+                            }}
+                          >
+                            <Search className="w-3 h-3 mr-1" /> Find Email
+                          </Button>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-gray-500 text-sm whitespace-nowrap">
+                        {hasEmail ? (
+                          <span className="flex items-center text-green-600">
+                            <Check className="w-4 h-4 mr-1" /> {lead.email}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500 text-sm">Run condition not met</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-gray-500 text-sm whitespace-nowrap">
+                        {hasEmail ? (
+                          <span className="flex items-center text-green-600">
+                            <Check className="w-4 h-4 mr-1" /> {lead.email}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500 text-sm">Run condition not met</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-gray-500 text-sm whitespace-nowrap">
+                        {hasEmail ? (
+                          <span className="flex items-center text-green-600">
+                            <Check className="w-4 h-4 mr-1" /> {lead.email}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500 text-sm">Run condition not met</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-gray-500 text-sm whitespace-nowrap">
+                        {hasEmail ? (
+                          <span className="flex items-center text-green-600">
+                            <Check className="w-4 h-4 mr-1" /> {lead.email}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500 text-sm">Run condition not met</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-gray-500 text-sm whitespace-nowrap">
+                        {hasEmail ? (
+                          <span className="flex items-center text-green-600">
+                            <Check className="w-4 h-4 mr-1" /> {lead.email}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500 text-sm">Run condition not met</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-gray-600 whitespace-nowrap">
+                        {Math.floor(Math.random() * 10000)}
+                      </TableCell>
+                      <TableCell className="text-gray-600 whitespace-nowrap">
+                        {Math.floor(Math.random() * 10000)}
+                      </TableCell>
+                      <TableCell className="text-gray-600 whitespace-nowrap">
+                        {lead.industry || "Unknown"}
+                      </TableCell>
+                      <TableCell className="text-gray-600 whitespace-nowrap">
+                        {lead.companySize || "Unknown"}
+                      </TableCell>
+                      <TableCell className="min-w-[200px]">
+                        {lead.technology && lead.technology.length > 0 ? (
+                          <div className="flex flex-wrap gap-1">
+                            {lead.technology.slice(0, 2).map((tech, i) => (
+                              <span key={i} className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-xs">
+                                {tech}
+                              </span>
+                            ))}
+                            {lead.technology.length > 2 && (
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <button 
+                                    className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    +{lead.technology.length - 2}
+                                  </button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-48" onClick={(e) => e.stopPropagation()}>
+                                  <div className="text-sm font-medium mb-2">All Technologies</div>
+                                  <div className="flex flex-wrap gap-1">
+                                    {lead.technology.map((tech, i) => (
+                                      <span key={i} className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-xs">
+                                        {tech}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </PopoverContent>
+                              </Popover>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-gray-400 text-xs">No data</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        
+        {/* Visual separator */}
+        <div className="flex items-center justify-center gap-2">
+          <div className="h-px bg-gray-200 flex-grow"></div>
+          <div className="flex items-center px-3 py-1 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full text-purple-700 border border-purple-200 shadow-sm">
+            <SplitSquareVertical className="w-4 h-4 mr-2" />
+            <span className="text-sm font-medium">Workflow Steps</span>
+          </div>
+          <div className="h-px bg-gray-200 flex-grow"></div>
+        </div>
+        
+        {/* Second table for workflow steps */}
+        <div id="leadTableContainer-workflow" className="overflow-x-auto border rounded-lg shadow-sm">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50">
+                <TableHead className="sticky left-0 bg-gray-50 z-10 w-10">ID</TableHead>
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Name</TableHead>
+                
+                {workflowSteps.map((step) => (
+                  <TableHead 
+                    key={step.id} 
+                    className="font-medium text-sm text-gray-500 whitespace-nowrap cursor-pointer hover:bg-gray-100"
+                    onClick={() => handleStepClick(step.id)}
+                  >
+                    <div className="flex items-center gap-1">
+                      {step.icon}
+                      {step.title}
+                    </div>
+                  </TableHead>
+                ))}
+                
+                <TableHead className="font-medium text-sm text-gray-500 whitespace-nowrap">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {displayLeads.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={workflowSteps.length + 3} className="text-center text-gray-500">
+                    No leads found. Try adjusting your filters.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                displayLeads.map(lead => (
+                  <TableRow 
+                    key={`workflow-${lead.id}`} 
+                    className="border-b hover:bg-gray-50 cursor-pointer"
+                    onClick={() => setSelectedLead(lead)}
+                  >
+                    <TableCell className="sticky left-0 bg-white z-10 font-medium">{lead.id}</TableCell>
+                    <TableCell className="whitespace-nowrap">{lead.name}</TableCell>
                     
                     {workflowSteps.map((step) => (
-                      <td 
+                      <TableCell 
                         key={step.id}
-                        className="px-4 py-3 cursor-pointer hover:bg-gray-100"
+                        className="cursor-pointer hover:bg-gray-100"
                         onClick={(e) => {
                           e.stopPropagation();
                           handlePromptClick(step, lead);
@@ -690,76 +740,7 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
                           {step.type === 'profile-visit' && <Eye className="h-4 w-4" />}
                           {step.type === 'instagram' && <Instagram className="h-4 w-4" />}
                         </Button>
-                      </td>
+                      </TableCell>
                     ))}
                     
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => e.stopPropagation()}>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                          <DropdownMenuItem>View Details</DropdownMenuItem>
-                          <DropdownMenuItem>Add to Campaign</DropdownMenuItem>
-                          <DropdownMenuItem>Edit Lead</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {selectedLead && (
-        <LeadDeepResearchDialog
-          lead={selectedLead}
-          open={!!selectedLead}
-          onClose={() => setSelectedLead(null)}
-        />
-      )}
-
-      {selectedStepId && (
-        <StepEditDialog 
-          selectedStepId={selectedStepId}
-          steps={workflowSteps}
-          updateSteps={updateSteps}
-          updateWaitDays={updateWaitDays}
-        />
-      )}
-      
-      {selectedPromptStep && selectedPromptLead && (
-        <PromptDialog
-          open={!!selectedPromptStep && !!selectedPromptLead}
-          onOpenChange={(open) => {
-            if (!open) {
-              setSelectedPromptStep(null);
-              setSelectedPromptLead(null);
-            }
-          }}
-          step={selectedPromptStep}
-          lead={selectedPromptLead}
-          onUpdatePrompt={updateStepPrompt}
-        />
-      )}
-
-      {showEmailFinderDialog && currentLeadForEmail && (
-        <Dialog open={showEmailFinderDialog} onOpenChange={setShowEmailFinderDialog}>
-          <DialogContent className="max-w-md">
-            <DialogTitle>Find Email for {currentLeadForEmail.name}</DialogTitle>
-            <div className="space-y-4 py-4">
-              <div className="flex items-center justify-center">
-                <div className="animate-spin h-8 w-8 border-2 border-purple-500 rounded-full border-t-transparent"></div>
-              </div>
-              <p className="text-center text-sm text-gray-500">Searching for email addresses...</p>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
-    </div>
-  );
-};
+                    <TableCell className="whitespace-nowrap">
