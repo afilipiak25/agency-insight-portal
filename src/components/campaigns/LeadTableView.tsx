@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { 
   Check, X, ChevronDown, Download, Filter, Plus, 
@@ -744,3 +745,94 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
                     ))}
                     
                     <TableCell className="whitespace-nowrap">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <RefreshCw className="w-4 h-4 mr-2" /> Run all steps
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Zap className="w-4 h-4 mr-2" /> Run selected step
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <FileText className="w-4 h-4 mr-2" /> View details
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+      
+      {/* Dialogs */}
+      {selectedStepId && (
+        <StepEditDialog
+          open={selectedStepId !== null}
+          onOpenChange={() => setSelectedStepId(null)}
+          step={workflowSteps.find(step => step.id === selectedStepId) || workflowSteps[0]}
+          onStepsUpdate={updateSteps}
+          allSteps={workflowSteps}
+          onWaitDaysChange={updateWaitDays}
+        />
+      )}
+      
+      {selectedPromptStep && selectedPromptLead && (
+        <PromptDialog
+          open={selectedPromptStep !== null && selectedPromptLead !== null}
+          onOpenChange={() => {
+            setSelectedPromptStep(null);
+            setSelectedPromptLead(null);
+          }}
+          step={selectedPromptStep}
+          lead={selectedPromptLead}
+          onPromptUpdate={(promptTemplate) => {
+            if (selectedPromptStep) {
+              updateStepPrompt(selectedPromptStep.id, promptTemplate);
+            }
+          }}
+        />
+      )}
+      
+      {selectedLead && (
+        <LeadDeepResearchDialog
+          open={selectedLead !== null && !selectedPromptStep && !selectedStepId}
+          onOpenChange={() => setSelectedLead(null)}
+          lead={selectedLead}
+        />
+      )}
+      
+      {currentLeadForEmail && (
+        <Dialog 
+          open={showEmailFinderDialog} 
+          onOpenChange={setShowEmailFinderDialog}
+        >
+          <DialogContent className="sm:max-w-[500px]">
+            <DialogTitle>Find Email for {currentLeadForEmail.name}</DialogTitle>
+            <div className="py-4">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">Searching for email...</span>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-violet-600"></div>
+                </div>
+                <div className="text-sm text-gray-600">
+                  Searching various sources to find the most accurate email address for {currentLeadForEmail.name} at {currentLeadForEmail.company}.
+                </div>
+                <div className="text-sm text-gray-600">
+                  This may take up to 60 seconds.
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+    </div>
+  );
+};
