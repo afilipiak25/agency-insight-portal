@@ -107,4 +107,7 @@ export interface ApolloLead {
   
   // Last LinkedIn activity for personalization
   lastLinkedInActivity?: string;
+  
+  // Lead score for quality assessment (0-100)
+  score?: number;
 }
