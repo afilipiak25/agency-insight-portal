@@ -25,14 +25,14 @@ export const PromptPreviewTab = ({
   return (
     <div className="space-y-4">
       {isGenerateDisabled ? (
-        <div className="flex flex-col items-center justify-center min-h-[400px] border rounded p-4 bg-blue-50">
-          <User className="h-8 w-8 text-blue-500 mb-4" />
-          <p className="text-blue-600 font-medium">Bitte wählen Sie einen Lead aus</p>
-          <p className="text-blue-500 text-sm mt-2">Um eine Vorschau zu generieren, müssen Sie zuerst einen Lead auswählen.</p>
+        <div className="flex flex-col items-center justify-center min-h-[400px] border rounded p-4 bg-orange-50">
+          <User className="h-8 w-8 text-orange-500 mb-4" />
+          <p className="text-orange-600 font-medium">Bitte wählen Sie einen Lead aus</p>
+          <p className="text-orange-500 text-sm mt-2">Um eine Vorschau zu generieren, müssen Sie zuerst einen Lead auswählen.</p>
         </div>
       ) : isLoading ? (
         <div className="flex flex-col items-center justify-center min-h-[400px] border rounded p-4 bg-gray-50">
-          <Loader2 className="h-8 w-8 text-purple-500 animate-spin mb-4" />
+          <Loader2 className="h-8 w-8 text-pink-500 animate-spin mb-4" />
           <p className="text-gray-600">Generiere Vorschau...</p>
         </div>
       ) : generated ? (
@@ -45,7 +45,7 @@ export const PromptPreviewTab = ({
             <Button variant="outline" onClick={() => setActiveTab("edit")}>
               Zurück zum Bearbeiten
             </Button>
-            <Button onClick={handleCopy} className="bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white">
+            <Button onClick={handleCopy} className="bg-gradient-to-r from-orange-400 to-pink-500 hover:opacity-90 text-white">
               {copied ? (
                 <>
                   <Check className="mr-1 h-4 w-4" /> Kopiert
@@ -64,7 +64,7 @@ export const PromptPreviewTab = ({
           <p className="text-gray-600 font-medium">Vorschau verfügbar nach Generierung</p>
           <p className="text-gray-500 text-sm mt-2">Generieren Sie eine Vorschau, um das Ergebnis zu sehen</p>
           <Button 
-            variant="outline" 
+            variant="gradient" 
             className="mt-4"
             onClick={handleGenerate}
           >
