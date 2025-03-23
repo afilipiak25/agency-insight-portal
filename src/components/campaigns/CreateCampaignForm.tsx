@@ -88,7 +88,7 @@ export const CreateCampaignForm = () => {
             {isApolloConnected && selectedDataSource === "b2b" && (
               <>
                 <div className="border-t pt-6">
-                  <h3 className="text-lg font-semibold mb-4">Erweiterte Apollo.io Filter</h3>
+                  <h3 className="text-lg font-semibold mb-4 gradient-text">Erweiterte Apollo.io Filter</h3>
                   <AdvancedTargeting 
                     filters={filters}
                     onFilterChange={handleFilterChange}
@@ -122,7 +122,7 @@ export const CreateCampaignForm = () => {
             <div className="mt-8 flex justify-end">
               <Button 
                 onClick={() => setShowPublishDialog(true)}
-                className="bg-violet-600 hover:bg-violet-700 text-white px-8"
+                className="bg-gradient-amplifa hover:opacity-90 text-white px-8 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
                 Kampagne veröffentlichen
               </Button>

@@ -55,7 +55,7 @@ export const LeadSelector = ({ leads, selectedLead, onLeadSelect }: LeadSelector
             className="w-full flex justify-between items-center h-10 px-3 py-2 bg-white"
           >
             <div className="flex items-center gap-2 text-left truncate">
-              <User className="h-4 w-4 text-gray-500" />
+              <User className="h-4 w-4 text-amplifa-purple" />
               <span className="truncate">
                 {selectedLead ? selectedLead.name : "Lead auswählen"}
               </span>
@@ -64,17 +64,17 @@ export const LeadSelector = ({ leads, selectedLead, onLeadSelect }: LeadSelector
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent 
-          className="w-[300px] p-0 bg-white" 
+          className="w-[300px] p-0 bg-white shadow-md rounded-md border border-gray-200" 
           align="start"
         >
           <div className="p-2 border-b">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-amplifa-purple/60" />
               <Input
                 placeholder="Suchen..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8"
+                className="pl-8 pr-2 py-1 h-9 text-sm border-gray-200"
               />
             </div>
           </div>
@@ -85,8 +85,8 @@ export const LeadSelector = ({ leads, selectedLead, onLeadSelect }: LeadSelector
                 filteredLeads.map((lead) => (
                   <button
                     key={lead.id}
-                    className={`flex items-center w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-gray-100 ${
-                      selectedLead?.id === lead.id ? "bg-gray-100" : ""
+                    className={`flex items-center w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-amplifa-purple/5 transition-colors duration-200 ${
+                      selectedLead?.id === lead.id ? "bg-amplifa-purple/10" : ""
                     }`}
                     onClick={() => {
                       onLeadSelect(lead);
@@ -100,7 +100,7 @@ export const LeadSelector = ({ leads, selectedLead, onLeadSelect }: LeadSelector
                       </div>
                     </div>
                     {selectedLead?.id === lead.id && (
-                      <Check className="h-4 w-4 text-green-600" />
+                      <Check className="h-4 w-4 text-amplifa-purple" />
                     )}
                   </button>
                 ))

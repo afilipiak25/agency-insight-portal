@@ -188,9 +188,9 @@ export const PromptDialog = ({
           </div>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <Button variant="outline" onClick={handleCancel}>Abbrechen</Button>
-          <Button onClick={handleSave}>Änderungen speichern</Button>
+          <Button variant="gradient" onClick={handleSave}>Änderungen speichern</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
