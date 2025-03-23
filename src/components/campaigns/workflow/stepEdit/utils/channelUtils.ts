@@ -9,10 +9,26 @@ export interface ChannelOption {
 }
 
 export const channelOptions: ChannelOption[] = [
-  { value: 'email', label: 'Email', icon: <Mail className="w-4 h-4 text-blue-600" /> },
-  { value: 'linkedin', label: 'LinkedIn', icon: <MessageSquare className="w-4 h-4 text-blue-600" /> },
-  { value: 'profile-visit', label: 'Profile Visit', icon: <Eye className="w-4 h-4 text-blue-600" /> },
-  { value: 'instagram', label: 'Instagram', icon: <Instagram className="w-4 h-4 text-blue-600" /> },
+  { 
+    value: 'email', 
+    label: 'Email', 
+    icon: <Mail className="w-4 h-4 text-blue-600" /> 
+  },
+  { 
+    value: 'linkedin', 
+    label: 'LinkedIn', 
+    icon: <MessageSquare className="w-4 h-4 text-blue-600" /> 
+  },
+  { 
+    value: 'profile-visit', 
+    label: 'Profile Visit', 
+    icon: <Eye className="w-4 h-4 text-blue-600" /> 
+  },
+  { 
+    value: 'instagram', 
+    label: 'Instagram', 
+    icon: <Instagram className="w-4 h-4 text-blue-600" /> 
+  },
 ];
 
 export const DEFAULT_PROMPT_TEMPLATES: Record<string, string> = {
