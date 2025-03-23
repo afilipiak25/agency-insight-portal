@@ -84,7 +84,7 @@ const Campaigns = () => {
             </div>
             <Button
               onClick={() => navigate('/campaigns/create')}
-              variant="default"
+              variant="gradient"
               className="gap-2"
             >
               Neue Kampagne erstellen
@@ -94,25 +94,25 @@ const Campaigns = () => {
 
           <div className="flex gap-4 mb-6">
             <div className="relative">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 hover:-translate-y-0.5 transition-transform">
                 Status: Alle
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </div>
             <div className="relative">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 hover:-translate-y-0.5 transition-transform">
                 Sourced: Alle
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </div>
             <div className="relative">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 hover:-translate-y-0.5 transition-transform">
                 Activated: Alle
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </div>
             <div className="relative">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 hover:-translate-y-0.5 transition-transform">
                 Opened: Alle
                 <ChevronDown className="w-4 h-4" />
               </Button>
