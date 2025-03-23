@@ -180,24 +180,37 @@ export const CampaignLeadsTable = ({ campaignId }: CampaignLeadsTableProps) => {
                               <MoreHorizontal className="w-4 h-4 text-gray-500" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="bg-white shadow-md border border-gray-200 rounded-md w-48 z-50">
+                          <DropdownMenuContent 
+                            align="end" 
+                            className="bg-white shadow-md border border-gray-200 rounded-md w-48 z-[100]"
+                            style={{ backgroundColor: "white" }}
+                          >
                             <DropdownMenuItem 
                               className="cursor-pointer hover:bg-gray-100 text-sm text-gray-700 py-2 px-3"
                               onClick={() => handleViewDetails(lead.id)}
                             >
-                              View Details
+                              <div className="flex items-center gap-2">
+                                <EyeIcon className="w-4 h-4" />
+                                <span>View Details</span>
+                              </div>
                             </DropdownMenuItem>
                             <DropdownMenuItem 
                               className="cursor-pointer hover:bg-gray-100 text-sm text-gray-700 py-2 px-3"
                               onClick={() => handleAddToCampaign(lead.id)}
                             >
-                              Add to Campaign
+                              <div className="flex items-center gap-2">
+                                <Mail className="w-4 h-4" />
+                                <span>Add to Campaign</span>
+                              </div>
                             </DropdownMenuItem>
                             <DropdownMenuItem 
                               className="cursor-pointer hover:bg-gray-100 text-sm text-gray-700 py-2 px-3"
                               onClick={() => handleEditLead(lead.id)}
                             >
-                              Edit Lead
+                              <div className="flex items-center gap-2">
+                                <MoreHorizontal className="w-4 h-4" />
+                                <span>Edit Lead</span>
+                              </div>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
