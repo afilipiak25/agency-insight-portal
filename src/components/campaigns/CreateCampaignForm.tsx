@@ -20,6 +20,7 @@ import { CampaignStepsNavigation } from "./CampaignStepsNavigation";
 import { LeadPreview } from "./LeadPreview";
 import { ApolloIntegration } from "./ApolloIntegration";
 import { useApolloFilters } from "./hooks/useApolloFilters";
+import { WorkflowVisualizationBoard } from "./workflow/WorkflowVisualizationBoard";
 
 export const CreateCampaignForm = () => {
   const [activeSection, setActiveSection] = useState<string>("targeting");
@@ -115,6 +116,12 @@ export const CreateCampaignForm = () => {
             />
           </div>
         );
+      case "visualization":
+        return (
+          <div className="space-y-6">
+            <WorkflowVisualizationBoard leads={filteredLeads} />
+          </div>
+        );
       case "settings":
         return (
           <div className="relative">
@@ -137,12 +144,12 @@ export const CreateCampaignForm = () => {
   return (
     <div className="p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className={`grid ${activeSection === "preview" ? "grid-cols-1" : "grid-cols-[1fr,400px]"} gap-8`}>
+        <div className={`grid ${activeSection === "preview" || activeSection === "visualization" ? "grid-cols-1" : "grid-cols-[1fr,400px]"} gap-8`}>
           <div className="space-y-8">
             {renderContent()}
           </div>
           
-          {activeSection !== "preview" && (
+          {activeSection !== "preview" && activeSection !== "visualization" && (
             <div className="sticky top-4 h-fit">
               <LeadPreview 
                 showEmailPreview={activeSection === "workflow"} 

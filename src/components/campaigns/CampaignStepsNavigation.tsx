@@ -1,71 +1,96 @@
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { 
+  Target, 
+  Workflow, 
+  FileText, 
+  Eye, 
+  Settings,
+  ChevronRight,
+  ChevronLeft,
+  MapPin
+} from "lucide-react";
 
 interface CampaignStepsNavigationProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
 }
 
-export const CampaignStepsNavigation = ({
-  activeSection,
-  onSectionChange,
+export const CampaignStepsNavigation = ({ 
+  activeSection, 
+  onSectionChange 
 }: CampaignStepsNavigationProps) => {
-  const renderProgressBar = () => {
-    const steps = ["targeting", "workflow", "resources", "preview", "settings"];
-    const currentIndex = steps.indexOf(activeSection);
-    const progress = ((currentIndex + 1) / steps.length) * 100;
+  const steps = [
+    { id: "targeting", label: "Targeting", icon: <Target className="w-4 h-4" /> },
+    { id: "workflow", label: "Workflow", icon: <Workflow className="w-4 h-4" /> },
+    { id: "resources", label: "Resources", icon: <FileText className="w-4 h-4" /> },
+    { id: "preview", label: "Preview", icon: <Eye className="w-4 h-4" /> },
+    { id: "visualization", label: "Visualization", icon: <MapPin className="w-4 h-4" /> },
+    { id: "settings", label: "Settings", icon: <Settings className="w-4 h-4" /> },
+  ];
 
-    return (
-      <div className="h-1 bg-violet-100 rounded-full w-full mb-8">
-        <div 
-          className="h-full bg-gradient-to-r from-orange-400 to-pink-500 rounded-full transition-all duration-500"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-    );
+  const currentIndex = steps.findIndex(step => step.id === activeSection);
+  const isFirstStep = currentIndex === 0;
+  const isLastStep = currentIndex === steps.length - 1;
+
+  const goToPreviousStep = () => {
+    if (!isFirstStep) {
+      onSectionChange(steps[currentIndex - 1].id);
+    }
+  };
+
+  const goToNextStep = () => {
+    if (!isLastStep) {
+      onSectionChange(steps[currentIndex + 1].id);
+    }
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      {renderProgressBar()}
-      <Tabs 
-        value={activeSection} 
-        onValueChange={onSectionChange}
-        className="w-full"
+    <div className="flex items-center justify-between">
+      <Button
+        variant="outline"
+        onClick={goToPreviousStep}
+        disabled={isFirstStep}
+        className="flex items-center gap-2"
       >
-        <TabsList className="w-full justify-center mb-8 bg-transparent p-0 h-auto gap-2">
-          <TabsTrigger
-            value="targeting"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-pink-500 data-[state=active]:text-white rounded-md px-8 py-4 transition-all duration-300 data-[state=active]:shadow-md hover:bg-violet-50 hover:-translate-y-0.5"
-          >
-            1. Targeting
-          </TabsTrigger>
-          <TabsTrigger
-            value="workflow"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-pink-500 data-[state=active]:text-white rounded-md px-8 py-4 transition-all duration-300 data-[state=active]:shadow-md hover:bg-violet-50 hover:-translate-y-0.5"
-          >
-            2. Workflow
-          </TabsTrigger>
-          <TabsTrigger
-            value="resources"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-pink-500 data-[state=active]:text-white rounded-md px-8 py-4 transition-all duration-300 data-[state=active]:shadow-md hover:bg-violet-50 hover:-translate-y-0.5"
-          >
-            3. Resources
-          </TabsTrigger>
-          <TabsTrigger
-            value="preview"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-pink-500 data-[state=active]:text-white rounded-md px-8 py-4 transition-all duration-300 data-[state=active]:shadow-md hover:bg-violet-50 hover:-translate-y-0.5"
-          >
-            4. Preview
-          </TabsTrigger>
-          <TabsTrigger
-            value="settings"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-pink-500 data-[state=active]:text-white rounded-md px-8 py-4 transition-all duration-300 data-[state=active]:shadow-md hover:bg-violet-50 hover:-translate-y-0.5"
-          >
-            5. Settings
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+        <ChevronLeft className="w-4 h-4" />
+        Back
+      </Button>
+
+      <div className="flex items-center">
+        {steps.map((step, index) => (
+          <div key={step.id} className="flex items-center">
+            <Button
+              variant={activeSection === step.id ? "default" : "ghost"}
+              className={`gap-2 ${
+                activeSection === step.id 
+                  ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white" 
+                  : "hover:bg-orange-50 hover:text-orange-600"
+              }`}
+              onClick={() => onSectionChange(step.id)}
+            >
+              {step.icon}
+              <span className="hidden sm:inline">{step.label}</span>
+              <span className="inline sm:hidden">{index + 1}</span>
+            </Button>
+            {index < steps.length - 1 && (
+              <ChevronRight className="w-4 h-4 text-gray-400 mx-1" />
+            )}
+          </div>
+        ))}
+      </div>
+
+      <Button
+        variant={isLastStep ? "default" : "outline"}
+        onClick={goToNextStep}
+        disabled={isLastStep}
+        className={`flex items-center gap-2 ${
+          isLastStep ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white" : ""
+        }`}
+      >
+        {isLastStep ? "Finish" : "Next"}
+        <ChevronRight className="w-4 h-4" />
+      </Button>
     </div>
   );
 };
