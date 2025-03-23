@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { 
   Check, X, ChevronDown, Download, Filter, Plus, 
@@ -18,7 +19,8 @@ import {
 import { LeadDeepResearchDialog } from "./LeadDeepResearchDialog";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { StepEditDialog } from "./workflow/StepEditDialog";
-import { WorkflowStep } from "./types/workflow";
+import { WorkflowStep, DEFAULT_PROMPT_TEMPLATES } from "./types/workflow";
+import { PromptDialog } from "./workflow/PromptDialog";
 
 interface LeadTableViewProps {
   leads: ApolloLead[];
@@ -260,6 +262,7 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
   const [showEmailFinderDialog, setShowEmailFinderDialog] = useState(false);
   const [currentLeadForEmail, setCurrentLeadForEmail] = useState<ApolloLead | null>(null);
   
+  // Workflow step management
   const [workflowSteps, setWorkflowSteps] = useState<WorkflowStep[]>([
     {
       id: 1,
@@ -270,6 +273,7 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
       content: '<p>Personalized first outreach email</p>',
       waitDays: 2,
       channel: 'email',
+      promptTemplate: DEFAULT_PROMPT_TEMPLATES['email'],
     },
     {
       id: 2,
@@ -280,6 +284,7 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
       content: '<p>LinkedIn connection message</p>',
       waitDays: 2,
       channel: 'linkedin',
+      promptTemplate: DEFAULT_PROMPT_TEMPLATES['linkedin'],
     },
     {
       id: 3,
@@ -290,6 +295,7 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
       content: '<p>Visit LinkedIn profile</p>',
       waitDays: 1,
       channel: 'profile-visit',
+      promptTemplate: DEFAULT_PROMPT_TEMPLATES['profile-visit'],
     },
     {
       id: 4,
@@ -300,6 +306,7 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
       content: '<p>Instagram direct message</p>',
       waitDays: 2,
       channel: 'instagram',
+      promptTemplate: DEFAULT_PROMPT_TEMPLATES['instagram'],
     },
     {
       id: 5,
@@ -310,10 +317,13 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
       content: '<p>Follow-up email</p>',
       waitDays: 0,
       channel: 'email',
+      promptTemplate: DEFAULT_PROMPT_TEMPLATES['email-followup'],
     }
   ]);
   
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
+  const [selectedPromptStep, setSelectedPromptStep] = useState<WorkflowStep | null>(null);
+  const [selectedPromptLead, setSelectedPromptLead] = useState<ApolloLead | null>(null);
   
   const displayLeads = leads.length > 0 ? leads : mockLeads;
 
@@ -341,6 +351,11 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
   const handleStepClick = (stepId: number) => {
     setSelectedStepId(stepId);
   };
+  
+  const handlePromptClick = (step: WorkflowStep, lead: ApolloLead) => {
+    setSelectedPromptStep(step);
+    setSelectedPromptLead(lead);
+  };
 
   const updateSteps = (newSteps: WorkflowStep[]) => {
     setWorkflowSteps(newSteps);
@@ -350,6 +365,14 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
     setWorkflowSteps(workflowSteps.map(step => 
       step.id === stepId 
         ? {...step, waitDays: increment ? step.waitDays + 1 : Math.max(0, step.waitDays - 1)} 
+        : step
+    ));
+  };
+  
+  const updateStepPrompt = (stepId: number, promptTemplate: string) => {
+    setWorkflowSteps(workflowSteps.map(step => 
+      step.id === stepId 
+        ? {...step, promptTemplate} 
         : step
     ));
   };
@@ -654,7 +677,7 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
                         className="px-4 py-3 cursor-pointer hover:bg-gray-100"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleStepClick(step.id);
+                          handlePromptClick(step, lead);
                         }}
                       >
                         <Button 
@@ -706,6 +729,21 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
           steps={workflowSteps}
           updateSteps={updateSteps}
           updateWaitDays={updateWaitDays}
+        />
+      )}
+      
+      {selectedPromptStep && selectedPromptLead && (
+        <PromptDialog
+          open={!!selectedPromptStep && !!selectedPromptLead}
+          onOpenChange={(open) => {
+            if (!open) {
+              setSelectedPromptStep(null);
+              setSelectedPromptLead(null);
+            }
+          }}
+          step={selectedPromptStep}
+          lead={selectedPromptLead}
+          onUpdatePrompt={updateStepPrompt}
         />
       )}
 
