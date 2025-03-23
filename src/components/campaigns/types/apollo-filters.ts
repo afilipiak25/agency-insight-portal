@@ -72,7 +72,7 @@ export interface ApolloLead {
   lastName?: string;
   position: string; // Required to match Lead type
   company: string; // Changed from optional to required to match 'Lead' type
-  location?: string;
+  location: string; // Changed from optional to required to match 'Lead' type
   email?: string;
   phone?: string;
   companySize?: string;
