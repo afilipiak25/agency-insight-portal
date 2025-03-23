@@ -54,7 +54,7 @@
 
 @layer components {
   .gradient-text {
-    @apply bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent;
+    @apply bg-gradient-amplifa bg-clip-text text-transparent;
   }
   
   .gradient-hover {
@@ -62,7 +62,7 @@
   }
   
   .gradient-hover::after {
-    @apply content-[''] absolute inset-0 opacity-0 bg-gradient-to-r from-orange-400/10 to-pink-500/10 transition-opacity duration-300;
+    @apply content-[''] absolute inset-0 opacity-0 bg-gradient-amplifa transition-opacity duration-300;
   }
   
   .gradient-hover:hover::after {
@@ -74,7 +74,7 @@
   }
 
   .list-row-hover {
-    @apply transition-all duration-200 hover:bg-orange-500/5;
+    @apply transition-all duration-200 hover:bg-amplifa-purple/5;
   }
 
   .button-press {
@@ -82,43 +82,8 @@
   }
 
   .tooltip {
-    @apply invisible absolute bg-gradient-to-r from-orange-400 to-pink-500 text-white text-xs rounded py-1 px-2 -mt-8 
+    @apply invisible absolute bg-amplifa-pink/90 text-white text-xs rounded py-1 px-2 -mt-8 
            opacity-0 transition-opacity duration-300 group-hover:visible group-hover:opacity-100;
-  }
-  
-  .integration-button {
-    @apply bg-gradient-to-r from-orange-400 to-pink-500 text-white transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0;
-  }
-  
-  .integration-button-outline {
-    @apply bg-white border border-orange-200 hover:border-pink-300 text-gray-800 hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50 transition-all duration-300;
-  }
-  
-  .glow-effect {
-    @apply relative;
-  }
-  
-  .glow-effect::before {
-    @apply content-[''] absolute -inset-0.5 bg-gradient-to-r from-orange-400 to-pink-500 rounded-lg blur opacity-0 transition-opacity duration-300;
-    z-index: -1;
-  }
-  
-  .glow-effect:hover::before {
-    @apply opacity-50;
-  }
-  
-  .shine-effect {
-    @apply relative overflow-hidden;
-  }
-  
-  .shine-effect::after {
-    @apply content-[''] absolute top-0 left-[-100%] w-full h-full bg-gradient-shine;
-    z-index: 2;
-  }
-  
-  .shine-effect:hover::after {
-    @apply animate-shimmer;
-    animation: shine 1.5s ease-in-out;
   }
 }
 
@@ -139,10 +104,6 @@
 
 .animation-delay-150 {
   animation-delay: 150ms;
-}
-
-.animation-delay-300 {
-  animation-delay: 300ms;
 }
 
 @keyframes slide-in {
@@ -222,15 +183,6 @@
   animation: pulse 2s infinite;
 }
 
-@keyframes shine {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -283,18 +235,4 @@
     transform: translateX(0);
     opacity: 1;
   }
-}
-
-/* Button gradient effects */
-.gradient-button {
-  @apply relative bg-gradient-to-r from-orange-400 to-pink-500 text-white font-medium px-4 py-2 rounded-md shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 overflow-hidden;
-}
-
-.gradient-button::before {
-  @apply content-[''] absolute top-0 left-0 w-full h-full bg-gradient-to-r from-orange-500 to-pink-600 opacity-0 transition-opacity duration-300;
-  z-index: -1;
-}
-
-.gradient-button:hover::before {
-  @apply opacity-100;
 }

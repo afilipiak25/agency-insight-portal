@@ -10,27 +10,27 @@ export const AlternativeMethods = () => {
       <div className="grid grid-cols-2 gap-4">
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex items-center gap-4 hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50 hover:border-orange-200 transition-all group shadow-sm hover:shadow-md"
+          className="h-auto p-4 flex items-center gap-4 hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50 hover:border-orange-200 transition-colors group"
         >
-          <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-pink-500 rounded-lg flex items-center justify-center text-white group-hover:animate-pulse">
-            <Brain className="w-6 h-6" />
+          <div className="w-12 h-12 bg-gradient-to-r from-orange-100 to-pink-100 rounded-lg flex items-center justify-center group-hover:from-orange-200 group-hover:to-pink-200 transition-colors">
+            <Brain className="w-6 h-6 text-pink-600" />
           </div>
           <div className="text-left">
-            <div className="font-medium text-gray-900 group-hover:text-orange-500 transition-colors">Create with AI</div>
-            <div className="text-sm text-gray-500 group-hover:text-pink-400 transition-colors">Let AI generate your multichannel campaigns</div>
+            <div className="font-medium text-gray-900">Create with AI</div>
+            <div className="text-sm text-gray-500">Let AI generate your multichannel campaigns</div>
           </div>
         </Button>
         
         <Button 
           variant="outline" 
-          className="h-auto p-4 flex items-center gap-4 hover:bg-orange-50/80 transition-all group shadow-sm hover:shadow-md"
+          className="h-auto p-4 flex items-center gap-4 hover:bg-orange-50/80 transition-colors group"
         >
-          <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-orange-500 rounded-lg flex items-center justify-center text-white group-hover:animate-pulse">
-            <LayoutTemplate className="w-6 h-6" />
+          <div className="w-12 h-12 bg-gradient-to-r from-orange-100 to-orange-200 rounded-lg flex items-center justify-center group-hover:from-orange-200 group-hover:to-orange-300 transition-colors">
+            <LayoutTemplate className="w-6 h-6 text-orange-600" />
           </div>
           <div className="text-left">
-            <div className="font-medium text-gray-900 group-hover:text-orange-500 transition-colors">Templates library</div>
-            <div className="text-sm text-gray-500 group-hover:text-orange-400 transition-colors">Use a template to create your campaign</div>
+            <div className="font-medium text-gray-900">Templates library</div>
+            <div className="text-sm text-gray-500">Use a template to create your campaign</div>
           </div>
         </Button>
       </div>

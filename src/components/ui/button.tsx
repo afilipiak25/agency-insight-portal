@@ -10,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-orange-400 to-pink-500 text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
+        default: "bg-gradient-amplifa text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-md hover:-translate-y-0.5",
         outline:
@@ -19,10 +19,10 @@ const buttonVariants = cva(
           "bg-amplifa-purple text-white hover:bg-amplifa-purple/90 hover:shadow-md hover:-translate-y-0.5",
         ghost: "hover:bg-amplifa-purple/10 hover:text-amplifa-purple hover:-translate-y-0.5",
         link: "text-amplifa-blue underline-offset-4 hover:underline hover:text-amplifa-blue/80",
-        orange: "bg-gradient-to-r from-orange-400 to-orange-500 text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
-        pink: "bg-gradient-to-r from-pink-400 to-pink-500 text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
+        orange: "bg-gradient-to-r from-amplifa-orange to-amplifa-pink text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
+        pink: "bg-amplifa-pink text-white hover:bg-amplifa-pink/90 hover:shadow-md hover:-translate-y-0.5",
         blue: "bg-amplifa-blue text-white hover:bg-amplifa-blue/90 hover:shadow-md hover:-translate-y-0.5",
-        gradient: "bg-gradient-to-r from-orange-400 to-pink-500 text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95 transition-all duration-300",
+        gradient: "bg-gradient-to-r from-amplifa-orange to-amplifa-pink text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95 transition-all duration-300",
         purple: "bg-amplifa-purple text-white hover:bg-amplifa-purple/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0",
         integration: "bg-gradient-to-r from-orange-400 to-pink-500 text-white hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 font-medium transition-all duration-300",
       },
