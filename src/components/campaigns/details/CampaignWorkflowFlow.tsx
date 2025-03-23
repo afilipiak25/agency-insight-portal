@@ -9,18 +9,19 @@ import { WorkflowVisualizationBoard } from '@/components/campaigns/workflow/Work
 import { useWorkflowSteps } from '@/components/campaigns/lead-table/useWorkflowSteps';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Play, Zap, Clock, Users, GanttChart, BarChart3 } from 'lucide-react';
+import { ApolloLead } from '@/components/campaigns/types/apollo-filters';
 
 interface CampaignWorkflowFlowProps {
   campaignId: number;
 }
 
-// Mock lead data
-const mockLeads = [
-  { id: '1', name: 'John Doe', position: 'CEO', company: 'Acme Inc', score: 85 },
-  { id: '2', name: 'Jane Smith', position: 'CMO', company: 'Globex Corp', score: 92 },
-  { id: '3', name: 'James Wilson', position: 'CTO', company: 'Initech', score: 78 },
-  { id: '4', name: 'Sarah Johnson', position: 'VP Sales', company: 'Umbrella Corp', score: 88 },
-  { id: '5', name: 'Michael Brown', position: 'Director', company: 'Stark Industries', score: 81 },
+// Mock lead data with required location property
+const mockLeads: ApolloLead[] = [
+  { id: '1', name: 'John Doe', position: 'CEO', company: 'Acme Inc', location: 'San Francisco', score: 85 },
+  { id: '2', name: 'Jane Smith', position: 'CMO', company: 'Globex Corp', location: 'New York', score: 92 },
+  { id: '3', name: 'James Wilson', position: 'CTO', company: 'Initech', location: 'Boston', score: 78 },
+  { id: '4', name: 'Sarah Johnson', position: 'VP Sales', company: 'Umbrella Corp', location: 'Seattle', score: 88 },
+  { id: '5', name: 'Michael Brown', position: 'Director', company: 'Stark Industries', location: 'Chicago', score: 81 },
 ];
 
 export const CampaignWorkflowFlow = ({ campaignId }: CampaignWorkflowFlowProps) => {
@@ -124,7 +125,7 @@ export const CampaignWorkflowFlow = ({ campaignId }: CampaignWorkflowFlowProps) 
                 </CardHeader>
                 <CardContent className="p-4 pt-0">
                   <p className="text-sm text-gray-600 line-clamp-3">
-                    Hey {{firstName}}, I noticed your work at {{company}} and wanted to connect regarding our lead generation solution that has helped companies like yours increase qualified leads by 30%.
+                    Hey {'{firstName}'}, I noticed your work at {'{company}'} and wanted to connect regarding our lead generation solution that has helped companies like yours increase qualified leads by 30%.
                   </p>
                   <div className="mt-3 flex justify-between items-center">
                     <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700">
