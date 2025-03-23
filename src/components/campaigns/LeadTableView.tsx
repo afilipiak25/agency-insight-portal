@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   Check, X, ChevronDown, Download, Filter, Plus, 
@@ -775,37 +774,32 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
       {/* Dialogs */}
       {selectedStepId && (
         <StepEditDialog
-          open={selectedStepId !== null}
-          onOpenChange={() => setSelectedStepId(null)}
           step={workflowSteps.find(step => step.id === selectedStepId) || workflowSteps[0]}
           onStepsUpdate={updateSteps}
           allSteps={workflowSteps}
           onWaitDaysChange={updateWaitDays}
+          isOpen={selectedStepId !== null}
+          onClose={() => setSelectedStepId(null)}
         />
       )}
       
       {selectedPromptStep && selectedPromptLead && (
         <PromptDialog
-          open={selectedPromptStep !== null && selectedPromptLead !== null}
-          onOpenChange={() => {
-            setSelectedPromptStep(null);
-            setSelectedPromptLead(null);
-          }}
           step={selectedPromptStep}
           lead={selectedPromptLead}
-          onPromptUpdate={(promptTemplate) => {
-            if (selectedPromptStep) {
-              updateStepPrompt(selectedPromptStep.id, promptTemplate);
-            }
+          isOpen={selectedPromptStep !== null && selectedPromptLead !== null}
+          onClose={() => {
+            setSelectedPromptStep(null);
+            setSelectedPromptLead(null);
           }}
         />
       )}
       
       {selectedLead && (
         <LeadDeepResearchDialog
-          open={selectedLead !== null && !selectedPromptStep && !selectedStepId}
-          onOpenChange={() => setSelectedLead(null)}
           lead={selectedLead}
+          isOpen={selectedLead !== null && !selectedPromptStep && !selectedStepId}
+          onClose={() => setSelectedLead(null)}
         />
       )}
       
