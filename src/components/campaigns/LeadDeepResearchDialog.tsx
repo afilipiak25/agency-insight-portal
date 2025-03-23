@@ -1,3 +1,4 @@
+
 import {
   Dialog,
   DialogContent,
@@ -58,7 +59,7 @@ export const LeadDeepResearchDialog = ({
 }: LeadDeepResearchDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-auto">
+      <DialogContent className="max-w-7xl w-[95vw] max-h-[95vh] overflow-auto">
         <DialogHeader>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-lg">
