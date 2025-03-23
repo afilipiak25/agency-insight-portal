@@ -104,7 +104,17 @@ export const CreateCampaignForm = () => {
       case "resources":
         return <ResourcesSection />;
       case "preview":
-        return <WorkflowPreview />;
+        return (
+          <div className="space-y-6">
+            <LeadPreview 
+              leads={filteredLeads}
+              isLoading={isLoading}
+              totalResults={totalResults}
+              isApolloConnected={isApolloConnected}
+              showTableView={true} 
+            />
+          </div>
+        );
       case "settings":
         return (
           <div className="relative">
@@ -127,22 +137,24 @@ export const CreateCampaignForm = () => {
   return (
     <div className="p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-[1fr,400px] gap-8">
+        <div className={`grid ${activeSection === "preview" ? "grid-cols-1" : "grid-cols-[1fr,400px]"} gap-8`}>
           <div className="space-y-8">
             {renderContent()}
           </div>
           
-          <div className="sticky top-4 h-fit">
-            <LeadPreview 
-              showEmailPreview={activeSection === "workflow"} 
-              selectedDataSource={selectedDataSource}
-              position="right"
-              isApolloConnected={isApolloConnected}
-              leads={filteredLeads}
-              isLoading={isLoading}
-              totalResults={totalResults}
-            />
-          </div>
+          {activeSection !== "preview" && (
+            <div className="sticky top-4 h-fit">
+              <LeadPreview 
+                showEmailPreview={activeSection === "workflow"} 
+                selectedDataSource={selectedDataSource}
+                position="right"
+                isApolloConnected={isApolloConnected}
+                leads={filteredLeads}
+                isLoading={isLoading}
+                totalResults={totalResults}
+              />
+            </div>
+          )}
         </div>
 
         <div className="border-t mt-8 pt-6">

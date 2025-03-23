@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { ApolloLead } from "./types/apollo-filters";
+import { LeadTableView } from "./LeadTableView";
 
 interface LeadPreviewProps {
   showEmailPreview?: boolean;
@@ -14,6 +15,7 @@ interface LeadPreviewProps {
   leads: ApolloLead[];
   isLoading: boolean;
   totalResults: number;
+  showTableView?: boolean;
 }
 
 export const LeadPreview = ({ 
@@ -23,12 +25,17 @@ export const LeadPreview = ({
   isApolloConnected = false,
   leads,
   isLoading,
-  totalResults
+  totalResults,
+  showTableView = false
 }: LeadPreviewProps) => {
   const [selectedLead, setSelectedLead] = useState<ApolloLead | null>(null);
 
   if (showEmailPreview) {
     return <PreviewSection />;
+  }
+
+  if (showTableView) {
+    return <LeadTableView leads={leads} isLoading={isLoading} />;
   }
 
   return (
