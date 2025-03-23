@@ -16,7 +16,6 @@ interface LeadTableViewProps {
   isLoading: boolean;
 }
 
-// Mock data based on screenshots
 const mockLeads: ApolloLead[] = [
   {
     id: "1",
