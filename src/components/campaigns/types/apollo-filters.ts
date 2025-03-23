@@ -54,7 +54,7 @@ export interface ApolloFilters {
     recentTechnology: boolean;
   };
   
-  // New workflow condition fields
+  // Workflow condition fields
   emailOpened?: boolean;
   emailClicked?: boolean;
   meetingBooked?: boolean;
