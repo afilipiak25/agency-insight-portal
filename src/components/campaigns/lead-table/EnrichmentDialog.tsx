@@ -1,3 +1,4 @@
+
 import React from "react";
 import { 
   Dialog, 
@@ -85,7 +86,8 @@ export const EnrichmentDialog: React.FC<EnrichmentDialogProps> = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button 
-          className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white hover:opacity-90 shadow-sm"
+          variant="orange"
+          className="rounded-md"
         >
           <Plus className="w-4 h-4 mr-2" /> Add Enrichment
         </Button>
