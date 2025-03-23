@@ -1,6 +1,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
-import ReactFlow, {
+import {
+  ReactFlow,
   Controls,
   Background,
   useNodesState,
