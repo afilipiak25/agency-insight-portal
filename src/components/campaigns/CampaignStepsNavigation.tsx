@@ -25,7 +25,7 @@ export const CampaignStepsNavigation = ({
     { id: "workflow", label: "Workflow", icon: <Workflow className="w-4 h-4" /> },
     { id: "resources", label: "Resources", icon: <FileText className="w-4 h-4" /> },
     { id: "preview", label: "Preview", icon: <Eye className="w-4 h-4" /> },
-    { id: "visualization", label: "Visualization", icon: <MapPin className="w-4 h-4" /> },
+    { id: "visualization", label: "Flow", icon: <MapPin className="w-4 h-4" /> },
     { id: "settings", label: "Settings", icon: <Settings className="w-4 h-4" /> },
   ];
 
