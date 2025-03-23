@@ -219,9 +219,9 @@ export const StepEditDialog = ({
                     <SelectValue placeholder="Modell auswählen" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="gpt-4o-mini">OpenAI > GPT 4o Mini</SelectItem>
-                    <SelectItem value="gpt-4o">OpenAI > GPT 4o</SelectItem>
-                    <SelectItem value="claude-3-5-sonnet">Anthropic > Claude 3.5 Sonnet</SelectItem>
+                    <SelectItem value="gpt-4o-mini">OpenAI {'>'} GPT 4o Mini</SelectItem>
+                    <SelectItem value="gpt-4o">OpenAI {'>'} GPT 4o</SelectItem>
+                    <SelectItem value="claude-3-5-sonnet">Anthropic {'>'} Claude 3.5 Sonnet</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -234,7 +234,7 @@ export const StepEditDialog = ({
               className="min-h-[250px] font-mono text-sm"
               value={selectedStep.promptTemplate || getDefaultPromptForChannel(selectedStep.channel)}
               onChange={(e) => handlePromptTemplateChange(e.target.value)}
-              placeholder="#CONTEXT#&#10;Erstelle eine personalisierte Nachricht basierend auf:&#10;- Name: #FirstName# #LastName#&#10;- Firma: #CompanyName#&#10;&#10;#IMPORTANT#&#10;Nutze freundlichen, aber professionellen Ton."
+              placeholder={"#CONTEXT#\nErstelle eine personalisierte Nachricht basierend auf:\n- Name: #FirstName# #LastName#\n- Firma: #CompanyName#\n\n#IMPORTANT#\nNutze freundlichen, aber professionellen Ton."}
             />
           </div>
           
