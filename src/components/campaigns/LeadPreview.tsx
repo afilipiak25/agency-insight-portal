@@ -138,8 +138,8 @@ export const LeadPreview = ({
 
   const filteredLeads = leads.filter(lead => 
     lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    lead.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    lead.position?.toLowerCase().includes(searchTerm.toLowerCase())
+    (lead.company && lead.company.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (lead.position && lead.position.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -218,7 +218,7 @@ export const LeadPreview = ({
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-1">
                             <span className="text-sm font-medium truncate">{lead.name}</span>
-                            <span className="text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full">{lead.score || Math.floor(Math.random() * 100) + 1}</span>
+                            <span className="text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full">{lead.score}</span>
                           </div>
                           <div className="text-xs text-gray-600 font-medium mb-1 truncate">{lead.position}</div>
                           <div className="flex flex-wrap gap-1 text-xs text-gray-500">
@@ -273,9 +273,7 @@ export const LeadPreview = ({
         
         <div className="pt-2 border-t">
           <Button 
-            variant="gradient" 
-            size="sm" 
-            className="w-full justify-center"
+            className="w-full justify-center text-white font-medium bg-gradient-to-r from-orange-400 to-pink-500 hover:opacity-90 transition-all duration-300 shadow-sm hover:shadow-md"
             onClick={() => {}}
           >
             Alle Leads anzeigen

@@ -122,7 +122,18 @@ export const JobTitleFields = ({ filters, onFilterChange }: JobTitleFieldsProps)
           </Button>
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
-              <Button variant="secondary">Browse Suggestions</Button>
+              <Button 
+                style={{
+                  backgroundColor: "#9b5de5",
+                  color: "white",
+                  borderRadius: "6px",
+                  borderColor: "#9b5de5",
+                  transition: "all 0.3s ease"
+                }}
+                className="hover:bg-[#8a4bd3] px-4 font-medium"
+              >
+                Browse Suggestions
+              </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[400px] p-0" align="start">
               <Command>

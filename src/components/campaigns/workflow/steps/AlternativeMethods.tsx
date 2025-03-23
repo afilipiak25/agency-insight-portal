@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Brain, LayoutTemplate } from "lucide-react";
+import { Brain, LayoutTemplate, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const AlternativeMethods = () => {
