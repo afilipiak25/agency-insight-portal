@@ -8,6 +8,7 @@ import { LeadInfo } from "./LeadInfo";
 import { PromptTabs } from "./PromptTabs";
 import { StepIcon } from "./StepIcon";
 import { AIConfigSelector } from "./AIConfigSelector";
+import { LeadSelector } from "./LeadSelector";
 
 interface PromptDialogProps {
   open: boolean;
@@ -15,14 +16,16 @@ interface PromptDialogProps {
   step: WorkflowStep | null;
   lead: ApolloLead | null;
   onUpdatePrompt: (stepId: number, promptTemplate: string, model?: string) => void;
+  availableLeads?: ApolloLead[];
 }
 
 export const PromptDialog = ({
   open,
   onOpenChange,
   step,
-  lead,
+  lead: initialLead,
   onUpdatePrompt,
+  availableLeads = [],
 }: PromptDialogProps) => {
   const [promptTemplate, setPromptTemplate] = useState("");
   const [activeTab, setActiveTab] = useState("edit");
@@ -30,6 +33,7 @@ export const PromptDialog = ({
   const [generated, setGenerated] = useState("");
   const [generationLoading, setGenerationLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState<string>("");
+  const [selectedLead, setSelectedLead] = useState<ApolloLead | null>(null);
 
   useEffect(() => {
     if (step) {
@@ -38,6 +42,12 @@ export const PromptDialog = ({
       setSelectedModel(step.model || "gpt-4");
     }
   }, [step]);
+
+  useEffect(() => {
+    if (initialLead) {
+      setSelectedLead(initialLead);
+    }
+  }, [initialLead]);
 
   const handleSave = () => {
     if (step) {
@@ -65,8 +75,14 @@ export const PromptDialog = ({
     }
   };
 
+  const handleLeadSelect = (lead: ApolloLead) => {
+    setSelectedLead(lead);
+    // Reset generated content when lead changes
+    setGenerated("");
+  };
+
   const handleGenerate = () => {
-    if (!lead) return;
+    if (!selectedLead) return;
     
     setGenerationLoading(true);
     
@@ -75,17 +91,17 @@ export const PromptDialog = ({
       let result = promptTemplate;
       
       // Process template variables
-      const firstName = lead.name.split(' ')[0];
-      const lastName = lead.name.split(' ').slice(1).join(' ');
+      const firstName = selectedLead.name.split(' ')[0];
+      const lastName = selectedLead.name.split(' ').slice(1).join(' ');
       
       result = result
         .replace(/#FirstName#/g, firstName)
         .replace(/#LastName#/g, lastName)
-        .replace(/#CompanyName#/g, lead.company || '')
-        .replace(/#JobTitle#/g, lead.position || '')
-        .replace(/#Industry#/g, lead.industry || '')
-        .replace(/#Technologies#/g, (lead.technology || []).join(', '))
-        .replace(/#LinkedInProfile#/g, lead.linkedin || '')
+        .replace(/#CompanyName#/g, selectedLead.company || '')
+        .replace(/#JobTitle#/g, selectedLead.position || '')
+        .replace(/#Industry#/g, selectedLead.industry || '')
+        .replace(/#Technologies#/g, (selectedLead.technology || []).join(', '))
+        .replace(/#LinkedInProfile#/g, selectedLead.linkedin || '')
         .replace(/#LastLinkedInActivity#/g, 'Posted about industry trends last week')
         .replace(/#InstagramHandle#/g, '@' + firstName.toLowerCase() + lastName.toLowerCase());
       
@@ -112,7 +128,7 @@ export const PromptDialog = ({
     setSelectedModel(model);
   };
 
-  if (!step || !lead) return null;
+  if (!step) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -120,13 +136,19 @@ export const PromptDialog = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <StepIcon step={step} />
-            {step.title} - {lead.name}
+            {step.title} - {selectedLead?.name || "Wähle einen Lead"}
           </DialogTitle>
         </DialogHeader>
 
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-1">
-            <LeadInfo lead={lead} />
+            <LeadSelector 
+              leads={availableLeads} 
+              selectedLead={selectedLead} 
+              onLeadSelect={handleLeadSelect} 
+            />
+            
+            {selectedLead && <LeadInfo lead={selectedLead} />}
             
             <div className="mt-6">
               <AIConfigSelector 
@@ -148,6 +170,7 @@ export const PromptDialog = ({
               copied={copied}
               handleCopy={handleCopy}
               isLoading={generationLoading}
+              isGenerateDisabled={!selectedLead}
             />
           </div>
         </div>

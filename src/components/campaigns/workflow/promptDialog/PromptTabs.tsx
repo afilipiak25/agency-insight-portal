@@ -15,6 +15,7 @@ interface PromptTabsProps {
   copied: boolean;
   handleCopy: () => void;
   isLoading?: boolean;
+  isGenerateDisabled?: boolean;
 }
 
 export const PromptTabs = ({
@@ -27,13 +28,14 @@ export const PromptTabs = ({
   generated,
   copied,
   handleCopy,
-  isLoading = false
+  isLoading = false,
+  isGenerateDisabled = false
 }: PromptTabsProps) => {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="edit">Edit Prompt</TabsTrigger>
-        <TabsTrigger value="preview">Preview Result</TabsTrigger>
+        <TabsTrigger value="edit">Prompt bearbeiten</TabsTrigger>
+        <TabsTrigger value="preview">Vorschau</TabsTrigger>
       </TabsList>
       
       <TabsContent value="edit">
@@ -43,6 +45,7 @@ export const PromptTabs = ({
           handleReset={handleReset}
           handleGenerate={handleGenerate}
           isLoading={isLoading}
+          isGenerateDisabled={isGenerateDisabled}
         />
       </TabsContent>
       
@@ -54,6 +57,7 @@ export const PromptTabs = ({
           setActiveTab={setActiveTab}
           handleGenerate={handleGenerate}
           isLoading={isLoading}
+          isGenerateDisabled={isGenerateDisabled}
         />
       </TabsContent>
     </Tabs>
