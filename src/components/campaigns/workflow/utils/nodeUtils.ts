@@ -27,11 +27,8 @@ export const createNodesAndEdges = ({
     type: 'default',
     position: { x: 250, y: 0 },
     data: { 
-      label: (
-        <div className="p-2 text-center">
-          <div className="font-semibold text-green-600">Campaign Start</div>
-        </div>
-      )
+      label: 'Campaign Start',
+      type: 'start'
     },
     style: {
       background: '#f0fff4',
@@ -54,25 +51,15 @@ export const createNodesAndEdges = ({
       type: 'default',
       position: { x: 250, y: 120 + (index * 180) },
       data: { 
-        label: (
-          <div className="p-2 w-full">
-            <div className="flex items-center gap-2 font-semibold">
-              {step.icon}
-              <span>{step.title} {step.waitDays > 0 ? `(${step.waitDays} days)` : ''}</span>
-            </div>
-            <div className="text-sm text-gray-500 mt-1">{step.content}</div>
-            <div className="flex gap-2 mt-2">
-              <div className="bg-green-100 text-green-800 hover:bg-green-200 px-2 py-0.5 rounded text-xs font-medium">
-                {Math.floor(85 + Math.random() * 15)}% Delivered
-              </div>
-              <div className="bg-blue-100 text-blue-800 hover:bg-blue-200 px-2 py-0.5 rounded text-xs font-medium">
-                {Math.floor(30 + Math.random() * 50)}% Opened
-              </div>
-            </div>
-          </div>
-        ),
+        label: `${step.title} ${step.waitDays > 0 ? `(${step.waitDays} days)` : ''}`,
+        icon: step.icon,
+        content: step.content,
         step,
-        leads: stepLeads
+        leads: stepLeads,
+        stats: {
+          delivered: Math.floor(85 + Math.random() * 15),
+          opened: Math.floor(30 + Math.random() * 50)
+        }
       },
       style: {
         background: 'white',
@@ -95,13 +82,10 @@ export const createNodesAndEdges = ({
           type: 'default',
           position: { x: 550, y: 100 + (index * 180) + (leadIndex * 60) },
           data: { 
-            label: (
-              <div className="p-2 text-sm w-full">
-                <div className="font-medium">{lead.firstName} {lead.lastName}</div>
-                <div className="text-gray-600">{lead.jobTitle}</div>
-                <div className="text-gray-500">{lead.companyName}</div>
-              </div>
-            )
+            label: `${lead.firstName} ${lead.lastName}`,
+            jobTitle: lead.jobTitle,
+            companyName: lead.companyName,
+            lead
           },
           style: {
             background: 'white',
@@ -137,11 +121,8 @@ export const createNodesAndEdges = ({
           type: 'default',
           position: { x: 550, y: 100 + (index * 180) + (3 * 60) },
           data: { 
-            label: (
-              <div className="p-2 text-sm w-full text-center">
-                <div className="text-gray-500">+{stepLeads.length - 3} more leads</div>
-              </div>
-            )
+            label: `+${stepLeads.length - 3} more leads`,
+            type: 'more-leads'
           },
           style: {
             background: '#f7fafc',
@@ -198,11 +179,8 @@ export const createNodesAndEdges = ({
       type: 'default',
       position: { x: 250, y: 120 + ((lastStepIndex + 1) * 180) },
       data: { 
-        label: (
-          <div className="p-2 text-center">
-            <div className="font-semibold text-red-600">Campaign End</div>
-          </div>
-        )
+        label: 'Campaign End',
+        type: 'end'
       },
       style: {
         background: '#fff5f5',

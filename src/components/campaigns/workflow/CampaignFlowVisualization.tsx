@@ -9,7 +9,8 @@ import {
   Node,
   MiniMap,
   Panel,
-  NodeMouseHandler
+  NodeMouseHandler,
+  NodeTypes
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { ZoomIn, ZoomOut } from 'lucide-react';
@@ -18,6 +19,7 @@ import { WorkflowStep } from '../types/workflow';
 import { FlowControls } from './components/FlowControls';
 import { StepPreviewSheet } from './components/StepPreviewSheet';
 import { createNodesAndEdges } from './utils/nodeUtils';
+import { WorkflowNode } from './components/WorkflowNode';
 
 interface Lead {
   id: string;
@@ -35,6 +37,48 @@ interface CampaignFlowVisualizationProps {
   leads?: any[];
 }
 
+// Custom node renderer components
+const CustomNode = ({ data }: { data: any }) => {
+  if (data.type === 'start') {
+    return (
+      <div className="p-2 text-center">
+        <div className="font-semibold text-green-600">{data.label}</div>
+      </div>
+    );
+  } else if (data.type === 'end') {
+    return (
+      <div className="p-2 text-center">
+        <div className="font-semibold text-red-600">{data.label}</div>
+      </div>
+    );
+  } else if (data.type === 'more-leads') {
+    return (
+      <div className="p-2 text-sm w-full text-center">
+        <div className="text-gray-500">{data.label}</div>
+      </div>
+    );
+  } else if (data.lead) {
+    return (
+      <div className="p-2 text-sm w-full">
+        <div className="font-medium">{data.label}</div>
+        <div className="text-gray-600">{data.jobTitle}</div>
+        <div className="text-gray-500">{data.companyName}</div>
+      </div>
+    );
+  } else if (data.step) {
+    return (
+      <WorkflowNode 
+        step={data.step}
+        stepLeads={data.leads || []}
+        isSimulating={false} 
+        activeNodeId={null} 
+      />
+    );
+  }
+  
+  return <div>{data.label}</div>;
+};
+
 export const CampaignFlowVisualization = ({ 
   workflowSteps,
   leads = []
@@ -47,6 +91,11 @@ export const CampaignFlowVisualization = ({
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewTab, setPreviewTab] = useState('content');
+
+  // Define node types
+  const nodeTypes = React.useMemo<NodeTypes>(() => ({
+    default: CustomNode
+  }), []);
 
   // Transform campaign steps into ReactFlow nodes and edges
   useEffect(() => {
@@ -151,6 +200,7 @@ export const CampaignFlowVisualization = ({
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onNodeClick={handleNodeClick}
+        nodeTypes={nodeTypes}
         fitView
         snapToGrid
         attributionPosition="bottom-right"
