@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ChartContainer as Chart, ChartConfig } from '@/components/ui/chart';
+import { ChartContainer, ChartConfig } from '@/components/ui/chart';
 import { CampaignHeader } from '@/components/campaigns/details/CampaignHeader';
 import { CampaignMetrics } from '@/components/campaigns/details/CampaignMetrics';
 import { CampaignWorkflowFlow } from '@/components/campaigns/details/CampaignWorkflowFlow';
