@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -112,7 +111,7 @@ export const AppSidebar = ({ onClientSelect }: { onClientSelect: (clientId: numb
         </div>
         <Link 
           to="/clients/create"
-          className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-amplifa rounded-lg hover:opacity-90 transition-opacity shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:opacity-95"
+          className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-amplifa rounded-lg hover:opacity-90 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:opacity-95 hover:shadow-md shadow-sm"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Neuer Kunde</span>

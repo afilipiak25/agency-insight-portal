@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Users, PieChart, DollarSign, BarChartHorizontal, Calendar, Inbox, Database, CircuitBoard, UserSquare, Search, PlusCircle, ChevronLeft, ChevronRight, Brain, Mail, Headset } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -115,7 +114,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
             </div>
             <Link 
               to="/clients/create"
-              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-amplifa rounded-lg hover:opacity-90 transition-opacity shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:opacity-95"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-amplifa rounded-lg hover:opacity-90 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:opacity-95"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Neuer Kunde</span>
@@ -147,7 +146,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
             ))}
             <Link
               to="/clients"
-              className="w-full p-2 rounded-lg flex items-center space-x-3 mb-1 hover:bg-gray-50 text-gray-600 transition-all duration-200"
+              className="w-full p-2 rounded-lg flex items-center space-x-3 mb-1 hover:bg-gray-50 text-gray-600 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
             >
               <Users className="w-5 h-5 flex-shrink-0" />
               <span className={cn(
@@ -166,7 +165,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 key={index}
                 to={item.path}
                 className={cn(
-                  "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors relative",
+                  "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-all duration-200 relative hover:-translate-y-0.5 hover:shadow-sm",
                   item.disabled ? "opacity-60 cursor-not-allowed" : "",
                   location.pathname === item.path 
                     ? "bg-gradient-amplifa text-white shadow-sm"
