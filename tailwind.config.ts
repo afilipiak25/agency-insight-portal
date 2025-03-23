@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -25,33 +26,35 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#6B62E3", // New primary color (indigo)
-          light: "#8A84E8",
-          dark: "#4A42D6",
+          DEFAULT: "#F79533", // Orange from the gradient
+          light: "#F8C26A",
+          dark: "#D99423",
         },
         amplifa: {
+          orange: "#F79533", // Primary orange (start of gradient)
+          pink: "#EF4E7B", // Pink (middle of gradient)
+          purple: "#A166AB", // Purple (end of gradient)
           blue: {
-            DEFAULT: "#6B62E3", // Unified with primary
-            light: "#8A84E8",
-            dark: "#4A42D6",
+            light: "#2AA4FB", // Light blue (RGB: 42, 164, 251)
+            DEFAULT: "#2A69FB", // Blue (RGB: 42, 105, 251)
+            dark: "#552AFB", // Dark blue (RGB: 85, 42, 251)
           },
-          purple: "#7C3AED", // Simplified purple
-          orange: "#F97316", // Reduced saturation
-          pink: "#EC4899", // Reduced saturation
-          black: "#1F2937", // Warmer black
-          white: "#FFFFFF",
+          black: "#060A0F", // Dark black (RGB: 6, 10, 15)
+          white: "#FFFFFF", // White
+          gradient: "linear-gradient(90deg, #F79533 0%, #F37055 30%, #EF4E7B 60%, #A166AB 100%)",
         },
         dashboard: {
-          primary: "#6B62E3", // Unified with primary
-          secondary: "#8A84E8", // Light variant
-          hover: "rgba(107, 98, 227, 0.9)", // Primary with opacity
-          light: "rgba(107, 98, 227, 0.1)", // Very light primary
-          accent: "rgba(124, 58, 237, 0.8)", // Purple with opacity
+          primary: "#F79533", // Changed to new orange
+          secondary: "#EF4E7B", // Changed to new pink
+          hover: "#F79533/90", // Orange with 90% opacity
+          light: "#F79533/10", // Orange with 10% opacity
+          accent: "#A166AB/80", // Purple with 80% opacity
         },
       },
       backgroundImage: {
-        'gradient-amplifa': 'linear-gradient(90deg, #6B62E3 0%, #7C3AED 100%)', // Simplified gradient
-        'gradient-dashboard': 'linear-gradient(90deg, #6B62E3 0%, #7C3AED 100%)',
+        'gradient-amplifa': 'linear-gradient(90deg, #F79533 0%, #F37055 30%, #EF4E7B 60%, #A166AB 100%)',
+        'gradient-dashboard': 'linear-gradient(90deg, #F79533 0%, #F37055 30%, #EF4E7B 60%, #A166AB 100%)',
+        'gradient-shine': 'linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.3) 50%, transparent 75%)',
       },
       keyframes: {
         "accordion-down": {
