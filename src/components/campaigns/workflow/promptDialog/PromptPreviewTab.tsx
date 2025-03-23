@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Loader2 } from "lucide-react";
 
 interface PromptPreviewTabProps {
   generated: string;
@@ -9,6 +9,7 @@ interface PromptPreviewTabProps {
   handleCopy: () => void;
   setActiveTab: (tab: string) => void;
   handleGenerate: () => void;
+  isLoading?: boolean;
 }
 
 export const PromptPreviewTab = ({
@@ -16,13 +17,19 @@ export const PromptPreviewTab = ({
   copied,
   handleCopy,
   setActiveTab,
-  handleGenerate
+  handleGenerate,
+  isLoading = false
 }: PromptPreviewTabProps) => {
   return (
     <div className="space-y-4">
-      {generated ? (
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center min-h-[400px] border rounded p-4 bg-gray-50">
+          <Loader2 className="h-8 w-8 text-purple-500 animate-spin mb-4" />
+          <p className="text-gray-600">Generating preview...</p>
+        </div>
+      ) : generated ? (
         <>
-          <div className="border rounded p-4 min-h-[350px] bg-white whitespace-pre-wrap">
+          <div className="border rounded p-4 min-h-[400px] bg-white whitespace-pre-wrap">
             {generated}
           </div>
           
@@ -44,7 +51,7 @@ export const PromptPreviewTab = ({
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center min-h-[350px] text-gray-500">
+        <div className="flex flex-col items-center justify-center min-h-[400px] border rounded text-gray-500">
           <p>Generate a preview to see the result</p>
           <Button 
             variant="outline" 
