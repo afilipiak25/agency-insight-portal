@@ -46,6 +46,10 @@ export const PromptDialog = ({
     }
   };
 
+  const handleCancel = () => {
+    onOpenChange(false);
+  };
+
   const handleReset = () => {
     if (step) {
       const defaultTemplate = DEFAULT_PROMPT_TEMPLATES[step.channel || 'email'] || "";
@@ -149,8 +153,8 @@ export const PromptDialog = ({
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button onClick={handleSave}>Save Changes</Button>
+          <Button variant="outline" onClick={handleCancel}>Abbrechen</Button>
+          <Button onClick={handleSave}>Änderungen speichern</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
