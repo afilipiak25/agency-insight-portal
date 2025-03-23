@@ -72,7 +72,7 @@ export const CampaignWorkflowFlow = ({ campaignId }: CampaignWorkflowFlowProps) 
             {isSimulating ? 'Simulating...' : 'Simulate Flow'}
           </Button>
           <Button 
-            variant="purple"
+            variant="gradient"
             size="sm"
             className="hover:-translate-y-0.5 transition-transform"
           >
@@ -87,15 +87,15 @@ export const CampaignWorkflowFlow = ({ campaignId }: CampaignWorkflowFlowProps) 
           <CardTitle className="flex justify-between items-center text-lg font-semibold text-dashboard-primary">
             <div className="flex items-center gap-3">
               Campaign Workflow
-              <Badge className="bg-amplifa-orange text-white">Active</Badge>
+              <Badge className="bg-black text-white">Active</Badge>
             </div>
             <div className="flex items-center gap-4 text-sm font-normal text-gray-500">
               <div className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-amplifa-orange" />
+                <Clock className="w-4 h-4 text-black" />
                 <span>5 Steps</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Users className="w-4 h-4 text-amplifa-orange" />
+                <Users className="w-4 h-4 text-black" />
                 <span>733 Leads</span>
               </div>
             </div>
