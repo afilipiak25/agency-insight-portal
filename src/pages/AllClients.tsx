@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
 import { ClientCard } from '@/components/clients/ClientCard';
@@ -44,7 +45,7 @@ const AllClients = () => {
           <div className="max-w-7xl mx-auto">
             <div className="mb-8 animate-fade-in flex justify-between items-start">
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-amplifa-blue via-amplifa-purple to-amplifa-pink bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold gradient-text">
                   Alle Kunden
                 </h1>
                 <p className="text-gray-600 mt-2">Übersicht aller Kundenaktivitäten und Performance</p>

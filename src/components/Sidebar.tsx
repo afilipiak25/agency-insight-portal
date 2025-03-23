@@ -91,9 +91,9 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
               aria-label={isCollapsed ? "Sidebar ausklappen" : "Sidebar einklappen"}
             >
               {isCollapsed ? (
-                <ChevronRight className="w-5 h-5 text-amplifa-blue" />
+                <ChevronRight className="w-5 h-5 text-amplifa-orange" />
               ) : (
-                <ChevronLeft className="w-5 h-5 text-amplifa-blue" />
+                <ChevronLeft className="w-5 h-5 text-amplifa-orange" />
               )}
             </button>
           </div>
@@ -115,7 +115,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
             </div>
             <Link 
               to="/clients/create"
-              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-amplifa rounded-lg hover:opacity-90 transition-opacity"
+              className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gradient-amplifa rounded-lg hover:opacity-90 transition-opacity shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:opacity-95"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Neuer Kunde</span>
@@ -132,7 +132,7 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                 className={cn(
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-all duration-200",
                   selectedClient === client.id
-                    ? "bg-gradient-amplifa text-white"
+                    ? "bg-gradient-amplifa text-white shadow-sm"
                     : "hover:bg-gray-50 text-gray-600"
                 )}
               >
@@ -169,15 +169,12 @@ export const Sidebar = ({ onClientSelect }: { onClientSelect: (clientId: number)
                   "w-full p-2 rounded-lg flex items-center space-x-3 mb-1 transition-colors relative",
                   item.disabled ? "opacity-60 cursor-not-allowed" : "",
                   location.pathname === item.path 
-                    ? "bg-gradient-to-r from-amplifa-orange/10 to-amplifa-pink/10 text-amplifa-pink"
+                    ? "bg-gradient-amplifa text-white shadow-sm"
                     : "text-gray-600 hover:bg-gray-50"
                 )}
                 onClick={e => item.disabled && e.preventDefault()}
               >
-                <item.icon className={cn(
-                  "w-5 h-5 flex-shrink-0",
-                  location.pathname === item.path ? "text-amplifa-pink" : ""
-                )} />
+                <item.icon className="w-5 h-5 flex-shrink-0" />
                 <span className={cn(
                   "font-medium text-sm transition-opacity duration-300",
                   isCollapsed ? "opacity-0 w-0" : "opacity-100"

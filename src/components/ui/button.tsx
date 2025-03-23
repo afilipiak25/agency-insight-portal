@@ -10,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-amplifa text-white hover:opacity-90",
+        default: "bg-gradient-amplifa text-white hover:opacity-90 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "bg-amplifa-purple text-white hover:bg-amplifa-purple/90",
         ghost: "hover:bg-amplifa-purple/10 hover:text-amplifa-purple",
         link: "text-amplifa-blue underline-offset-4 hover:underline",
-        orange: "bg-amplifa-orange text-white hover:bg-amplifa-orange/90",
+        orange: "bg-gradient-amplifa text-white hover:opacity-90 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
         pink: "bg-amplifa-pink text-white hover:bg-amplifa-pink/90",
         blue: "bg-amplifa-blue text-white hover:bg-amplifa-blue/90",
       },

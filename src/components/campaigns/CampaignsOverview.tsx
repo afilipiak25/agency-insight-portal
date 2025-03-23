@@ -22,7 +22,7 @@ export const CampaignsOverview = ({ clientId }: { clientId: number }) => {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-dashboard-primary mb-2">
+            <h1 className="text-3xl font-bold gradient-text mb-2">
               Kampagnen
             </h1>
             <p className="text-gray-600">
@@ -31,7 +31,6 @@ export const CampaignsOverview = ({ clientId }: { clientId: number }) => {
           </div>
           <Button
             onClick={() => setIsNewCampaignDialogOpen(true)}
-            className="bg-dashboard-primary hover:bg-dashboard-hover"
           >
             <Plus className="w-4 h-4 mr-2" />
             Neue Kampagne
@@ -42,7 +41,7 @@ export const CampaignsOverview = ({ clientId }: { clientId: number }) => {
           {campaigns.map((campaign) => (
             <div
               key={campaign.id}
-              className="bg-white rounded-xl border border-gray-100 shadow-sm p-6"
+              className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 gradient-hover hover:shadow-md transition-all duration-300"
             >
               <div className="flex justify-between items-start mb-4">
                 <div>
@@ -50,10 +49,10 @@ export const CampaignsOverview = ({ clientId }: { clientId: number }) => {
                     {campaign.title}
                   </h3>
                   <div className="flex gap-2">
-                    <span className="px-2 py-1 rounded-full text-xs bg-dashboard-light text-dashboard-primary">
+                    <span className="px-2 py-1 rounded-full text-xs bg-amplifa-orange/10 text-amplifa-orange">
                       {campaign.industry}
                     </span>
-                    <span className="px-2 py-1 rounded-full text-xs bg-dashboard-secondary/10 text-dashboard-secondary">
+                    <span className="px-2 py-1 rounded-full text-xs bg-amplifa-pink/10 text-amplifa-pink">
                       {campaign.region}
                     </span>
                   </div>
@@ -87,7 +86,7 @@ export const CampaignsOverview = ({ clientId }: { clientId: number }) => {
 
               <div className="flex items-center gap-8 mb-4">
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-dashboard-primary" />
+                  <Users className="w-4 h-4 text-amplifa-orange" />
                   <span className="text-sm text-gray-600">
                     {campaign.leadCount} / {campaign.targetLeadCount} Leads
                   </span>
@@ -108,7 +107,7 @@ export const CampaignsOverview = ({ clientId }: { clientId: number }) => {
         <Dialog open={isNewCampaignDialogOpen} onOpenChange={setIsNewCampaignDialogOpen}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>Neue Kampagne erstellen</DialogTitle>
+              <DialogTitle className="gradient-text">Neue Kampagne erstellen</DialogTitle>
               <DialogDescription>
                 Erstellen Sie eine neue Kampagne für die Leadgenerierung
               </DialogDescription>

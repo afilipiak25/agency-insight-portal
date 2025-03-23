@@ -37,9 +37,9 @@ export const ApolloIntegration = ({ onConnect, isConnected }: ApolloIntegrationP
   if (isConnected) {
     return (
       <div className="space-y-4">
-        <div className="bg-white rounded-lg border p-4">
+        <div className="bg-white rounded-lg border p-4 gradient-hover">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Apollo.io Integration</h3>
+            <h3 className="text-lg font-semibold gradient-text">Apollo.io Integration</h3>
             <span className="text-sm text-green-600 flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4" />
               Verbunden
@@ -63,8 +63,8 @@ export const ApolloIntegration = ({ onConnect, isConnected }: ApolloIntegrationP
 
   return (
     <div className="space-y-4">
-      <div className="bg-white rounded-lg border p-4">
-        <h3 className="text-lg font-semibold mb-4">Apollo.io Integration</h3>
+      <div className="bg-white rounded-lg border p-4 gradient-hover">
+        <h3 className="text-lg font-semibold mb-4 gradient-text">Apollo.io Integration</h3>
         <p className="text-sm text-gray-600 mb-4">
           Verbinden Sie Ihr Apollo.io-Konto, um auf zusätzliche Filter und Funktionen zuzugreifen.
         </p>

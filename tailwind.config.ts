@@ -26,14 +26,14 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#F4AC37", // Orange from the color palette
+          DEFAULT: "#F79533", // Orange from the gradient
           light: "#F8C26A",
           dark: "#D99423",
         },
         amplifa: {
-          orange: "#F4AC37", // Primary orange (RGB: 244, 172, 55)
-          pink: "#DF2975", // Pink (RGB: 223, 41, 117)
-          purple: "#AC1ACC", // Purple (RGB: 172, 26, 204)
+          orange: "#F79533", // Primary orange (start of gradient)
+          pink: "#EF4E7B", // Pink (middle of gradient)
+          purple: "#A166AB", // Purple (end of gradient)
           blue: {
             light: "#2AA4FB", // Light blue (RGB: 42, 164, 251)
             DEFAULT: "#2A69FB", // Blue (RGB: 42, 105, 251)
@@ -41,19 +41,19 @@ export default {
           },
           black: "#060A0F", // Dark black (RGB: 6, 10, 15)
           white: "#FFFFFF", // White
-          gradient: "linear-gradient(135deg, #F4AC37 0%, #DF2975 50%, #AC1ACC 100%)",
+          gradient: "linear-gradient(90deg, #F79533 0%, #F37055 30%, #EF4E7B 60%, #A166AB 100%)",
         },
         dashboard: {
-          primary: "#F4AC37", // Changed to new orange
-          secondary: "#DF2975", // Changed to new pink
-          hover: "#F4AC37/90", // Orange with 90% opacity
-          light: "#F4AC37/10", // Orange with 10% opacity
-          accent: "#AC1ACC/80", // Purple with 80% opacity
+          primary: "#F79533", // Changed to new orange
+          secondary: "#EF4E7B", // Changed to new pink
+          hover: "#F79533/90", // Orange with 90% opacity
+          light: "#F79533/10", // Orange with 10% opacity
+          accent: "#A166AB/80", // Purple with 80% opacity
         },
       },
       backgroundImage: {
-        'gradient-amplifa': 'linear-gradient(135deg, #F4AC37 0%, #DF2975 50%, #AC1ACC 100%)',
-        'gradient-dashboard': 'linear-gradient(135deg, #F4AC37 0%, #DF2975 50%, #AC1ACC 100%)',
+        'gradient-amplifa': 'linear-gradient(90deg, #F79533 0%, #F37055 30%, #EF4E7B 60%, #A166AB 100%)',
+        'gradient-dashboard': 'linear-gradient(90deg, #F79533 0%, #F37055 30%, #EF4E7B 60%, #A166AB 100%)',
       },
       keyframes: {
         "accordion-down": {

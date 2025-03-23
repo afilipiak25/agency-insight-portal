@@ -22,7 +22,7 @@ export const PublishCampaignDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Kampagne veröffentlichen</DialogTitle>
+          <DialogTitle className="gradient-text">Kampagne veröffentlichen</DialogTitle>
         </DialogHeader>
         <div className="py-4">
           <label className="text-sm font-medium mb-2 block">

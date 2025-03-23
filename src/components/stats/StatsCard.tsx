@@ -12,11 +12,11 @@ export const StatsCard = ({
   title, 
   value, 
   change, 
-  color = "text-amplifa-orange", // Default to Amplifa orange
+  color = "text-amplifa-orange", // Updated to new orange
   prefix,
   suffix 
 }: StatsCardProps) => (
-  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 gradient-hover hover:shadow-md transition-all duration-300">
     <h3 className="text-sm text-gray-500 mb-2">{title}</h3>
     <div className="flex items-baseline gap-2">
       <span className={`text-2xl font-semibold ${color}`}>

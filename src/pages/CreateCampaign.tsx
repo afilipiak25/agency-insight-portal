@@ -22,7 +22,7 @@ const CreateCampaign = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Campaigns
             </Button>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-amplifa-blue to-amplifa-pink bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold gradient-text">
               Create New Campaign
             </h1>
             <p className="text-gray-600 mt-2">

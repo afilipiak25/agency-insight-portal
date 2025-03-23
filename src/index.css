@@ -11,7 +11,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 39 90% 59%;
+    --primary: 32 91% 58%;
     --primary-foreground: 210 40% 98%;
     --secondary: 339 81% 52%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -23,7 +23,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 39 90% 59%;
+    --ring: 32 91% 58%;
     --radius: 0.75rem;
   }
 }
@@ -35,6 +35,36 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3 {
+    @apply font-bold;
+  }
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-gradient-amplifa bg-clip-text text-transparent;
+  }
+  
+  .gradient-hover {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  
+  .gradient-hover::after {
+    @apply content-[''] absolute inset-0 opacity-0 bg-gradient-amplifa transition-opacity duration-300;
+  }
+  
+  .gradient-hover:hover::after {
+    @apply opacity-20;
   }
 }
 

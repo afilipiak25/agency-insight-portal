@@ -36,7 +36,7 @@ export const ClientFilters = ({
           className={cn(
             "px-4 py-2 rounded-lg border transition-all duration-300",
             selectedFilter === 'all' 
-              ? "bg-gradient-amplifa text-white border-transparent" 
+              ? "bg-gradient-amplifa text-white border-transparent shadow-sm" 
               : "border-gray-200 hover:border-amplifa-purple/50"
           )}
         >
@@ -47,7 +47,7 @@ export const ClientFilters = ({
           className={cn(
             "px-4 py-2 rounded-lg border transition-all duration-300 flex items-center gap-2",
             selectedFilter === 'campaign' 
-              ? "bg-gradient-amplifa text-white border-transparent" 
+              ? "bg-gradient-amplifa text-white border-transparent shadow-sm" 
               : "border-gray-200 hover:border-amplifa-purple/50"
           )}
         >
@@ -62,7 +62,7 @@ export const ClientFilters = ({
           className={cn(
             "px-4 py-2 rounded-lg border transition-all duration-300 flex items-center gap-2",
             selectedFilter === 'connection' 
-              ? "bg-gradient-amplifa text-white border-transparent" 
+              ? "bg-gradient-amplifa text-white border-transparent shadow-sm" 
               : "border-gray-200 hover:border-amplifa-purple/50"
           )}
         >
@@ -77,7 +77,7 @@ export const ClientFilters = ({
           className={cn(
             "px-4 py-2 rounded-lg border transition-all duration-300 flex items-center gap-2",
             selectedFilter === 'other' 
-              ? "bg-gradient-amplifa text-white border-transparent" 
+              ? "bg-gradient-amplifa text-white border-transparent shadow-sm" 
               : "border-gray-200 hover:border-amplifa-purple/50"
           )}
         >
