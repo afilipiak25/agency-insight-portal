@@ -25,6 +25,7 @@ const buttonVariants = cva(
         gradient: "bg-gradient-to-r from-amplifa-orange to-amplifa-pink text-white hover:opacity-90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95 transition-all duration-300",
         purple: "bg-amplifa-purple text-white hover:bg-amplifa-purple/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0",
         integration: "bg-gradient-to-r from-orange-400 to-pink-500 text-white hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 font-medium transition-all duration-300",
+        black: "bg-black text-white hover:bg-black/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:opacity-95",
       },
       size: {
         default: "h-10 px-4 py-2",

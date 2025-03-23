@@ -32,9 +32,9 @@ export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
         </Button>
 
         <div>
-          <h1 className="text-3xl font-bold text-dashboard-primary flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-black flex items-center gap-3">
             {campaign.name}
-            <Badge className={`${isActive ? 'bg-amplifa-orange' : 'bg-gray-400'} text-white`}>
+            <Badge className={`${isActive ? 'bg-black' : 'bg-gray-400'} text-white`}>
               {isActive ? 'Active' : 'Inactive'}
             </Badge>
           </h1>
@@ -62,7 +62,7 @@ export const CampaignHeader = ({ campaign }: CampaignHeaderProps) => {
         </Button>
 
         <Button 
-          variant={isActive ? "outline" : "gradient"}
+          variant={isActive ? "outline" : "black"}
           size="sm" 
           className="hover:-translate-y-0.5 transition-transform"
         >
