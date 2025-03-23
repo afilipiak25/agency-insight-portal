@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus, Bot, Settings, Database, Mouse, Save, Mail, Linkedin, Instagram, Eye } from "lucide-react";
@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 interface StepEditDialogProps {
   selectedStepId: number | null;
@@ -25,6 +26,16 @@ export const StepEditDialog = ({
 }: StepEditDialogProps) => {
   const selectedStep = selectedStepId ? steps.find(s => s.id === selectedStepId) : null;
   const [activeTab, setActiveTab] = useState<string>("content");
+  const [localPromptTemplate, setLocalPromptTemplate] = useState<string>("");
+  const [localTitle, setLocalTitle] = useState<string>("");
+  
+  // Initialize local state when the selected step changes
+  React.useEffect(() => {
+    if (selectedStep) {
+      setLocalPromptTemplate(selectedStep.promptTemplate || "");
+      setLocalTitle(selectedStep.title || "");
+    }
+  }, [selectedStep]);
   
   if (!selectedStep) return null;
 
@@ -47,12 +58,15 @@ export const StepEditDialog = ({
   };
 
   const handleChannelChange = (channel: string) => {
+    const defaultPrompt = getDefaultPromptForChannel(channel);
+    setLocalPromptTemplate(defaultPrompt);
+    
     updateSteps(steps.map(step => 
       step.id === selectedStepId 
         ? {
             ...step, 
             channel: channel as 'email' | 'linkedin' | 'profile-visit' | 'instagram' | 'other',
-            promptTemplate: getDefaultPromptForChannel(channel)
+            promptTemplate: defaultPrompt
           } 
         : step
     ));
@@ -74,16 +88,28 @@ export const StepEditDialog = ({
     ));
   };
 
+  const handleTitleChange = (title: string) => {
+    setLocalTitle(title);
+  };
+
   const handlePromptTemplateChange = (promptTemplate: string) => {
+    setLocalPromptTemplate(promptTemplate);
+  };
+
+  const saveChanges = () => {
     updateSteps(steps.map(step => 
       step.id === selectedStepId 
-        ? {...step, promptTemplate} 
+        ? {
+            ...step, 
+            title: localTitle,
+            promptTemplate: localPromptTemplate
+          } 
         : step
     ));
   };
 
   return (
-    <Dialog open={!!selectedStepId} onOpenChange={(open) => !open && updateSteps(steps)}>
+    <Dialog open={!!selectedStepId} onOpenChange={(open) => !open && saveChanges()}>
       <DialogContent className="max-w-4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -92,6 +118,9 @@ export const StepEditDialog = ({
             </span>
             {selectedStep.title}
           </DialogTitle>
+          <DialogDescription>
+            Configure your workflow step settings
+          </DialogDescription>
         </DialogHeader>
 
         <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="mt-4">
@@ -107,15 +136,11 @@ export const StepEditDialog = ({
                 <label className="text-sm font-medium mb-2 block">
                   Step Title
                 </label>
-                <input
+                <Input
                   type="text"
-                  className="w-full px-3 py-2 border rounded-md"
-                  value={selectedStep.title}
-                  onChange={(e) => updateSteps(steps.map(step => 
-                    step.id === selectedStepId 
-                      ? {...step, title: e.target.value} 
-                      : step
-                  ))}
+                  value={localTitle}
+                  onChange={(e) => handleTitleChange(e.target.value)}
+                  className="w-full"
                 />
               </div>
 
@@ -124,7 +149,7 @@ export const StepEditDialog = ({
                   Prompt Template
                 </label>
                 <Textarea
-                  value={selectedStep.promptTemplate || ""}
+                  value={localPromptTemplate}
                   onChange={(e) => handlePromptTemplateChange(e.target.value)}
                   placeholder="Enter prompt template..."
                   className="min-h-[200px] font-mono text-sm"
@@ -252,7 +277,7 @@ export const StepEditDialog = ({
         </Tabs>
 
         <div className="flex justify-end mt-6">
-          <Button className="gap-2" onClick={() => updateSteps(steps)}>
+          <Button className="gap-2" onClick={saveChanges}>
             <Save className="w-4 h-4" />
             Save Changes
           </Button>
