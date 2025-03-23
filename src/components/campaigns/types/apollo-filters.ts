@@ -61,11 +61,20 @@ export interface ApolloFilters {
   hasEmail?: boolean;
   hasLinkedIn?: boolean;
   hasPhone?: boolean;
+  
+  // Communication status fields
+  email1Status?: 'not_sent' | 'sent' | 'opened' | 'clicked' | 'replied';
+  linkedinStatus?: 'not_sent' | 'sent' | 'accepted' | 'replied';
+  profileVisitStatus?: 'not_done' | 'done';
+  instagramStatus?: 'not_sent' | 'sent' | 'seen' | 'replied';
+  email2Status?: 'not_sent' | 'sent' | 'opened' | 'clicked' | 'replied';
 }
 
 export interface ApolloLead {
   id: string;
   name: string;
+  firstName?: string;
+  lastName?: string;
   position: string;
   company: string;
   location: string;
@@ -77,6 +86,8 @@ export interface ApolloLead {
   industry?: string;
   companyDomain?: string;
   linkedin?: string;
+  instagram?: string;
+  phone?: string;
   status?: 'active' | 'pending' | 'completed' | 'failed';
   conditionMet?: boolean;
   missingInputs?: boolean;
@@ -86,4 +97,14 @@ export interface ApolloLead {
     name: string;
     total: number;
   };
+  
+  // Communication channel statuses
+  email1Status?: 'not_sent' | 'sent' | 'opened' | 'clicked' | 'replied';
+  linkedinStatus?: 'not_sent' | 'sent' | 'accepted' | 'replied';
+  profileVisitStatus?: 'not_done' | 'done';
+  instagramStatus?: 'not_sent' | 'sent' | 'seen' | 'replied';
+  email2Status?: 'not_sent' | 'sent' | 'opened' | 'clicked' | 'replied';
+  
+  // Last LinkedIn activity for personalization
+  lastLinkedInActivity?: string;
 }
