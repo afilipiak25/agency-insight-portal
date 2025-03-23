@@ -29,7 +29,7 @@ export interface ApolloFilters {
   titles: string[];
   jobTitles: string[];
   seniority: string[];
-  excludedTitles: string; // Neu hinzugefügt
+  excludedTitles: string;
   
   // Company details
   fundingMin: string;
@@ -52,7 +52,15 @@ export interface ApolloFilters {
     recentlyFunded: boolean;
     buyingIntent: boolean;
     recentTechnology: boolean;
-  }
+  };
+  
+  // New workflow condition fields
+  emailOpened?: boolean;
+  emailClicked?: boolean;
+  meetingBooked?: boolean;
+  hasEmail?: boolean;
+  hasLinkedIn?: boolean;
+  hasPhone?: boolean;
 }
 
 export interface ApolloLead {
@@ -66,7 +74,16 @@ export interface ApolloLead {
   companySize?: string;
   technology?: string[];
   lastUpdated?: string;
-  industry?: string;           // Added missing field
-  companyDomain?: string;      // Added missing field
-  linkedin?: string;           // Added missing field
+  industry?: string;
+  companyDomain?: string;
+  linkedin?: string;
+  status?: 'active' | 'pending' | 'completed' | 'failed';
+  conditionMet?: boolean;
+  missingInputs?: boolean;
+  emailStatus?: 'opened' | 'clicked' | 'replied' | 'bounced' | 'not_sent';
+  sequence?: {
+    position: number;
+    name: string;
+    total: number;
+  };
 }

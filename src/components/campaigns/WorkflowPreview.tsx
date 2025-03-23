@@ -1,66 +1,88 @@
 
-import { Mail, UserPlus, Eye, MessageSquare, Instagram, Plus, Minus } from "lucide-react";
+import { Mail, UserPlus, Eye, MessageSquare, Instagram, Plus, Minus, AlertCircle, Type, FileText, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface WorkflowStep {
   id: number;
   type: string;
   icon: JSX.Element;
+  sequenceNum: number;
   title: string;
   content: string;
   waitDays: number;
+  status?: 'completed' | 'in-progress' | 'not-met' | 'missing-inputs';
+  personalized?: boolean;
 }
 
 export const WorkflowPreview = () => {
+  const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
   const [steps, setSteps] = useState<WorkflowStep[]>([
     {
       id: 1,
+      sequenceNum: 1,
       type: "email",
-      icon: <Mail className="w-5 h-5 text-blue-500" />,
-      title: "Erste E-Mail",
-      content: "Sehr geehrte/r [Name],\n\nIch hoffe, diese Nachricht erreicht Sie gut. Ich bin auf Ihr Profil aufmerksam geworden...",
-      waitDays: 5,
+      icon: <Mail className="w-5 h-5 text-purple-500" />,
+      title: "Mail 1",
+      content: "<p>Hey Sandra Franziska,</p> <p>ich habe deine beeindruckende Erfahrung im Bereich Marketing gesehen...</p>",
+      waitDays: 3,
+      personalized: true,
     },
     {
       id: 2,
-      type: "linkedin_view",
-      icon: <Eye className="w-5 h-5 text-violet-500" />,
-      title: "LinkedIn Profil besuchen",
-      content: "Profil des Leads auf LinkedIn besuchen",
-      waitDays: 3,
+      sequenceNum: 1,
+      type: "personalized",
+      icon: <Type className="w-5 h-5 text-gray-600" />,
+      title: "Personalized Outreach",
+      content: "<p>Hey Sandra Franziska,</p> <p>ich würde mich gerne über deine Erfahrungen im Bereich...</p>",
+      waitDays: 0,
     },
     {
       id: 3,
-      type: "linkedin_invite",
-      icon: <UserPlus className="w-5 h-5 text-blue-600" />,
-      title: "LinkedIn Einladung",
-      content: "Sehr geehrte/r [Name], ich würde Sie gerne in mein berufliches Netzwerk aufnehmen...",
+      sequenceNum: 1,
+      type: "email",
+      icon: <Mail className="w-5 h-5 text-purple-500" />,
+      title: "Follow-Up Email",
+      content: "<p>Hey Sandra Franziska,</p> <p>ich wollte nur kurz nachfragen, ob du meine letzte Nachricht erhalten hast...</p>",
       waitDays: 5,
+      status: 'in-progress',
     },
     {
       id: 4,
-      type: "email",
-      icon: <Mail className="w-5 h-5 text-blue-500" />,
-      title: "Follow-up E-Mail",
-      content: "Sehr geehrte/r [Name],\n\nIch wollte mich noch einmal bei Ihnen melden...",
-      waitDays: 5,
+      sequenceNum: 1,
+      type: "personalized",
+      icon: <Type className="w-5 h-5 text-gray-600" />,
+      title: "Follow-Up Email Format",
+      content: "<p>Hey Sandra Franziska,</p> <p>ich hoffe, es geht dir gut. Bezüglich meiner letzten Nachricht...</p>",
+      waitDays: 0,
     },
     {
       id: 5,
-      type: "linkedin_message",
-      icon: <MessageSquare className="w-5 h-5 text-blue-600" />,
-      title: "LinkedIn Nachricht",
-      content: "Hallo [Name], vielen Dank für die Vernetzung. Ich würde gerne...",
-      waitDays: 3,
+      sequenceNum: 2,
+      type: "email",
+      icon: <Mail className="w-5 h-5 text-purple-500" />,
+      title: "Follow up 2",
+      content: "<p>Hey Sandra Franziska,</p> <p>ich wollte mich ein letztes Mal melden...</p>",
+      waitDays: 7,
+      status: 'not-met',
     },
     {
       id: 6,
-      type: "instagram",
-      icon: <Instagram className="w-5 h-5 text-pink-600" />,
-      title: "Instagram Nachricht",
-      content: "Hallo [Name], ich habe gesehen, dass Sie auch auf Instagram aktiv sind...",
+      sequenceNum: 1,
+      type: "ai",
+      icon: <FileText className="w-5 h-5 text-green-600" />,
+      title: "Use AI html Email",
+      content: "<p>Hey Sandra Franziska,</p> <p>basierend auf Deinem Profil habe ich...</p>",
       waitDays: 0,
     },
   ]);
@@ -77,81 +99,208 @@ export const WorkflowPreview = () => {
     }));
   };
 
-  const getTotalDuration = () => {
-    return steps.reduce((total, step) => total + step.waitDays, 0);
+  const addNewStep = () => {
+    const newId = Math.max(...steps.map(s => s.id)) + 1;
+    const newStep: WorkflowStep = {
+      id: newId,
+      sequenceNum: 1,
+      type: "email",
+      icon: <Mail className="w-5 h-5 text-purple-500" />,
+      title: `New Step ${newId}`,
+      content: "<p>Hey [Name],</p> <p>ich möchte...</p>",
+      waitDays: 3,
+    };
+    setSteps([...steps, newStep]);
+  };
+
+  const openStepDialog = (stepId: number) => {
+    setSelectedStepId(stepId);
+    setOpenDialog(true);
+  };
+
+  const getStatusIndicator = (status?: string) => {
+    if (!status) return null;
+    
+    switch (status) {
+      case 'not-met':
+        return (
+          <div className="text-xs text-gray-500 py-1 px-2 bg-gray-100 rounded-md flex items-center gap-1">
+            <AlertCircle className="w-3 h-3 text-gray-500" />
+            Run condition not met
+          </div>
+        );
+      case 'missing-inputs':
+        return (
+          <div className="text-xs text-gray-500 py-1 px-2 bg-gray-100 rounded-md flex items-center gap-1">
+            <AlertCircle className="w-3 h-3 text-yellow-500" />
+            Some inputs missing
+          </div>
+        );
+      case 'in-progress':
+        return (
+          <div className="text-xs text-green-600 py-1 px-2 bg-green-50 rounded-md flex items-center gap-1">
+            <Play className="w-3 h-3 text-green-600" />
+            Running
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
-    <div className="bg-white rounded-xl border shadow-sm p-6 md:p-8 space-y-8">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Workflow Vorschau</h2>
-        <span className="text-sm text-gray-500">Gesamtdauer: {getTotalDuration()} Tage</span>
+    <div className="bg-white rounded-xl border shadow-sm p-4 space-y-4">
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-xl font-semibold">Workflow Preview</h2>
+        <Button 
+          onClick={addNewStep}
+          className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white"
+        >
+          <Plus className="w-4 h-4 mr-2" /> Add Step
+        </Button>
       </div>
 
-      <div className="space-y-8">
-        {steps.map((step, index) => (
-          <div key={step.id} className="relative">
-            <div className="flex gap-6">
-              <div className="relative">
-                <div className="w-12 h-12 rounded-full bg-gray-50 border flex items-center justify-center">
+      <ScrollArea className="w-full overflow-x-auto pb-4">
+        <div className="flex gap-4" style={{ minWidth: "max-content" }}>
+          {steps.map((step, index) => (
+            <div 
+              key={step.id} 
+              className="w-64 border rounded-lg p-4 cursor-pointer hover:border-purple-300 transition-colors"
+              onClick={() => openStepDialog(step.id)}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${step.type === 'email' ? 'bg-purple-100' : step.type === 'ai' ? 'bg-green-100' : 'bg-gray-100'}`}>
                   {step.icon}
                 </div>
-                {index < steps.length - 1 && (
-                  <div className="absolute top-12 left-1/2 bottom-0 w-px bg-gray-200 -translate-x-1/2 h-24" />
-                )}
-              </div>
-
-              <div className="flex-1 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-medium">{step.title}</h3>
+                <div className="flex items-center gap-1">
+                  <span className={`font-medium ${step.type === 'email' ? 'text-purple-600' : step.type === 'ai' ? 'text-green-600' : 'text-gray-800'}`}>
+                    {step.title}
+                  </span>
                   {index < steps.length - 1 && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-500">Warten:</span>
-                      <div className="flex items-center gap-1">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() => updateWaitDays(step.id, false)}
-                          disabled={step.waitDays === 0}
-                        >
-                          <Minus className="h-4 w-4" />
-                        </Button>
-                        <span className="w-12 text-center font-medium">
-                          {step.waitDays} {step.waitDays === 1 ? "Tag" : "Tage"}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() => updateWaitDays(step.id, true)}
-                          disabled={step.waitDays === 30}
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
+                    <div className="text-xs text-gray-500 flex items-center gap-1 ml-2">
+                      <span>{step.waitDays}d</span>
                     </div>
                   )}
                 </div>
-
-                <Textarea
-                  defaultValue={step.content}
-                  className="min-h-[100px] text-sm"
-                  placeholder="Nachrichteninhalt eingeben..."
-                />
-
+                {step.personalized && (
+                  <span className="ml-auto text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded">
+                    Personalized
+                  </span>
+                )}
+              </div>
+              
+              <div 
+                className="text-sm text-gray-600 line-clamp-3 min-h-[60px] border-b pb-2"
+                dangerouslySetInnerHTML={{ __html: step.content }}
+              />
+              
+              {getStatusIndicator(step.status)}
+              
+              <div className="mt-4 flex justify-end gap-2">
                 {index < steps.length - 1 && (
-                  <div className="pt-4 pb-8">
-                    <div className="text-sm text-gray-500 flex items-center gap-2">
-                      <span>↓</span> {step.waitDays} {step.waitDays === 1 ? "Tag" : "Tage"} warten
-                    </div>
+                  <div className="flex items-center gap-1 text-xs text-gray-500">
+                    Wait:
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-6 w-6"
+                      onClick={(e) => { e.stopPropagation(); updateWaitDays(step.id, false); }}
+                    >
+                      <Minus className="h-3 w-3" />
+                    </Button>
+                    <span className="w-6 text-center">
+                      {step.waitDays}d
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-6 w-6"
+                      onClick={(e) => { e.stopPropagation(); updateWaitDays(step.id, true); }}
+                    >
+                      <Plus className="h-3 w-3" />
+                    </Button>
                   </div>
                 )}
               </div>
             </div>
+          ))}
+        </div>
+      </ScrollArea>
+      
+      {/* Step Edit Dialog */}
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>
+              {selectedStepId ? steps.find(s => s.id === selectedStepId)?.title : 'Edit Step'}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="p-4 space-y-4">
+            {selectedStepId && (
+              <>
+                <div className="flex gap-4 items-center">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                    {steps.find(s => s.id === selectedStepId)?.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-medium">{steps.find(s => s.id === selectedStepId)?.title}</h3>
+                    <p className="text-sm text-gray-500">Edit step details</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Content</label>
+                  <Textarea 
+                    className="min-h-[200px]"
+                    value={steps.find(s => s.id === selectedStepId)?.content.replace(/<\/?p>/g, '') || ''}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setSteps(steps.map(step => 
+                        step.id === selectedStepId 
+                          ? {...step, content: `<p>${value.replace(/\n/g, '</p><p>')}</p>`} 
+                          : step
+                      ));
+                    }}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Wait duration (days)</label>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        const step = steps.find(s => s.id === selectedStepId);
+                        if (step && step.waitDays > 0) {
+                          updateWaitDays(step.id, false);
+                        }
+                      }}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </Button>
+                    <span className="w-12 text-center font-medium">
+                      {steps.find(s => s.id === selectedStepId)?.waitDays || 0}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        const step = steps.find(s => s.id === selectedStepId);
+                        if (step) {
+                          updateWaitDays(step.id, true);
+                        }
+                      }}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-        ))}
-      </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
