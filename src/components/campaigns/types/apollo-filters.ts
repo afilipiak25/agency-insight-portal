@@ -21,6 +21,21 @@ export interface ApolloFilters {
   technologies?: string[];
   limit?: number;
   page?: number;
+  // Add missing properties referenced in components
+  companyName?: string;
+  industry?: string;
+  subIndustry?: string;
+  employeesMin?: string;
+  employeesMax?: string;
+  revenueMin?: string;
+  revenueMax?: string;
+  intent?: {
+    activelyHiring: boolean;
+    highGrowth: boolean;
+    recentlyFunded: boolean;
+    buyingIntent?: boolean;
+    recentTechnology?: boolean;
+  };
 }
 
 export interface ApolloLead {
@@ -28,7 +43,7 @@ export interface ApolloLead {
   name: string;
   firstName?: string;
   lastName?: string;
-  position?: string;
+  position: string; // Changed from optional to required to match 'Lead' type
   company?: string;
   location?: string;
   email?: string;

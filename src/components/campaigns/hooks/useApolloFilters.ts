@@ -16,7 +16,7 @@ export const useApolloFilters = () => {
     employeesMax: "",
     revenueMin: "",
     revenueMax: "",
-    technologies: "",
+    technologies: [],  // Changed from string to string[] to match interface
     fundingStatus: "",
     contactLevel: "",
     ageMin: "",
