@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Plus, Minus, Bot, Settings, Database, Mouse, Save } from "lucide-react";
+import { Plus, Minus, Bot, Settings, Database, Mouse, Save, Mail, Linkedin, Instagram, Eye } from "lucide-react";
 import { WorkflowStep, DEFAULT_PROMPT_TEMPLATES } from "../types/workflow";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -32,6 +32,14 @@ export const StepEditDialog = ({
   const isLinkedInStep = selectedStep.type === 'linkedin' || selectedStep.channel === 'linkedin';
   const isProfileVisitStep = selectedStep.type === 'profile-visit' || selectedStep.channel === 'profile-visit';
   const isInstagramStep = selectedStep.type === 'instagram' || selectedStep.channel === 'instagram';
+
+  const getChannelIcon = () => {
+    if (isEmailStep) return <Mail className="w-6 h-6 text-purple-600" />;
+    if (isLinkedInStep) return <Linkedin className="w-6 h-6 text-blue-600" />;
+    if (isProfileVisitStep) return <Eye className="w-6 h-6 text-gray-600" />;
+    if (isInstagramStep) return <Instagram className="w-6 h-6 text-pink-600" />;
+    return selectedStep.icon;
+  };
 
   const getDefaultPromptForChannel = (channel?: string) => {
     if (!channel) return "";
@@ -79,7 +87,7 @@ export const StepEditDialog = ({
       <DialogHeader>
         <DialogTitle className="flex items-center gap-2">
           <span className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: selectedStep.color ? `${selectedStep.color}15` : '#f3f4f6' }}>
-            {selectedStep.icon}
+            {getChannelIcon()}
           </span>
           {selectedStep.title}
         </DialogTitle>
@@ -104,7 +112,7 @@ export const StepEditDialog = ({
         <TabsContent value="content" className="space-y-4">
           <div className="flex gap-4 items-center">
             <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-              {selectedStep.icon}
+              {getChannelIcon()}
             </div>
             <div>
               <h3 className="font-medium">{selectedStep.title}</h3>
@@ -285,6 +293,22 @@ export const StepEditDialog = ({
               <div className="p-3 bg-gray-50 rounded-lg border">
                 <p className="font-mono text-sm font-medium">#Department#</p>
                 <p className="text-xs text-gray-500">Abteilung</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg border">
+                <p className="font-mono text-sm font-medium">#Industry#</p>
+                <p className="text-xs text-gray-500">Branche</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg border">
+                <p className="font-mono text-sm font-medium">#Technologies#</p>
+                <p className="text-xs text-gray-500">Verwendete Technologien</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg border">
+                <p className="font-mono text-sm font-medium">#Location#</p>
+                <p className="text-xs text-gray-500">Standort</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg border">
+                <p className="font-mono text-sm font-medium">#CompanySize#</p>
+                <p className="text-xs text-gray-500">Unternehmensgröße</p>
               </div>
             </div>
             

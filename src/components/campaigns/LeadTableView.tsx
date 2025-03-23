@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { 
   Check, X, ChevronDown, Download, Filter, Plus, 
   Mail, Link as LinkIcon, Search, MoreHorizontal,
-  RefreshCw, Globe, Zap, FileText, User
+  RefreshCw, Globe, Zap, FileText, User, Instagram,
+  LinkedinIcon, Eye, MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LeadDeepResearchDialog } from "./LeadDeepResearchDialog";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { StepEditDialog } from "./workflow/StepEditDialog";
+import { WorkflowStep } from "./types/workflow";
 
 interface LeadTableViewProps {
   leads: ApolloLead[];
@@ -258,7 +260,61 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
   const [showEmailFinderDialog, setShowEmailFinderDialog] = useState(false);
   const [currentLeadForEmail, setCurrentLeadForEmail] = useState<ApolloLead | null>(null);
   
-  // Use mock data if no leads are provided
+  const [workflowSteps, setWorkflowSteps] = useState<WorkflowStep[]>([
+    {
+      id: 1,
+      sequenceNum: 1,
+      type: 'email',
+      icon: <Mail className="w-4 h-4 text-purple-600" />,
+      title: 'First Mail',
+      content: '<p>Personalized first outreach email</p>',
+      waitDays: 2,
+      channel: 'email',
+    },
+    {
+      id: 2,
+      sequenceNum: 2,
+      type: 'linkedin',
+      icon: <LinkedinIcon className="w-4 h-4 text-blue-600" />,
+      title: 'LinkedIn Message',
+      content: '<p>LinkedIn connection message</p>',
+      waitDays: 2,
+      channel: 'linkedin',
+    },
+    {
+      id: 3,
+      sequenceNum: 3,
+      type: 'profile-visit',
+      icon: <Eye className="w-4 h-4 text-gray-600" />,
+      title: 'Profile Visit',
+      content: '<p>Visit LinkedIn profile</p>',
+      waitDays: 1,
+      channel: 'profile-visit',
+    },
+    {
+      id: 4,
+      sequenceNum: 4,
+      type: 'instagram',
+      icon: <Instagram className="w-4 h-4 text-pink-600" />,
+      title: 'Instagram DM',
+      content: '<p>Instagram direct message</p>',
+      waitDays: 2,
+      channel: 'instagram',
+    },
+    {
+      id: 5,
+      sequenceNum: 5,
+      type: 'email',
+      icon: <Mail className="w-4 h-4 text-purple-600" />,
+      title: 'Follow-up Email',
+      content: '<p>Follow-up email</p>',
+      waitDays: 0,
+      channel: 'email',
+    }
+  ]);
+  
+  const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
+  
   const displayLeads = leads.length > 0 ? leads : mockLeads;
 
   const toggleSelectAll = () => {
@@ -280,6 +336,22 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
   const handleOpenEmailFinder = (lead: ApolloLead) => {
     setCurrentLeadForEmail(lead);
     setShowEmailFinderDialog(true);
+  };
+
+  const handleStepClick = (stepId: number) => {
+    setSelectedStepId(stepId);
+  };
+
+  const updateSteps = (newSteps: WorkflowStep[]) => {
+    setWorkflowSteps(newSteps);
+  };
+
+  const updateWaitDays = (stepId: number, increment: boolean) => {
+    setWorkflowSteps(workflowSteps.map(step => 
+      step.id === stepId 
+        ? {...step, waitDays: increment ? step.waitDays + 1 : Math.max(0, step.waitDays - 1)} 
+        : step
+    ));
   };
 
   if (isLoading) {
@@ -365,13 +437,27 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
               <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Industry</th>
               <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Company Size</th>
               <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Technologies</th>
+              
+              {workflowSteps.map((step) => (
+                <th 
+                  key={step.id} 
+                  className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleStepClick(step.id)}
+                >
+                  <div className="flex items-center gap-1">
+                    {step.icon}
+                    {step.title}
+                  </div>
+                </th>
+              ))}
+              
               <th className="px-4 py-3 text-left font-medium text-sm text-gray-500 whitespace-nowrap">Actions</th>
             </tr>
           </thead>
           <tbody>
             {displayLeads.length === 0 ? (
               <tr>
-                <td colSpan={22} className="px-4 py-8 text-center text-gray-500">
+                <td colSpan={27} className="px-4 py-8 text-center text-gray-500">
                   No leads found. Try adjusting your filters.
                 </td>
               </tr>
@@ -404,6 +490,7 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
                         }}
                       />
                     </td>
+                    
                     <td className="px-4 py-3 whitespace-nowrap">{firstName}</td>
                     <td className="px-4 py-3 whitespace-nowrap">{lastName}</td>
                     <td className="px-4 py-3 font-medium whitespace-nowrap">{lead.name}</td>
@@ -560,6 +647,29 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
                         <span className="text-gray-400 text-xs">No data</span>
                       )}
                     </td>
+                    
+                    {workflowSteps.map((step) => (
+                      <td 
+                        key={step.id}
+                        className="px-4 py-3 cursor-pointer hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleStepClick(step.id);
+                        }}
+                      >
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-8 w-8 p-0 text-gray-500 hover:text-blue-600 hover:bg-blue-50"
+                        >
+                          {step.type === 'email' && <Mail className="h-4 w-4" />}
+                          {step.type === 'linkedin' && <LinkedinIcon className="h-4 w-4" />}
+                          {step.type === 'profile-visit' && <Eye className="h-4 w-4" />}
+                          {step.type === 'instagram' && <Instagram className="h-4 w-4" />}
+                        </Button>
+                      </td>
+                    ))}
+                    
                     <td className="px-4 py-3 whitespace-nowrap">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -582,53 +692,5 @@ export const LeadTableView = ({ leads = [], isLoading }: LeadTableViewProps) => 
         </table>
       </div>
 
-      {/* Lead Detail Dialog */}
-      {selectedLead && (
-        <LeadDeepResearchDialog
-          lead={selectedLead}
-          open={!!selectedLead}
-          onClose={() => setSelectedLead(null)}
-        />
-      )}
+      {
 
-      {/* Email Finder Dialog */}
-      <Dialog open={showEmailFinderDialog} onOpenChange={setShowEmailFinderDialog}>
-        <DialogContent className="max-w-md">
-          <DialogTitle>Finding Email for {currentLeadForEmail?.name}</DialogTitle>
-          <div className="space-y-4 py-4">
-            <div className="flex items-center justify-center space-x-2">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-violet-600"></div>
-              <p>Searching email patterns and sources...</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg border">
-              <h3 className="font-medium mb-2">Potential Email Formats:</h3>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center">
-                  <span className="bg-blue-100 text-blue-700 rounded-full w-5 h-5 inline-flex items-center justify-center text-xs mr-2">1</span>
-                  {`${currentLeadForEmail?.name.split(' ')[0].toLowerCase()}.${currentLeadForEmail?.name.split(' ').slice(-1)[0].toLowerCase()}@${currentLeadForEmail?.companyDomain}`}
-                </li>
-                <li className="flex items-center">
-                  <span className="bg-blue-100 text-blue-700 rounded-full w-5 h-5 inline-flex items-center justify-center text-xs mr-2">2</span>
-                  {`${currentLeadForEmail?.name.split(' ')[0].toLowerCase()[0]}${currentLeadForEmail?.name.split(' ').slice(-1)[0].toLowerCase()}@${currentLeadForEmail?.companyDomain}`}
-                </li>
-                <li className="flex items-center">
-                  <span className="bg-blue-100 text-blue-700 rounded-full w-5 h-5 inline-flex items-center justify-center text-xs mr-2">3</span>
-                  {`${currentLeadForEmail?.name.split(' ')[0].toLowerCase()}@${currentLeadForEmail?.companyDomain}`}
-                </li>
-              </ul>
-            </div>
-            <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
-              <p className="text-amber-700 text-sm">This operation uses 1 credit. You have 48 credits remaining.</p>
-            </div>
-          </div>
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button variant="outline" onClick={() => setShowEmailFinderDialog(false)}>Cancel</Button>
-            <Button className="bg-gradient-to-r from-violet-500 to-purple-600">
-              <Zap className="w-4 h-4 mr-1" /> Find Email
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-};
