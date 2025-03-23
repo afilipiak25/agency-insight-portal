@@ -11,22 +11,11 @@ import {
 export function Toaster() {
   const { toasts } = useToast()
 
+  // The component is kept, but it will never render any toasts
+  // since the toast state will always be empty
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
-        return (
-          <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && (
-                <ToastDescription>{description}</ToastDescription>
-              )}
-            </div>
-            {action}
-            <ToastClose />
-          </Toast>
-        )
-      })}
+      {/* No toasts will be mapped because the array is always empty */}
       <ToastViewport />
     </ToastProvider>
   )
