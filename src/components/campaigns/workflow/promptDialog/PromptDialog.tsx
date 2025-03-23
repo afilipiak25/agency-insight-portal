@@ -94,6 +94,7 @@ export const PromptDialog = ({
       const firstName = selectedLead.name.split(' ')[0];
       const lastName = selectedLead.name.split(' ').slice(1).join(' ');
       
+      // Replace template variables
       result = result
         .replace(/#FirstName#/g, firstName)
         .replace(/#LastName#/g, lastName)
@@ -105,16 +106,28 @@ export const PromptDialog = ({
         .replace(/#LastLinkedInActivity#/g, 'Posted about industry trends last week')
         .replace(/#InstagramHandle#/g, '@' + firstName.toLowerCase() + lastName.toLowerCase());
       
-      // Add more contextual content based on the AI model
-      if (selectedModel === "gpt-4") {
-        // Add more detailed content for GPT-4
-        result += "\n\nIch freue mich auf einen Austausch!\n\nMit freundlichen Grüßen,\nIhr Intellywave Team";
-      } else if (selectedModel === "gpt-3.5-turbo") {
-        // Add simpler content for GPT-3.5
-        result += "\n\nViele Grüße,\nIntellywave Team";
-      } else if (selectedModel === "claude-2") {
-        // Add Claude-specific content
-        result += "\n\nIch würde mich über ein Gespräch freuen.\n\nBeste Grüße aus Berlin,\nIntellywave Team";
+      // Generate a more personalized email based on the AI model
+      if (!result.includes("Hallo") && !result.includes("Sehr geehrte")) {
+        // If no greeting exists, add a personalized greeting
+        if (selectedModel === "gpt-4") {
+          result = `Hallo ${firstName},\n\n${result}`;
+        } else {
+          result = `Sehr geehrte(r) ${firstName} ${lastName},\n\n${result}`;
+        }
+      }
+      
+      // Add signature if not present
+      if (!result.includes("Mit freundlichen Grüßen") && !result.includes("Beste Grüße")) {
+        // Add signature based on AI model
+        if (selectedModel === "gpt-4") {
+          result += "\n\nIch freue mich auf einen Austausch!\n\nMit freundlichen Grüßen,\nIhr Intellywave Team";
+        } else if (selectedModel === "gpt-3.5-turbo") {
+          result += "\n\nViele Grüße,\nIntellywave Team";
+        } else if (selectedModel === "claude-2") {
+          result += "\n\nIch würde mich über ein Gespräch freuen.\n\nBeste Grüße aus Berlin,\nIntellywave Team";
+        } else {
+          result += "\n\nMit freundlichen Grüßen,\nIhr Intellywave Team";
+        }
       }
       
       setGenerated(result);

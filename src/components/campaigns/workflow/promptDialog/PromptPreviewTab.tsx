@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, Loader2, User } from "lucide-react";
+import { Copy, Check, Loader2, User, FileText } from "lucide-react";
 
 interface PromptPreviewTabProps {
   generated: string;
@@ -45,7 +45,7 @@ export const PromptPreviewTab = ({
             <Button variant="outline" onClick={() => setActiveTab("edit")}>
               Zurück zum Bearbeiten
             </Button>
-            <Button onClick={handleCopy}>
+            <Button onClick={handleCopy} className="bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white">
               {copied ? (
                 <>
                   <Check className="mr-1 h-4 w-4" /> Kopiert
@@ -59,11 +59,13 @@ export const PromptPreviewTab = ({
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center min-h-[400px] border rounded text-gray-500">
-          <p>Generieren Sie eine Vorschau, um das Ergebnis zu sehen</p>
+        <div className="flex flex-col items-center justify-center min-h-[400px] border rounded p-4 bg-gray-50">
+          <FileText className="h-8 w-8 text-gray-400 mb-4" />
+          <p className="text-gray-600 font-medium">Vorschau verfügbar nach Generierung</p>
+          <p className="text-gray-500 text-sm mt-2">Generieren Sie eine Vorschau, um das Ergebnis zu sehen</p>
           <Button 
             variant="outline" 
-            className="mt-2"
+            className="mt-4"
             onClick={handleGenerate}
           >
             Jetzt generieren
