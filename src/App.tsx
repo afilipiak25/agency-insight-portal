@@ -1,4 +1,3 @@
-
 import { Route, Routes } from "react-router-dom";
 import Index from "./pages/Index";
 import Campaigns from "./pages/Campaigns";
@@ -15,6 +14,7 @@ import Mailboxes from "./pages/Mailboxes";
 import AllClients from "./pages/AllClients";
 import CreateClient from "./pages/CreateClient";
 import NotFound from "./pages/NotFound";
+import LeadOverview from "./pages/LeadOverview";
 
 import "@/App.css";
 
@@ -35,6 +35,7 @@ function App() {
       <Route path="/mailboxes" element={<Mailboxes />} />
       <Route path="/clients" element={<AllClients />} />
       <Route path="/clients/create" element={<CreateClient />} />
+      <Route path="/lead-overview" element={<LeadOverview />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
