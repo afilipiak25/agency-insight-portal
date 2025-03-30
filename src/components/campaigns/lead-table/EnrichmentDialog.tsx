@@ -8,7 +8,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Info, Calendar, BarChart2, Radar, Globe, Linkedin, FileText, Plus } from "lucide-react";
+import { Info, Calendar, BarChart2, Radar, Globe, Linkedin, FileText, Plus, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface EnrichmentOption {
@@ -46,6 +46,12 @@ export const EnrichmentDialog: React.FC<EnrichmentDialogProps> = ({
       name: "Financials Analyzer",
       description: "Analyze company financial performance and metrics",
       icon: <BarChart2 className="text-orange-500" />
+    },
+    {
+      id: "deep-research",
+      name: "Deep Research",
+      description: "Comprehensive analysis and research on target companies",
+      icon: <Search className="text-purple-600" />
     },
     {
       id: "competitor",
@@ -92,7 +98,7 @@ export const EnrichmentDialog: React.FC<EnrichmentDialogProps> = ({
           <Plus className="w-4 h-4 mr-2" /> Add Enrichment
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-white">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">Add Enrichment to Campaign</DialogTitle>
         </DialogHeader>
