@@ -22,3 +22,27 @@ export const getEmailData = () => [
   { name: 'Email 2', opened: 55, replied: 35, clicked: 40 },
   { name: 'Email 3', opened: 50, replied: 30, clicked: 35 },
 ];
+
+// New utility function for step-based lead distribution
+export const getStepDistribution = () => {
+  const steps = [
+    { name: 'Initial Contact', icon: 'mail', color: '#9b87f5' },
+    { name: 'Email Opened', icon: 'eye', color: '#7E69AB' },
+    { name: 'Email Clicked', icon: 'mouse-pointer', color: '#D6BCFA' },
+    { name: 'Meeting Requested', icon: 'calendar', color: '#1EAEDB' },
+    { name: 'Meeting Scheduled', icon: 'calendar-check', color: '#33C3F0' },
+    { name: 'Deal Closed', icon: 'check-circle', color: '#10B981' }
+  ];
+
+  // Generate random lead counts that decrease as steps progress
+  let previousCount = 500;
+  return steps.map(step => {
+    // Each successive step has fewer leads (realistic funnel)
+    const leadCount = Math.floor(previousCount * (0.6 + Math.random() * 0.3));
+    previousCount = leadCount;
+    return {
+      ...step,
+      count: leadCount
+    };
+  });
+};
