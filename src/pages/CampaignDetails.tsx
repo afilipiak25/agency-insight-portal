@@ -11,6 +11,7 @@ import { CampaignMetrics } from '@/components/campaigns/details/CampaignMetrics'
 import { CampaignWorkflowFlow } from '@/components/campaigns/details/CampaignWorkflowFlow';
 import { CampaignLeadsTable } from '@/components/campaigns/details/CampaignLeadsTable';
 import { CampaignPerformance } from '@/components/campaigns/details/CampaignPerformance';
+import { AIPromptField } from '@/components/campaigns/details/components/AIPromptField';
 import { mockCampaigns } from './Campaigns';
 
 const CampaignDetails = () => {
@@ -62,6 +63,12 @@ const CampaignDetails = () => {
               >
                 Performance
               </TabsTrigger>
+              <TabsTrigger 
+                value="analysis" 
+                className="data-[state=active]:border-b-0 data-[state=active]:shadow-none border-b-2 border-transparent data-[state=active]:border-gray-300 bg-transparent text-gray-600 data-[state=active]:text-gray-800 px-2 py-2 rounded-none h-auto"
+              >
+                AI Analysis
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="workflow" className="space-y-6">
@@ -77,6 +84,36 @@ const CampaignDetails = () => {
             <TabsContent value="performance" className="space-y-6">
               {/* Campaign Performance Analytics */}
               <CampaignPerformance campaign={campaign} />
+            </TabsContent>
+            
+            <TabsContent value="analysis" className="space-y-6">
+              {/* AI Analysis Component */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <AIPromptField campaignId={campaignId} />
+                
+                <Card className="shadow-sm border-gray-200">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold mb-4">Suggested Questions</h3>
+                    <div className="space-y-2">
+                      <Button variant="outline" className="w-full justify-start text-left" onClick={() => {}}>
+                        How can I improve my open rates?
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start text-left" onClick={() => {}}>
+                        Which leads should I prioritize for follow-up?
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start text-left" onClick={() => {}}>
+                        What factors are affecting my reply rate?
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start text-left" onClick={() => {}}>
+                        Analyze my campaign step performance
+                      </Button>
+                      <Button variant="outline" className="w-full justify-start text-left" onClick={() => {}}>
+                        Suggest subject lines for my next email
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
