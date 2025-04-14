@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lead, mockLeads } from './types/leads';
 import { LeadTableRow } from './components/LeadTableRow';
 import { LeadTableControls } from './components/LeadTableControls';
+import { Badge } from '@/components/ui/badge';
+import { SlidersHorizontal } from 'lucide-react';
 
 interface CampaignLeadsTableProps {
   campaignId: number;
@@ -65,13 +67,18 @@ export const CampaignLeadsTable = ({ campaignId }: CampaignLeadsTableProps) => {
   };
 
   return (
-    <div className="space-y-4">
-      <Card className="shadow-sm border-gray-200">
-        <CardHeader className="pb-0">
+    <div className="space-y-4 animate-fade-in">
+      <Card className="shadow-sm border-gray-100 rounded-xl overflow-hidden hover:shadow-md transition-all duration-300">
+        <CardHeader className="pb-0 pt-5 border-b border-gray-50">
           <div className="flex justify-between items-center">
-            <CardTitle className="text-lg font-semibold text-dashboard-primary">
-              Campaign Leads
-            </CardTitle>
+            <div className="flex items-center gap-2">
+              <CardTitle className="text-lg font-semibold text-gray-800">
+                Campaign Leads
+              </CardTitle>
+              <Badge variant="secondary" className="rounded-full bg-indigo-100 text-indigo-700 border-0">
+                {filteredAndSortedLeads.length}
+              </Badge>
+            </div>
             <LeadTableControls 
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
@@ -79,45 +86,63 @@ export const CampaignLeadsTable = ({ campaignId }: CampaignLeadsTableProps) => {
           </div>
         </CardHeader>
         <CardContent className="pt-4">
-          <div className="border rounded-md overflow-hidden">
+          <div className="border rounded-md overflow-hidden border-gray-100">
             <table className="w-full">
               <thead className="bg-gray-50 text-gray-600 text-xs">
                 <tr>
                   <th 
-                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100 transition-colors"
                     onClick={() => handleSort('name')}
                   >
-                    Name {sortField === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    <div className="flex items-center gap-1">
+                      Name
+                      {sortField === 'name' && <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>}
+                    </div>
                   </th>
                   <th 
-                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100 transition-colors"
                     onClick={() => handleSort('company')}
                   >
-                    Company {sortField === 'company' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    <div className="flex items-center gap-1">
+                      Company
+                      {sortField === 'company' && <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>}
+                    </div>
                   </th>
                   <th 
-                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100 transition-colors"
                     onClick={() => handleSort('status')}
                   >
-                    Status {sortField === 'status' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    <div className="flex items-center gap-1">
+                      Status
+                      {sortField === 'status' && <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>}
+                    </div>
                   </th>
                   <th 
-                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100 transition-colors"
                     onClick={() => handleSort('step')}
                   >
-                    Current Step {sortField === 'step' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    <div className="flex items-center gap-1">
+                      Current Step
+                      {sortField === 'step' && <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>}
+                    </div>
                   </th>
                   <th 
-                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100 transition-colors"
                     onClick={() => handleSort('activity')}
                   >
-                    Last Activity {sortField === 'activity' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    <div className="flex items-center gap-1">
+                      Last Activity
+                      {sortField === 'activity' && <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>}
+                    </div>
                   </th>
                   <th 
-                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-3 text-left font-medium cursor-pointer hover:bg-gray-100 transition-colors"
                     onClick={() => handleSort('score')}
                   >
-                    Lead Score {sortField === 'score' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    <div className="flex items-center gap-1">
+                      Lead Score
+                      {sortField === 'score' && <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>}
+                    </div>
                   </th>
                   <th className="px-4 py-3 text-left font-medium w-[80px]">Actions</th>
                 </tr>
